@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.CultureMapper">
+
+
+	<!--최초 페이징에 필요한 c name 카운트 값 -->
+	<select id="getCulturetotalCount" parameterType="String" resultType="int">
+        <![CDATA[
+		SELECT COUNT(*) FROM culture
+		WHERE 1=1
+		AND (cul_name LIKE CONCAT('%',#{search},'%')
+		OR address LIKE CONCAT('%',#{search},'%'))
+        ]]>
+	</select>
+	
+		<!--최초 페이징 에 필요한 cname 값-->
+	<select id="getCulturePaging"
+		parameterType="Map"
+		resultType="String">
+        <![CDATA[
+            SELECT cul_name
+			FROM (
+  			SELECT cul_name, ROW_NUMBER() OVER (ORDER BY cul_name) AS cul_idx
+  			FROM culture
+   			WHERE 1=1
+  			AND (cul_name LIKE CONCAT('%', #{search}, '%') OR address LIKE CONCAT('%',#{search}, '%'))
+			) AS subquery
+			ORDER BY cul_idx DESC LIMIT #{listNum} OFFSET #{start_rownum}
+			]]>
+	</select>
+	
+
+        
+        	<!--c dto list 값-->
+    <select id="getCultureList" resultType="com.myweb.dto.CultureDTO">
+        <![CDATA[
+    SELECT cul_name, post_num, address, latitude, longitude, outline, scale, capacity, use_time, day_off, fee, parking, pets, information
+    FROM culture
+        ]]>
+    </select>
+    
+    
+        	<!--c list 값-->
+    <select id="getCulNameList" resultType="com.myweb.dto.CultureDTO">
+        <![CDATA[
+ 	   SELECT cul_name FROM culture
+        ]]>
+    </select>
+    
+    
+        	<!--c view에 필요한 cdto 값-->
+    <select id="getCulNameSelec" parameterType="String" resultType="com.myweb.dto.CultureDTO">
+        <![CDATA[
+ 	   SELECT * FROM culture where cul_name like  CONCAT('%', #{name}, '%');
+        ]]>
+    </select>
+    
+    
+
+</mapper>

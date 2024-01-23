@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+.pagination {
+  display: table;
+    width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pagination ul {
+	list-style:none;
+	float:left;
+	display:inline;
+}
+.pagination .page-btn {
+	float:left;
+	white-space:nowrap;
+}
+.pagination .page-btn a {
+	float:left;
+	padding:4px;
+	margin-right:3px;
+	width:30px;
+	color:#000;
+	font:bold 12px tahoma;
+	border:1px solid #eee;
+	text-align:center;
+	text-decoration:none;
+}
+.pagination .page-btn a:hover, .pagination .page-btn a:focus {
+	color:#fff;
+	border:1px solid #f40;
+	background-color:#f40;
+}
+
+.card {
+	width: 18rem;
+	display: inline-block;
+	margin: 30px;
+}
+
+.card strong {
+	display: block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-align: center;
+}
+
+.card a {
+	text-decoration: none;
+	color: black;
+}
+
+.card img {
+	display: block;
+	margin: 0 auto;
+	margin-top : 5px;
+	width: 200px;
+	height: 150px;
+}
+
+.card span {
+	display: block;
+	text-align: center;
+}
+
+li {
+	list-style: none;
+}
+
+.like-button{
+	border: none;
+  outline: none;
+  background-color: inherit ;
+  cursor: pointer;
+}
+
+.input-group .mb-3{
+	width: 50%;
+	
+}
+
+.card-group{
+	margin: 30px;
+	padding-left: 100px;
+}
+
+/* 검색 및 셀렉 옵션 */
+
+.form-select {
+   border: 1px solid #9e9e9e;
+   border-radius: 10px;
+   background-color: #fff;
+   height: 35px;
+   font-size: 15px;
+   width: 6%;
+   float: left; 
+}
+
+.form-write {
+   padding: 3px 10px;
+   box-sizing: border-box;
+   border: 1px solid #9e9e9e;
+   border-radius: 10px;
+   height: 28px;
+   width: 35%;
+   font-size: 15px;
+}
+
+.form-btn { 
+   background-color: #5f8cdd !important;
+   color: #fff;
+   padding: 5px 13px;
+   border-radius: 15px;
+    font-size: 15px;
+   border: 0;
+   transition: .5s;
+}
+
+.contain{
+	padding-left : 800px;
+}
+
+

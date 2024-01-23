@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.TestMapper">
+
+        
+    <select id="getTestList" resultType="com.myweb.dto.TestDTO">
+        <![CDATA[
+        SELECT name, post_num, admin, tel_number, address, Latitude, hardness, outline,
+    	heritage, guidance, open_date, day_off, experience_information, age, capacity, use_When,
+   		use_time, parking, rent_stroller, pets_allowed, card_availability, information
+		FROM test
+        ]]>
+    </select>
+    
+    
+
+</mapper>

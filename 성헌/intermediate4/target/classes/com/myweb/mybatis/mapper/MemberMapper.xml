@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.MemberMapper">
+
+	<!--최초 페이징 -->
+	<select id="totalCount" parameterType="String" resultType="int">
+        <![CDATA[
+		SELECT COUNT(*) FROM user WHERE 1=1
+		AND (nickname LIKE CONCAT('%',#{search},'%')
+		OR name LIKE CONCAT('%',#{search},'%'))
+        ]]>
+	</select>
+
+	<!--최초 페이징 에 필요한 맴버값-->
+	<select id="getMemberPaging"
+		parameterType="Map"
+		resultType="com.myweb.dto.MemberDTO">
+        <![CDATA[
+        select user_idx , user_id , pw , name , nickname , email, PhoneNumber ,  date_format(sysdate,'%Y-%m-%d') sysdate ,point, grade 
+        from user where 1=1
+        AND (nickname LIKE CONCAT('%',#{search},'%')
+		OR name LIKE CONCAT('%',#{search},'%'))
+        order by user_idx desc limit #{listNum} offset #{start_rownum}
+        ]]>
+	</select>
+
+
+
+	<select id="getMembermapper"
+		resultType="com.myweb.dto.MemberDTO">
+        <![CDATA[
+        select user_idx, user_id, pw, name, nickname, email, PhoneNumber, sysdate, point, grade
+        from user 
+        where user_id = #{user_id}        
+        ]]>
+	</select>
+
+
+
+	<select id="getMemberList" resultType="com.myweb.dto.MemberDTO">
+        <![CDATA[
+        
+        select user_idx, user_id, pw, name, nickname, email, PhoneNumber, sysdate, point, grade
+        from user order by user_idx desc 
+        ]]>
+
+	</select>
+	<insert id="insertmember" parameterType="com.myweb.dto.MemberDTO">
+        <![CDATA[
+		INSERT INTO user (user_id, pw, name, nickname, email, PhoneNumber, birth)
+		VALUES ( #{user_id} , #{pw }, #{name },#{nickname }, #{email },
+		#{PhoneNumber },#{birth } );
+        ]]>
+	</insert>
+
+
+
+
+	<update id="update" parameterType="com.myweb.dto.MemberDTO">
+		UPDATE user
+		SET
+		pw = #{pw},
+		name
+		= #{name},
+		nickname = #{nickname},
+		email = #{email},
+		PhoneNumber =
+		#{PhoneNumber}
+		WHERE
+		user_id = #{user_id};
+	</update>
+
+	<delete id="delete" parameterType="com.myweb.dto.MemberDTO">
+		delete from user
+		where user_id
+		= #{user_id}
+	</delete>
+
+	<delete id="deleteMember"
+		parameterType="com.myweb.dto.MemberDTO">
+		delete from user
+		where user_id = #{user_id}
+	</delete>
+
+
+
+	<select id="idfind" parameterType="String"
+		resultType="String">
+		select user_id from user where email=#{email}
+		
+	</select>
+	
+	<select id="idfindcount" parameterType="String"
+		resultType="int">
+		select count(*) from user
+		where email= #{email}
+	</select>
+
+	<select id="nameCheck" parameterType="com.myweb.dto.MemberDTO"
+		resultType="int">
+		select count(*) from user
+		where name= #{name}
+	</select>
+
+	<select id="checkId" parameterType="com.myweb.dto.MemberDTO"
+		resultType="int">
+		select count(*) from user
+		where user_id= #{user_id}
+	</select>
+
+
+
+	<select id="readMember" parameterType="String"
+		resultType="com.myweb.dto.MemberDTO">
+		select * from user where user_id=#{user_id}
+		
+	</select>
+	
+
+
+
+<!-- 비밀번호 변경 -->
+	<update id="updatePw" >
+	update user set pw = #{pw} where user_id = #{user_id}
+	</update>
+
+
+
+	<delete id="removeqnaone"
+		parameterType="int">
+		 <![CDATA[
+		delete from  qna
+		where idx = #{idx}
+		 ]]>
+	</delete>
+
+	<delete id="removeadminone"
+		parameterType="int">
+		 <![CDATA[
+		delete from  admin
+		where idx = #{idx}
+		 ]]>
+	</delete>
+
+
+	<select id="QnaList"
+		resultType="com.myweb.dto.QnaDTO">
+		 <![CDATA[
+		select idx, title,  date_format(regdate,'%Y-%m-%d') regdate,readcnt from qna where step = 0 order by regdate desc limit 5;
+		
+		 ]]>
+	</select>
+
+	<select id="AdminList"
+		resultType="com.myweb.dto.AdminNoticeDTO">
+		 <![CDATA[
+		select idx, title, date_format(regdate,'%Y-%m-%d') regdate,totalcount from admin order by regdate desc limit 5;
+		 ]]>
+	</select>
+
+
+
+
+
+</mapper>

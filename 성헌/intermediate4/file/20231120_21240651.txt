@@ -1,0 +1,15 @@
+안되면 이걸로 다시 redirect 주소 적어 http://localhost:8080/web/membermybatis/main-mapper
+
+
+div 는 대문자    그냥 id
+up_은 소문자     
+span은 대문자
+
+
+서울
+인천
+대전
+대구
+광주
+부산
+울산

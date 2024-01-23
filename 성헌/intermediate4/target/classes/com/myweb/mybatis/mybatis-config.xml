@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+  <typeAliases>
+  	<typeAlias type="com.myweb.dto.MemberDTO" alias="memberDTO"/>
+  	<typeAlias type="com.myweb.dto.PagingDTO" alias="PagingDTO"/>
+  	<typeAlias type="com.myweb.dto.AdminNoticeDTO" alias="AdminNoticeDTO"/>
+  	<typeAlias type="com.myweb.dto.NameDTO" alias="NameDTO"/>
+  	<typeAlias type="com.myweb.dto.CartDTO" alias="CartDTO"/>
+  </typeAliases>
+
+  
+</configuration>

@@ -1,0 +1,1349 @@
+@charset "UTF-8";
+
+@import
+	url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap')
+	;
+
+main {
+	margin: 0 auto;
+	text-align: center;
+	font-size: 16px;
+	font-family: 'Noto Sans KR', sans-serif;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	color: #000;
+}
+
+#content {
+	padding: 20px 0;
+	min-width: 1024px; /* 창의 최소 크기 지정 */
+}
+
+img {
+	vertical-align: middle; /* 세로축 가운데 정렬 */
+}
+
+table {
+	width: 70%;
+	margin: 0 auto;
+	border: 1px solid;
+	border-collapse: collapse; /* 테두리 겹침 설정 collapse: 겹치지 않게 처리 */
+}
+
+table th, table td {
+	border: 1px solid;
+	padding: 5px 10px;
+}
+
+table td a:hover {
+	font-weight: bold;
+}
+
+.btnSet {
+	margin-top: 20px;
+	text-align: center;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+a.btn-fill, a.btn-empty, input.btn-fill {
+	text-align: center;
+	padding: 3px 10px;
+	border: 1px solid #3367d6;
+	border-radius: 3px;
+	box-shadow: 2px 2px 3px #022d72;
+	/* 오른쪽, 아래쪽, 번진 정도 */
+	margin: 0 2px; /* 각 버튼 사이의 간격을 조절할 수 있습니다. */
+	align-self: center;
+}
+
+a.btn-fill, input.btn-fill {
+	background-color: #3367d6;
+	color: #fff;
+}
+
+a.btn-empty {
+	background-color: #fff;
+	color: #3367d6
+}
+
+a.btn-fill-s, input.btn-fill, a.btn-empty-s {
+	text-align: center;
+	padding: 1px 10px;
+	border: 1px solid #c4dafc; /* 세미콜론 추가 */
+	border-radius: 3px;
+	box-shadow: 2px 2px 3px #022d72;
+	color: #0000cd;
+	font-size: 13px;
+}
+
+a.btn-fill-s, input.btn-fill {
+	background-color: #bacdfa;
+}
+
+a.btn-empty-s {
+	background-color: #fff;
+}
+
+.btnSet a:not(:first-child) {
+	margin-left: 3px;
+}
+
+.btnSet input:not(:first-child) {
+	margin-left: 3px;
+}
+
+a:hover {
+	cursor: pointer;
+}
+/*
+input {
+	height: 22px;
+	padding: 3px 5px;
+	font-size: 15px;
+}
+
+input[type=radio] {
+	width: 18px;
+	margin: 0 5px 3px;
+	vertical-align: middle;
+}
+
+*/
+
+table tr td label:not(:last-child) {
+	margin-right: 20px;
+}
+
+.w-pct60 {
+	width: 60%
+}
+
+.w-pct70 {
+	width: 70%
+}
+
+.w-pct80 {
+	width: 80%
+}
+
+.w-px40 {
+	width: 40px
+}
+
+.w-px60 {
+	width: 60px
+}
+
+.w-px65 {
+	width: 65px
+}
+
+.w-px70 {
+	width: 70px
+}
+
+.w-px75 {
+	width: 75px
+}
+
+.w-px80 {
+	width: 80px
+}
+
+.w-px100 {
+	width: 100px
+}
+
+.w-px120 {
+	width: 190px
+}
+
+.w-px140 {
+	width: 140px
+}
+
+.w-px160 {
+	width: 160px
+}
+
+.w-px180 {
+	width: 180px
+}
+
+.w-px200 {
+	width: 200px
+}
+
+.w-px300 {
+	width: 300px
+}
+
+.left {
+	text-align: left
+}
+
+.arrowimg {
+	display: inline-block;
+}
+
+.atitle {
+	display: inline-block;
+}
+
+.maintitle {
+	display: flex;
+	justify-content: center;
+}
+
+/*  윗부분에 있는 글쓰기버튼과  총 갯수 */
+.container {
+	display: flex;
+	justify-content: space-between;
+	width: 70%;
+	padding: 0px 15% 10px 15%;
+	align-items: center;
+}
+
+.topsearch, .topcount {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.topcount ul {
+	display: flex;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.topcount li {
+	margin-right: 10px;
+	display: inline-block; /* Display li elements in a line */
+}
+
+.topcount .ft-blue {
+	color: #3367d6;
+}
+
+.pagebtn {
+	margin-left: 175.792px;
+	margin-right: 175.792px;
+}
+
+.topsearch {
+	padding-left: 521px;
+	vertical-align: middle;
+}
+
+.topsearch .form-select {
+	border: 1px solid #9e9e9e;
+	border-radius: 10px;
+	background-color: #fff;
+	height: 28px;
+	font-size: 15px;
+}
+
+.topsearch .form-write {
+	padding: 3px 10px;
+	box-sizing: border-box;
+	border: 1px solid #9e9e9e;
+	border-radius: 10px;
+	height: 28px;
+	font-size: 15px;
+}
+
+.topsearch .form-btn {
+	background-color: #5f8cdd !important;
+	color: #fff;
+	padding: 5px 13px;
+	border-radius: 10px;
+	border: 0;
+	transition: .5s;
+}
+
+
+
+.writebtn {
+	display: flex;
+	margin-top: 7px;
+	justify-content: flex-end;
+	width: 70%;
+	padding: 0px 15% 10px 15%;
+	align-items: center;
+}
+
+.writebtn ul {
+	padding: 0;
+	margin: 0;
+}
+
+.writebtn li {
+	background-color: #949494;
+	color: #fff;
+	padding: 3px 13px;
+	border-radius: 10px;
+	vertical-align: middle;
+	transition: background-color 0.5s; /* 배경 색상 전환을 추가합니다. */
+	cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능하도록 합니다. */
+}
+
+.writebtn li a {
+	padding-bottom: 2px;
+}
+/* JavaScript로 이벤트 처리를 추가합니다. */
+/* li 요소에 마우스를 올렸을 때 배경 색상 변경 */
+.writebtn li:hover {
+	background-color: #7C7C7C;
+}
+
+
+/* a 태그에 마우스를 올렸을 때 색상 변경 */
+.writebtn li:hover a {
+	color: inherit; /* 부모 li 요소의 색상을 유지합니다. */
+}
+
+/*   */
+.QnaList {
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 10px;
+}
+
+.QnaListTh {
+	line-height: 13px;
+}
+
+.QnaList tr th {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 19px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+}
+
+.QnaList th:first-child, .QnaList td:first-child {
+	border-left: none !important; /* 맨 왼쪽 셀의 왼쪽 선 제거 */
+}
+
+.QnaList th:last-child, .QnaList td:last-child {
+	border-right: none !important; /* 맨 오른쪽 셀의 오른쪽 선 제거 */
+}
+
+.QnaList td {
+	border-bottom: 1px solid #bebebe;
+	background-color: #fff; border-left : none;
+	line-height: 36px;
+	border-left: none; /* 왼쪽 선 제거 */
+	border-right: none; /* 오른쪽 선 제거 */
+	border-right: none;
+	border-left: none;
+}
+
+.QnaListTd {
+	text-align: center; /* 가로 정렬을 중앙으로 설정 */
+	vertical-align: middle; /* 세로 정렬을 중앙으로 설정 */
+}
+
+.Title {
+	text-align: left;
+	padding: 0 30px;
+}
+
+.right {
+	text-align: right;
+}
+
+.font-img {
+	cursor: pointer;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+#list-top {
+	width: 80%;
+	padding: 20px 10%;
+}
+
+#list-top ul {
+	margin: 0;
+	display: flex;
+}
+
+#list-top ul:last-child {
+	float: right;
+}
+
+#list-top ul:first-child {
+	float: left;
+}
+
+#list-top ul li:not(:first-child) {
+	margin-left: 2px
+}
+
+#list-top div {
+	width: 100%;
+	height: 32px;
+}
+
+#list-top ul li * {
+	vertical-align: middle;
+}
+
+input[name=title] {
+	width: calc(100% - 14px)
+}
+
+textarea[name=content] {
+	width: calc(100% - 6px);
+	height: 150px;
+	resize: none;
+}
+
+/* 파일 첨부 */
+.file-img {
+	width: 18px;
+	height: 18px;
+	cursor: poinrter;
+}
+
+#attach-file, #delete-file {
+	display: none;
+}
+
+select {
+	height: 32px
+}
+
+
+
+
+
+
+
+/* detail */
+.detailjsp {
+	padding: 70px 20px 100px 20px;
+	border: 1px solid #ccc; /* 카드 테두리 색 및 두께 */
+    border-radius: 5px; /* 카드 테두리의 둥근 정도 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-right: 150px;
+    margin-left: 150px;
+    margin-top: 50px
+}
+
+.DetailList {
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 5px;
+	line-height: 1.5;
+}
+
+.DetailList .detailline {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 19px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+}
+
+.DetailList .detaillinetd {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	padding: 10px;
+	border-left: none;
+	border-right: none;
+}
+
+.DetailList th:first-child, .DetailList td:first-child {
+	border-left: none !important; /* 맨 왼쪽 셀의 왼쪽 선 제거 */
+}
+
+.DetailList th:last-child, .DetailList td:last-child {
+	border-right: none !important; /* 맨 오른쪽 셀의 오른쪽 선 제거 */
+}
+
+.DetailList .detailtd {
+	border-bottom: 1px solid #bebebe;
+	background-color: #fff;
+	border-left: none;
+	line-height: 36px;
+	border-left: none; /* 왼쪽 선 제거 */
+	border-right: none; /* 오른쪽 선 제거 */
+	border-right: none;
+}
+
+.detailbtnSet {
+	margin-top: 30px;
+	margin-bottom: 100px;
+	text-align: center;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+/* detail */
+
+
+
+
+
+/* Modify */
+.Modifyjsp {
+	padding: 70px 20px 100px 20px;
+	border: 1px solid #ccc; /* 카드 테두리 색 및 두께 */
+    border-radius: 5px; /* 카드 테두리의 둥근 정도 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-right: 150px;
+    margin-left: 150px;
+    margin-top: 50px
+}
+
+.ModifyList{
+	
+	
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 5px;
+	line-height: 1.5;
+	
+	
+}
+
+.ModifyList .Modifyline {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 19px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+}
+
+
+
+.ModifyList .modifylinetd {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	padding: 10px;
+	border-left: none;
+	border-right: none;
+}
+
+
+
+
+.ModifyList th:first-child, .ModifyList td:first-child {
+	border-left: none !important; /* 맨 왼쪽 셀의 왼쪽 선 제거 */
+}
+
+.ModifyList th:last-child, .ModifyList td:last-child {
+	border-right: none !important; /* 맨 오른쪽 셀의 오른쪽 선 제거 */
+}
+
+
+.ModifyList .modifytd {
+	border-bottom: 1px solid #bebebe;
+	background-color: #fff;
+	border-left: none;
+	line-height: 36px;
+	border-left: none; /* 왼쪽 선 제거 */
+	border-right: none; /* 오른쪽 선 제거 */
+	border-right: none;
+}
+
+
+.modify-input {
+ border: none;
+ height: 24px;
+padding: 3px 5px;
+font-size: 16px;
+}
+
+.modify-textarea{
+	
+	border: none;
+}
+
+
+
+
+/* Modify */
+
+
+
+/* reply */
+.Replyjsp {
+	padding: 70px 20px 100px 20px;
+	border: 1px solid #ccc; /* 카드 테두리 색 및 두께 */
+    border-radius: 5px; /* 카드 테두리의 둥근 정도 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-right: 150px;
+    margin-left: 150px;
+    margin-top: 50px;
+}
+    
+.ReplyList-write{
+	
+	
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 5px;
+	line-height: 1.5;
+	
+	
+	
+}   
+
+
+.ReplyList-write .ReplyListline {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 19px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+} 
+
+
+.ReplyList-write .Replylinetd {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	padding: 10px;
+	border-left: none;
+	border-right: none;
+}
+    
+    
+    .ReplyList-write th:first-child, .ReplyList td:first-child {
+	border-left: none !important; /* 맨 왼쪽 셀의 왼쪽 선 제거 */
+}
+
+.ReplyList-write th:last-child, .ReplyList td:last-child {
+	border-right: none !important; /* 맨 오른쪽 셀의 오른쪽 선 제거 */
+}
+    
+    
+    
+  /* 초기 상태에서는 테두리를 숨김 */
+.reply-input {
+ border: none;
+ height: 24px;
+padding: 3px 5px;
+font-size: 16px;
+}
+
+
+
+.reply-textarea{
+	
+	border: none;
+}
+
+ 
+/* reply */    
+    
+    
+   
+   
+    
+   
+   /* 자유 게시판 */
+   
+ .AdminViewjsp {
+ 
+    padding-top: 100px;
+    
+    padding-left: 20px;
+    padding-right: 20px;
+    
+ 
+ }
+ 
+ .AdminViewjsp .AdminViewtopjsp{
+ 
+    padding-top: 42px;
+    padding-bottom: 42px;
+ 
+    margin-left: 200px;
+    margin-right: 200px;
+ 
+ padding: 70px 20px 100px 20px;
+	border: 1px solid #ccc; /* 카드 테두리 색 및 두께 */
+    border-radius: 5px; /* 카드 테두리의 둥근 정도 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    margin-right: 150px;
+    margin-left: 150px;
+ 
+ }  
+   
+   
+   
+ .AdminViewlList {
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 5px;
+	line-height: 1.5;
+} 
+
+
+
+.AdminViewlList .Adminviewline {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 19px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+}
+
+
+.AdminViewlList .Adminviewlinetd {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	padding: 10px;
+	border-left: none;
+	border-right: none;
+}
+
+.AdminViewlList .Viewtd {
+	border-bottom: none;
+	background-color: #fff;
+	border-left: none; /* 왼쪽 선 제거 */
+	border-right: none; /* 오른쪽 선 제거 */
+	    padding: 25px;
+    line-height: 36px;
+	
+}
+
+.AdminViewList td.inputsomething::before{
+	
+     content: "dfdfdfd"; /* ::before에 표시할 내용 설정 */
+     margin-right: 5px; /* 내용과 원래 텍스트 간의 간격 설정 */
+     margin-left: 5px; /* 내용과 원래 텍스트 간의 간격 설정 */
+     color: red; /* 글자 색상 설정 */
+	
+}
+
+
+
+.nextjsp{
+	
+
+    margin-top: 80px;
+
+	
+}
+
+
+
+.AdminViewlList .nextline {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 16px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+    width: 152.208;
+	
+}
+
+.AdminViewlList .nextlinetd {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	padding: 10px;
+	border-left: none;
+	border-right: none;
+}
+
+
+
+
+
+
+    
+
+
+
+.AdminViewlList th:first-child, .AdminViewlList td:first-child {
+	border-left: none !important; /* 맨 왼쪽 셀의 왼쪽 선 제거 */
+}
+
+.AdminViewlList th:last-child, .AdminViewlList td:last-child {
+	border-right: none !important; /* 맨 오른쪽 셀의 오른쪽 선 제거 */
+
+
+
+}
+
+
+
+   /* 자유 게시판 */
+   
+   
+   
+   
+   /* 자유 게시판 댓글 대댓글 */
+.replylist{
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 5px;
+	line-height: 1.5;
+}   
+   
+   
+ .reply_write{
+    
+    padding-top: 25px;
+    
+    
+    padding-left: 150px;
+    
+    
+     
+
+ }
+ 
+ 
+ .input_reply_div{
+  
+    width: 143.531;
+  
+
+ }
+ 
+ .input_reply_div .nickname{
+ 
+ font-size: 19px;
+ }
+ 
+ 
+.input_reply_div input.form-control{
+	 border: none;
+	  position: absolute;
+	  outline: none;
+	 border-bottom: 1px solid #ccc;
+    height: 26px;
+    transition: border-bottom-color 0.3s; /* 부드러운 전환 효과 추가 */
+    
+    width: 1504px;
+    
+	 
+} 
+
+.input_reply_div input.form-control:focus {
+    border-bottom-color: black;
+}
+
+.form-control-btn{
+	 padding-left : 1200px;
+	 padding-top : 15px;
+	 display : none;
+	  position: absolute;
+}
+
+.form-control-btn .cancelbtn {
+	background-color : #fff;
+    color: #000000;
+    vertical-align: middle;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 60px;
+    height: 38px;
+	
+}
+
+.form-control-btn .cancelbtn:hover{
+	
+	background-color :  #bebebe;
+	
+	
+}
+
+.form-control-btn .write_reply{
+	
+	background-color : #0000000D;
+    color: #909090;
+    vertical-align: middle;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 70px;
+    height: 38px;
+	
+}
+
+
+ .rereply_write{
+    
+    
+    padding-left: 35px;
+    padding-top: 10px;
+    height: 40px;
+    width: 1000px;
+    
+     
+
+ }
+ 
+ 
+ .input_rereply_div{
+  
+
+ }
+ 
+ 
+ 
+ 
+.input_rereply_div input.reform-control{
+	 border: none;
+	  outline: none;
+	 border-bottom: 1px solid #ccc;
+   	 width: 1400px;
+    height: 26px;
+    transition: border-bottom-color 0.3s; /* 부드러운 전환 효과 추가 */
+	 
+} 
+
+.input_rereply_div input.reform-control:focus {
+    border-bottom-color: black;
+}
+
+.reform-control-btn{
+	 padding-left : 1155px;
+	 padding-top : 15px;
+	 display : none;
+	 padding-left: 1100px;
+}
+
+.reform-control-btn .cancelrebtn {
+	
+	background-color : #fff;
+    color: #000000;
+    vertical-align: middle;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 50px;
+    height: 38px;
+     margin-right: 10px;
+	
+}
+
+.reform-control-btn .cancelrebtn:hover{
+	
+	background-color :  #bebebe;
+	
+	
+}
+
+.reform-control-btn .write_rereply{
+	
+	background-color : #0000000D;
+    color: #909090;
+    vertical-align: middle;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 60px;
+    height: 38px;
+    font-size : 11px;
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+.rereply_delete{
+	background-color : #fff;
+    color: #000000;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 40px;
+    height: 20px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-top-width: 0px;
+    vertical-align: middle;
+	 font-size: 14px;	
+}
+
+
+
+.rererewritebutton{
+	
+		background-color : #fff;
+    color: #000000;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 40px;
+    height: 20px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-top-width: 0px;
+    vertical-align: middle;
+	 font-size: 14px;	
+	 
+   
+	 
+	
+	
+}
+
+.rererewritebutton:hover{
+	
+	background-color :  #bebebe;
+	
+	
+}
+
+
+
+
+
+span.mention{
+	color : #065fd4;
+	
+}
+
+.input_rerereply_div  span#tonameSpan{
+  
+ 	font-size : 15px;
+ 	padding : 2px;
+ 	background-color :  #efefef;
+	border-radius: 5px;
+    margin-left: 15px;
+	
+ }
+ 
+ 
+ 
+ 
+.input_rerereply_div textarea.rereform-control{
+	 border: none;
+	  outline: none;
+	 border-bottom: 1px solid #ccc;
+    margin-left: 5px;
+   	  width: 1254px;
+    height: 30px;
+    font-size : 15px;
+    transition: border-bottom-color 0.3s; /* 부드러운 전환 효과 추가 */
+	 
+} 
+
+.input_rerereply_div textarea.rereform-control:focus {
+    border-bottom-color: black;
+    
+    padding-top: 10px;
+    padding-bottom: 2px;
+    margin-top: 7px;
+    
+}
+
+.rereform-control-btn{
+	 padding-top : 15px;
+	 display : none;
+	padding-left: 1050px;
+}
+
+.rereform-control-btn .cancelrerebtn {
+	
+	background-color : #fff;
+    color: #000000;
+    vertical-align: middle;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+     margin-right: 10px;
+    width: 45px;
+    height: 36px;
+     
+	
+}
+
+.rereform-control-btn .cancelrerebtn:hover{
+	
+	background-color :  #bebebe;
+	
+	
+}
+
+.rereform-control-btn .write_rerereply{
+	
+	background-color : #0000000D;
+    color: #909090;
+    vertical-align: middle;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    font-size : 10px;
+    width: 55px;
+    height: 36px;
+    
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.card-body{
+ 
+ 
+ 
+ padding: 30px 20px 100px 60px;
+    
+    margin-right: 150px;
+    
+    margin-left: 175px;
+    
+    
+	
+	
+}
+
+
+
+.rereply-content{
+    padding-top: 10px;
+    
+	
+	
+}
+
+.rereply-content0{
+    
+	
+	
+}
+
+
+.reply_delete{
+	background-color : #fff;
+    color: #000000;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 40px;
+    height: 20px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-top-width: 0px;
+    vertical-align: middle;
+	 font-size: 14px;	
+}
+
+
+
+.reply_delete:hover{
+	
+	background-color :  #bebebe;
+	
+	
+}
+
+
+.rerewritebutton{
+	
+		background-color : #fff;
+    color: #000000;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 40px;
+    height: 20px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-top-width: 0px;
+    vertical-align: middle;
+	 font-size: 14px;	
+	
+	
+}
+
+.rerewritebutton:hover{
+	
+	background-color :  #bebebe;
+	
+	
+}
+
+
+.viewbtn{
+	 margin-right: 5px;
+	
+    padding-left: 23px;
+	
+	
+	
+}
+
+.rerereplyall {
+	
+    padding-left: 33px;
+}
+
+.rerereply-content{
+    padding-bottom: 10px;
+    
+    
+	
+	
+}
+    
+
+.rerereply-content .rerereply-content0{
+    padding-top: 10px;
+    
+	
+	
+}
+
+.rereply_delete{
+	background-color : #fff;
+    color: #000000;
+    transition: background-color 0.5s;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+	padding: 5px;
+	text-align: center;
+    width: 40px;
+    height: 20px;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    border-top-width: 0px;
+    vertical-align: middle;
+	 font-size: 14px;	
+}
+
+
+
+.rereply_delete:hover{
+	
+	background-color :  #bebebe;
+	
+	
+}
+
+
+
+
+.buttoncontroll{
+	
+	display: flex;
+}
+
+
+
+
+
+  
+   
+
+   /* 자유 게시판 댓글 대댓글 */

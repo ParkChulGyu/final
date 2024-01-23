@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.NameMapper">
+
+
+<!--최초 홈 에 필요한 name 값 -->
+	<select id="getHomeRand" 	resultType="com.myweb.dto.NameDTO">
+        <![CDATA[
+           SELECT name, category, address, ROW_NUMBER() OVER (ORDER BY RAND()) AS name_idx
+			FROM (	
+  			  SELECT hotel_name AS name, category AS category, address FROM hotel
+  		  UNION
+  		  SELECT tour_name AS name, category AS category, address FROM tourist
+  		  UNION
+  		  SELECT res_name AS name, category AS category, address FROM restaurant
+  		  UNION
+ 		   SELECT cul_name AS name, category AS category, address FROM culture
+			) AS combined_data
+			WHERE 1=1
+			ORDER BY name_idx DESC
+			LIMIT 4
+			]]>
+	</select>
+
+
+
+	<!--최초 페이징에 필요한 name의 카운트 값 -->
+	<select id="getNametotalCount" parameterType="Map"
+		resultType="int">
+        <![CDATA[
+		SELECT count(*) FROM (
+    SELECT hotel_name AS name, category AS category,address FROM hotel
+    UNION
+    SELECT tour_name AS name, category AS category,address FROM tourist
+    UNION
+    SELECT res_name AS name, category AS category,address FROM restaurant
+    UNION
+    SELECT cul_name AS name, category AS category,address FROM culture
+	) AS combined_data
+	WHERE 1=1
+    AND (name LIKE CONCAT('%', #{search}, '%')
+         and address LIKE CONCAT('%', #{region}, '%'))
+        ]]>
+	</select>
+
+	<!--최초 페이징 에 필요한 name 값 -->
+	<select id="getNamePaging" parameterType="Map"
+		resultType="com.myweb.dto.NameDTO">
+        <![CDATA[
+            SELECT name, category, address, ROW_NUMBER() OVER (ORDER BY name) AS name_idx
+			FROM (	
+  			  SELECT hotel_name AS name, category AS category, address FROM hotel
+  		  UNION
+  		  SELECT tour_name AS name, category AS category, address FROM tourist
+  		  UNION
+  		  SELECT res_name AS name, category AS category, address FROM restaurant
+  		  UNION
+ 		   SELECT cul_name AS name, category AS category, address FROM culture
+			) AS combined_data
+			WHERE 1=1
+ 		   AND (name LIKE CONCAT('%', #{search}, '%') and address LIKE CONCAT('%', #{region}, '%'))
+			ORDER BY name_idx DESC
+			LIMIT #{listNum} OFFSET #{start_rownum}
+			]]>
+	</select>
+
+
+
+
+</mapper>

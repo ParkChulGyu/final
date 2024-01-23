@@ -1,0 +1,359 @@
+@charset "UTF-8";
+
+
+
+
+
+
+.adminall {
+  
+  display: flex;
+  flex-direction: column; /* 세로로 나란히 정렬 */	
+  width : 15%;
+  min-height: 100vh;
+  background-color: lightgray;
+  background-color : #f5f5f7;
+  float:left;
+	
+
+}
+.adminpage {
+
+  padding: 10px;
+  
+  
+}
+
+
+
+
+
+
+.maintitle {
+	display: flex;
+	justify-content: center;
+}
+
+
+
+
+.memberlistpaging{
+	
+	width : 70%;
+	height : 700px;
+	background-color : #fff;
+	   text-align: center;
+	 
+	  margin-left: 300px;
+	
+}
+
+
+
+.container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	
+}
+
+.topsearch, .topcount {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.topcount ul {
+	display: flex;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.topcount li {
+	margin-right: 10px;
+	display: inline-block; /* Display li elements in a line */
+}
+
+.topcount .ft-blue {
+	color: #3367d6;
+}
+
+.pagebtn {
+	margin-left: 175.792px;
+	margin-right: 175.792px;
+}
+
+.topsearch {
+	padding-left: 0px;
+	vertical-align: middle;
+	 height: 30.5;
+	 padding-right: 120px;
+}
+
+.topsearch .form-select {
+	border: 1px solid #9e9e9e;
+	border-radius: 10px;
+	background-color: #fff;
+	height: 28px;
+	font-size: 15px;
+}
+
+.topsearch .form-write {
+	padding: 3px 10px;
+	box-sizing: border-box;
+	border: 1px solid #9e9e9e;
+	border-radius: 10px;
+	height: 28px;
+	font-size: 15px;
+}
+
+.topsearch .form-btn {
+	background-color: #5f8cdd !important;
+	color: #fff;
+	padding: 5px 13px;
+	border-radius: 10px;
+	border: 0;
+	transition: .5s;
+}
+
+
+
+.memberlist {
+	
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 10px;
+	width : 80%;
+    margin-left: 150px;
+	
+	
+}
+
+
+.memberListTh{
+	line-height: 13px;
+	
+}
+
+.memberlist tr th {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 19px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+}
+
+.memberlist th:first-child, .mywrite td:first-child {
+	border-left: none !important; /* 맨 왼쪽 셀의 왼쪽 선 제거 */
+}
+
+.memberlist th:last-child, .mywrite td:last-child {
+	border-right: none !important; /* 맨 오른쪽 셀의 오른쪽 선 제거 */
+}
+
+.memberlist td {
+	border-bottom: 1px solid #bebebe;
+	background-color: #fff; border-left : none;
+	line-height: 36px;
+	border-left: none; /* 왼쪽 선 제거 */
+	border-right: none; /* 오른쪽 선 제거 */
+	border-right: none;
+	border-left: none;
+}
+
+.MemberListTd {
+	text-align: center; /* 가로 정렬을 중앙으로 설정 */
+	vertical-align: middle; /* 세로 정렬을 중앙으로 설정 */
+	
+}
+
+.deletebtn {
+	display: flex;
+	margin-top: 7px;
+	justify-content: flex-end;
+	width: 70%;
+	padding: 0px 15% 10px 15%;
+	align-items: center;
+	border : none;
+    padding-right: 119.125;
+    margin-top: 5px;
+    height: 42px;
+	
+}
+
+.deletebtn .delete {
+	background-color: #949494 !important;
+	color: #fff;
+	padding: 5px 13px;
+	border-radius: 10px;
+	border: 0;
+	transition: .5s;
+}
+
+
+.deletebtn .delete:hover {
+	background-color: #7C7C7C;
+	color: inherit;
+}
+
+.checkcheck {
+	
+    margin-top: 15px;
+    width: 143.469;
+    
+    margin-left: 140px;
+    
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.w-pct60 {
+	width: 60%
+}
+
+.w-pct70 {
+	width: 70%
+}
+
+.w-pct80 {
+	width: 80%
+}
+
+.w-px40 {
+	width: 40px
+}
+
+.w-px60 {
+	width: 60px
+}
+
+.w-px65 {
+	width: 65px
+}
+
+.w-px70 {
+	width: 70px
+}
+
+.w-px75 {
+	width: 75px
+}
+
+.w-px80 {
+	width: 80px
+}
+
+.w-px100 {
+	width: 100px
+}
+
+.w-px120 {
+	width: 190px
+}
+
+.w-px140 {
+	width: 140px
+}
+
+.w-px160 {
+	width: 160px
+}
+
+.w-px180 {
+	width: 180px
+}
+
+.w-px200 {
+	width: 200px
+}
+
+.w-px300 {
+	width: 300px
+}
+
+

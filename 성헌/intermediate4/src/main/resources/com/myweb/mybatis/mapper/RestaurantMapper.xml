@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.RestaurantMapper">
+
+
+	<select id="getRestaurantList"
+		resultType="com.myweb.dto.RestaurantDTO">
+        <![CDATA[
+        SELECT res_name, post_num, address, latitude, longitude, outline, reservation, parking, open, day_off, recommend, menu, packaging, information, business_number
+    FROM Restaurant
+        ]]>
+	</select>
+
+	<select id="getResNameList"
+		resultType="com.myweb.dto.RestaurantDTO">
+        <![CDATA[
+        SELECT res_name FROM Restaurant
+        ]]>
+	</select>
+
+
+
+	<!--최초 페이징에 필요한 c name 카운트 값 -->
+	<select id="getRestotalCount" parameterType="String"
+		resultType="int">
+        <![CDATA[
+		SELECT COUNT(*) FROM Restaurant
+		WHERE 1=1
+		AND (res_name LIKE CONCAT('%',#{search},'%')
+		OR address LIKE CONCAT('%',#{search},'%'))
+        ]]>
+	</select>
+
+	<!--최초 페이징 에 필요한 tname 값 -->
+	<select id="getResPaging" parameterType="Map"
+		resultType="String">
+        <![CDATA[
+            SELECT res_name
+			FROM (
+  			SELECT res_name, ROW_NUMBER() OVER (ORDER BY res_name) AS res_idx
+  			FROM Restaurant
+   			WHERE 1=1
+  			AND (res_name LIKE CONCAT('%', #{search}, '%') OR address LIKE CONCAT('%',#{search}, '%'))
+			) AS subquery
+			ORDER BY res_idx DESC LIMIT #{listNum} OFFSET #{start_rownum}
+			]]>
+	</select>
+
+	<!--r view에 필요한 rdto 값 -->
+	<select id="getResNameSelec" parameterType="String"
+		resultType="com.myweb.dto.RestaurantDTO">
+        <![CDATA[
+ 	   SELECT * FROM restaurant where res_name like  CONCAT('%', #{name}, '%');
+        ]]>
+	</select>
+
+
+
+
+
+
+</mapper>

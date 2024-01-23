@@ -1,0 +1,11 @@
+$("select[name=idx]").change(function(){
+			console.log($(this).val());
+			console.log("확인2");
+		})
+
+
+	//	var role_id = document.getElementById('idx');
+		//var role_value = langSelect.options[role_id.selectedIndex].value;
+	//	console.log(role_value);
+	//	const param2 = {role_value : role_value};
+	//	console.log(param2);

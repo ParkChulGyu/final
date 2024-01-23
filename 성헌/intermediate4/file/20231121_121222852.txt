@@ -1,0 +1,16 @@
+<tr>
+			<td id=<%=dto.getUser_idx()+idx %>><%=dto.getUser_idx()%></td>
+			<td id=<%=dto.getUser_id()+idx %>><%=dto.getUser_id()%></td>
+			<td id=<%=dto.getPw()+idx %>><%=dto.getPw()%></td>
+			<td id=<%=dto.getName()+idx %>><%=dto.getName()%></td>
+			<td id=<%=dto.getNickname()+idx %>><%=dto.getNickname()%></td>
+			<td id=<%=dto.getEmail()+idx %>><%=dto.getEmail()%></td>
+			<td id=<%=dto.getPhoneNumber()+idx %>><%=dto.getPhoneNumber()%></td>
+			<td id=<%=strNowDate+idx %>><%=strNowDate%></td>
+			<td id=<%=dto.getPoint()+idx %>><%=dto.getPoint()%></td>
+			<td id=<%=dto.getGrade()+idx %>><%=dto.getGrade()%></td>
+			<td><input class="chk" type="checkbox" name="checkRow"
+				id=<%=dto.getUser_id()%> value=<%=dto.getUser_id()%>></td>
+		
+		
+		</tr>

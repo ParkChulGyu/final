@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.CartMapper">
+
+	<!--최초 페이징에 필요한 name의 카운트 값 -->
+	<select id="getCarttotalCount" parameterType="Map"
+		resultType="int">
+        <![CDATA[
+		SELECT count(*) FROM cart    
+		WHERE user_id LIKE CONCAT('%', #{user_id}, '%')
+         
+        ]]>
+	</select>
+
+	<!--최초 페이징 에 필요한 name 값 -->
+	<select id="getCartPaging" parameterType="Map"	resultType="com.myweb.dto.CartDTO">
+        <![CDATA[
+            SELECT title_name , category, user_id , ROW_NUMBER() OVER (ORDER BY title_name) AS cart_idx
+			FROM cart
+			WHERE 1=1
+ 		   AND user_id LIKE CONCAT('%', #{user_id} , '%')
+			ORDER BY cart_idx DESC
+			LIMIT #{listNum} OFFSET #{start_rownum}
+			]]>
+	</select>
+	
+	<select id="getLike" parameterType="Map"	resultType="int">
+     	    <![CDATA[
+            SELECT count(*) FROM cart
+			WHERE 1=1
+ 		    AND user_id LIKE CONCAT('%', '${user_id}' , '%')
+ 		    AND title_name LIKE CONCAT('%', '${title_name}' , '%')
+			]]>
+	</select>
+	
+	
+	<insert id="insertCart" parameterType="Map"	>
+        <![CDATA[
+           INSERT INTO cart (user_id, title_name, category)
+			VALUES ('${user_id}' , '${title_name}' , '${category}')
+			]]>
+	</insert>
+	
+	
+	<delete id="deleteCart" parameterType="Map"
+		>
+        <![CDATA[
+            DELETE FROM cart WHERE user_id = '${user_id}'  AND  title_name =  '${title_name}' 
+			]]>
+	</delete>
+
+
+
+
+</mapper>

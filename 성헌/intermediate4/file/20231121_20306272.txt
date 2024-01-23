@@ -1,0 +1,357 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.myweb.dto.MemberDTO"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+	integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+	crossorigin="anonymous"></script>
+
+<%
+request.setCharacterEncoding("utf-8");
+List<MemberDTO> list = (List<MemberDTO>) request.getAttribute("list");
+%>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>memberList.jsp</title>
+</head>
+<body>
+	<%@include file="submenu.jsp"%>
+	<h2>
+		회원목록</span>
+	</h2>
+	<hr>
+	<table border="1">
+		<tr>
+			<form action="memberListsearch-mapper" method="post">
+				<input type="text" placeholder="닉네임" id="nickname"
+					class="search-txt" name="nickname"> <input type="submit"
+					id="search" value="검색">
+			</form>
+
+			<th>Idx</th>
+			<th>ID</th>
+			<th>PW</th>
+			<th>Name</th>
+			<th>NickName</th>
+			<th>Email</th>
+			<th>PhonNumber</th>
+			<th>Sysdate</th>
+			<th>Point</th>
+			<th>Grade</th>
+			<th>전체선택<input type="checkbox" name="checkAll" id="th_checkAll"
+				onclick="checkAll();"></th>
+			<button class="delete">삭제</button>
+
+		</tr>
+
+
+
+
+		<%
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일 a HH:mm");
+		%>
+
+		<%
+		int idx = 0;
+		for (MemberDTO dto : list) {
+		%>
+		<%
+		dto.getSysdate().setHours(dto.getSysdate().getHours() - 9);
+
+		String strNowDate = simpleDateFormat.format(dto.getSysdate());
+			const user_idx = dto.getUser_idx();
+			var user_id = dto.getUser_id();
+			var  pw =  dto.getPw();
+			var name = dto.getName();
+			var nickname = dto.getNickname();
+			var email = dto.getEmail();
+			var PhoneNumber = dto.getPhoneNumber();
+			var sysdate = strNowDate;
+			var point = dto.getPoint();
+			var grade = dto.getGrade();
+		
+		%>
+		<tr>
+			<td id= user_idx<%=idx %>><%=dto.getUser_idx()%></td>
+			<td id= user_id<%=idx %>><%=dto.getUser_id()%></td>
+			<td id=pw<%=idx %>><%=dto.getPw()%></td>
+			<td id=name<%=idx %>><%=dto.getName()%></td>
+			<td id=nickname<%=idx %>><%=dto.getNickname()%></td>
+			<td id=email<%=idx %>><%=dto.getEmail()%></td>
+			<td id=PhoneNumber<%=idx %>><%=dto.getPhoneNumber()%></td>
+			<td id=sysdate<%=idx %>><%=strNowDate%></td>
+			<td id=point<%=idx %>><%=dto.getPoint()%></td>
+			<td id=grade<%=idx %>><%=dto.getGrade()%></td>
+			<td><input class="chk" type="checkbox" name="checkRow"
+				id=<%=dto.getUser_id()%> value=<%=dto.getUser_id()%>></td>
+		
+		</tr>
+		<%
+				idx++;
+		}
+		%>
+		<ul class="memberlist">
+		
+		
+		</ul>
+		
+		<ul class="pageing">
+
+
+			<!-- //페이지 -->
+		</ul>
+	</table>
+
+
+
+
+	<script>
+
+//체크박스 전체선택, 전체 해체	
+	function checkAll() {
+		if( $("#th_checkAll").is(':checked') ){
+		$("input[name=checkRow]").prop("checked",true);
+		}else{
+			$("input[name=checkRow]").prop("checked",false);
+		}
+	}
+	
+	function deleteAction(){
+		console.log("hi");
+		var cnt = $("input[name='checkRow']:checked").length;
+		let arr= [];
+		var value = $("input[name='checkRow']:checked").val();
+		console.log(value);
+		$("input[name='checkRow']:checked").each(function(index) {
+			   var bChecked = $(this).prop('checked');
+			 // arr.push($(this).attr(value));
+			  var value = $(this).val();
+			   arr.push(value);
+			  
+		});
+		console.log(arr);
+		console.log("hi");
+		
+		if(cnt == 0) {
+		 alert("선택된 글이 없습니다.");
+		}
+		 else{
+		 console.log("ajax실행");
+		 var user_id = arr;
+		 console.log("체크할거야 : " + user_id);
+          $.ajax({
+              // get방식일때만 사용 contentType : 'application/json',
+			//contentType : 'application/json',
+                type: "POST",
+                traditional : true,
+                url: "../membermybatis/memberdelete",
+                data:  {user_id},
+                dataType:"json",
+                success: function(response){
+                	console.log("response 체크 :" + response);
+                    if(response == 1) {
+                        alert("삭제 성공");
+                        window.location.reload()
+                       
+                    }
+                    else{
+                        alert("삭제 실패");
+                    }
+                },
+                error: function(){alert("서버통신 오류");}
+            });
+        }
+    }
+	
+	function pageing(nickname) {
+		console.log("nickname 체크" + nickname);
+	$.ajax({
+			type: 'POST',      
+			url: '../membermybatis/memberlistcount',
+			dataType: 'json', 
+			data: {nickname},
+			success : function(data){ 
+				
+				console.log("data확인 : " + data)
+				str = '';
+				
+				str += '<td><button class="prevbtn">이전</button></td>'
+				str += '<td><button class="pageingbtn select_btn" value="1">1</button></td>'
+				for(var i = 1; i < data+1; i++) {
+					str += '<td><button class="pageingbtn" value="'+(i+1) + '">'+(i+1)+'</button></td>'
+					
+				}		
+				str+= '<td><button class="nextbtn">다음</button></td>'
+				
+				$('.pageing').html(str);
+				start();
+					
+			},error: function(xhr, status, error){
+				console.log(xhr, status, error);
+			}
+		});
+};
+  
+
+//2번으로 함(paging)
+function start(){
+	
+	let page = 1;
+	let searchcount = 0;
+	
+	
+	maxpage=$('.pageingbtn').length;
+	
+	$('.pageingbtn').on('click',function(e) {
+		page = e.target.value;
+		
+		$('.pageingbtn').removeClass("select_btn");
+		$(this).addClass("select_btn");
+		if(searchcount != 0){
+			//search($('.search-txt').val(),page);
+			console.log("요기 아닌뎅...")
+		}else {
+			nowpage(e.target.value);	
+			console.log("e.target.value 확인 해본다잉: " +  e.target.value);
+		}
+	});
+	
+
+	
+	
+	
+	$('.prevbtn').on('click',function() {
+		console.log("넘어온 page 보기 : " +page);
+
+		if(page <= 1) {
+			page = 1;
+		} else {
+			page--;
+			$('.pageingbtn').removeClass("select_btn");
+			$('.pageingbtn[value=' + page +']').addClass("select_btn");
+			
+			if(searchcount != 0) {
+				//search($('.search-txt').val(),page);
+			} else {
+				nowpage(page);	
+			}
+		}
+
+	});
+	
+
+	
+	$('.nextbtn').on('click',function() {
+		console.log(maxpage);
+		if(page >= maxpage) {
+			page = maxpage
+		} else {
+			page++;
+			$('.pageingbtn').removeClass("select_btn");
+			$('.pageingbtn[value=' + page +']').addClass("select_btn");
+			if(searchcount != 0) {
+		//	search($('.search-txt').val(),page);
+			} else {
+				nowpage(page);
+				
+			}
+		}
+
+	});
+	
+	$('.search-btn').on('click',function() {
+		searchcount = 1;
+		//search($('.search-txt').val(),1);
+	})
+	
+	
+};
+
+//3번째로 함
+function nowpage(target) {
+		console.log("nowpage체크하즈아 : " + target);
+		const page = target;
+		console.log("nowpage체크하고 싶어유 : " + page);
+		const nickname = $('#name').val();
+	console.log("nickName체크하고 싶어유 : " + nickname);
+	
+		$.ajax({
+        url: "../membermybatis/memberlistnow",
+        type: "POST",
+        data: {page,nickname},
+        dataType: "json",
+        success: function(data) {
+       		console.log("date 확인 : " + data);
+    		console.log("date길이 확인 : " + data.length);
+					
+    		
+			
+    		
+    		let idx1 = 0;
+				for(items of data) {
+					console.log("user_id check : " + items.user_id);
+					var user_idx = items.user_idx();
+					var user_id = items.ser_id();
+					var  pw =  items.pw();
+					var name = items.name();
+					var nickname = items.nickname();
+					var email = items.email();
+					var PhoneNumber = items.PhoneNumber();
+					var sysdate = items.sysdate;
+					var point = items.point();
+					var grade = items.grade();
+					
+					//$('#items.user_idx'+idx1).text(items.user_idx);
+			
+				$('#user_idx'+idx1).text(items.user_idx);
+				$('#user_id'+idx1).text(items.user_id);
+				$('#pw'+idx1).text(items.pw);
+				$('#name'+idx1).text(items.name);
+				$('#nickname' + idx1).text(items.nickname);
+				$('#email' + idx1).text(items.email);
+				$('#PhoneNumber' + idx1).text(items.PhoneNumber);
+				$('#sysdate' + idx1).text(items.sysdate);
+				$('#point' + idx1).text(items.point);
+				$('#grade' + idx1).text(items.grade);
+				idx1++;
+				
+				}
+      	  },
+      	  error: function (xhr, status, error) {
+            console.log(xhr, status, error);
+        }
+    })
+}
+	
+	
+	
+	
+	
+	
+	
+	
+$(function(){ // onload
+	//삭제
+	     pageing($('#nickname').val());
+
+	
+		$('.delete').click( function(){  
+		deleteAction()
+	
+		
+	});	
+	
+});
+	
+	
+	
+	
+</script>
+
+</body>
+</html>

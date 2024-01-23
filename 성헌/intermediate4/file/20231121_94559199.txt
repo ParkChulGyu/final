@@ -1,0 +1,6 @@
+자유  view 페이지 -> list페이지(paging) ->     글쓰기(파일 업로드)   자유  view 페이지 -> list페이지(paging) ->     글쓰기(파일 업로드) 
+
+게시판DB
+idx title content nickname regdate 
+게시판 DTO
+ idx title content nickname regdate  +num +count

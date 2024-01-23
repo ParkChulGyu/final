@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Service
 public class TestService {
-	private UserRepository userRepository;
+	private UserTestRepository userRepository;
 
     public List<User> getUserList() {
        return userRepository.findAll();

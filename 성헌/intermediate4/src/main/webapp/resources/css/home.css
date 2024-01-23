@@ -1,0 +1,414 @@
+@charset "UTF-8";
+
+
+
+.first-art{
+	width: 100hv;
+	margin-bottom: 50px;
+	 display: flex;
+  justify-content: center;
+}
+
+.input-group{
+	 height: 100px;
+	 justify-content: center; /* 수평 가운데 정렬 */
+   	 align-items: center; /* 수직 가운데 정렬 */
+   	 padding-left: 300px; 
+   	 padding-right: 300px; 
+   	 
+}
+
+  .home-container {
+      height: 75vh; /* 뷰포트 높이를 100%로 설정하여 가로 및 세로 중앙 정렬을 적용 */
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 180px;
+      margin-top: 50px;
+      margin-bottom: 150px;
+      overflow: hidden;
+       box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.3);
+    }
+    .carousel {
+ 	  margin: 0;
+ 	  width: 75vh;
+ 	  overflow: hidden;
+    }
+
+    .home-container {
+ 	  overflow: hidden;
+      width: 650px;
+      height: 420px;
+      border: 1px solid #c0c0c0; /* 테두리를 추가하거나 필요한 스타일을 적용할 수 있습니다. */
+      border-radius: 15px;
+    }
+
+.project-card {
+  width: 300px;
+  height: 250px;
+  border-radius: 25px;
+  position: relative;
+  box-shadow: 15px 15px 20px  rgba(0, 0, 0, 0.3);
+  transition: all 0.5s;
+  transition-delay: 0.4s;
+  margin: auto;
+}
+
+.project-card:hover {
+  width: 320px;
+  height: 260px;
+  mix-blend-mode: difference;
+}
+
+
+
+.project-thumbnail {
+  width: 100%;
+  height: 80%;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  background-image: url("https://a-static.besthdwallpaper.com/spider-man-s-awesome-selfie-wallpaper-9842_L.jpg");
+  background-size: cover;
+}
+
+.project-explain {
+  width: 96%;
+  height: 20%;
+  margin: auto;
+  position: absolute; /* display: absolute; → position: absolute;로 수정 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-48%, 170%);
+  text-align: center; /* 수평 가운데 정렬 */
+  line-height: 100%; /* 수직 가운데 정렬 */
+  z-index: 2;
+  font-weight: bold; /* 굵게 */
+  font-size: 24px;
+}
+
+.contents{
+	 float: left; 
+	 margin: 20px;
+	 position: relative;
+}
+
+.btn-outline-secondary{
+	
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 160px;
+    height: 60px;
+}
+
+
+.form-control{
+	
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-top-width: 2px;
+}
+
+.bi-binoculars{
+	width: 40px;
+	height: 40px;
+}
+
+
+/* 홈 카드 4개 svg이미지 위치 크기 조정 */
+.bi-camera{
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -90px 0 0 -70px;
+    width: 150px;
+    height: 150px;
+}
+
+
+.bi-shop{
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -90px 0 0 -70px;
+    width: 150px;
+    height: 150px;
+}
+
+.bi-house-door{
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -90px 0 0 -70px;
+    width: 150px;
+    height: 150px;
+}
+
+.bi-bank{
+   position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -90px 0 0 -70px;
+    width: 150px;
+    height: 150px;
+}
+.foot{
+	 width: auto;
+    height: 150px;
+}
+
+
+
+
+
+
+
+
+
+
+.middle-container{
+	
+	 display: flex;
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ .home-container-right {
+      height: 700px; /* 뷰포트 높이를 100%로 설정하여 가로 및 세로 중앙 정렬을 적용 */
+      margin: 0;
+      display: flex;
+      position : absolute;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 150px;
+       
+        left: 882px;
+    margin-left: 20px;
+     left: 1000px;
+    height: 650px;
+    width: 800px;
+      padding-top: 86px;
+       
+    }
+
+
+
+.tab-box{
+position : absolute;
+border: 2px solid #bebebe;
+border-radius: 30px;
+margin-top : 5px; 
+box-shadow: 5px 5px 10px 2px #e0e0e0;
+text-align: center;
+ height : 50px;
+ width: 260px;
+ 
+    margin-bottom: 590px;
+ 
+ 
+ 
+
+}
+ 
+ 
+.tab-box .tab-tpye1 {
+display: flex; /* 가로 정렬을 위한 flex 속성 적용 */
+
+ margin-top: 0px;
+    
+    padding-left: 0px;
+    text-align: center;
+    
+    margin-bottom: 5px;
+    
+    
+    
+
+}
+
+
+
+
+.tab-tpye1 li {
+display: flex;
+  padding: 10px;
+  margin: 5px;
+    z-index: 1;
+    width : 50%;
+    margin-bottom : 10px;
+    margin-top: 0px;
+}
+
+
+
+
+
+
+.on-back button {
+    z-index: 1;
+    border : none;
+    background-color : transparent ;
+        display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    font-size : 15px;
+    
+}
+
+
+
+
+
+#Qnabtn {
+    left: 0;
+    
+}
+
+#Freebtn {
+    left: 100px; /* 예시로 100px만큼 이동 */
+}
+
+
+.on-back {
+    text-align: center;
+     
+    
+
+}
+
+#backgroundM {
+
+    position: absolute;
+    width: 120px;
+    height: 38px;
+    background-color: transparent;
+     cursor: pointer;
+    z-index: 0;
+    background-color: #5F8CDD !important;
+transition: left 0.3s cubic-bezier(0, 0, 1, 1);
+border-radius: 28px;
+		 left: 279px;
+		top: 57px;
+
+}
+
+
+
+.changecolor{
+	
+	color: #fff;
+
+}
+
+
+
+.buttonfirst1{
+	 display: inline-block;
+	 text-transform: uppercase;
+}
+
+.buttonfirst2{
+	 display: inline-block;
+	 text-transform: uppercase;
+}
+
+
+
+.viewlist {
+	
+	text-indent: initial;
+	border-collapse: collapse;
+	border: none;
+	font-family: 'Noto Sans KR', sans-serif;
+	padding: 0 10px;
+    width: 708px;
+    
+    
+    height: 320px;
+    margin-bottom: 160px;
+    
+    
+    
+
+}
+
+
+
+
+.ListTh {
+	line-height: 13px;
+	    height: 50px;
+	    text-align: center;
+	    width: 33%;
+	
+}
+
+.viewlist tr th {
+	border-top: 1px solid #bebebe;
+	border-bottom: 1px solid #bebebe;
+	background-color: #f8f8f8;
+	padding: 10px;
+	font-size: 19px;
+	font-weight: 500;
+	vertical-align: middle;
+	border-left: none;
+	border-right: none;
+	font-weight: bold;
+}
+
+.viewlist th:first-child, .QnaList td:first-child {
+	border-left: none !important; /* 맨 왼쪽 셀의 왼쪽 선 제거 */
+}
+
+.viewlist th:last-child, .QnaList td:last-child {
+	border-right: none !important; /* 맨 오른쪽 셀의 오른쪽 선 제거 */
+}
+
+.viewlist td {
+	border-bottom: 1px solid #bebebe;
+	background-color: #fff; border-left : none;
+	line-height: 36px;
+	border-left: none; /* 왼쪽 선 제거 */
+	border-right: none; /* 오른쪽 선 제거 */
+	border-right: none;
+	border-left: none;
+}
+
+.ListTd {
+	text-align: center; /* 가로 정렬을 중앙으로 설정 */
+	vertical-align: middle; /* 세로 정렬을 중앙으로 설정 */
+}
+
+

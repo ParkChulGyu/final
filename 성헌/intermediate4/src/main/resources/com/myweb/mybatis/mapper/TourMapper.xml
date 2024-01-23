@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.TourMapper">
+
+
+	<select id="getTourList" resultType="com.myweb.dto.TourDTO">
+        <![CDATA[
+         SELECT tour_name, post_num, address, latitude, longitude, outline, inquiry_number, day_off, ex_info, open, parking, pets, information
+   		 FROM tourist
+        ]]>
+	</select>
+
+	<select id="getTourNameList" resultType="com.myweb.dto.TourDTO">
+        <![CDATA[
+         SELECT tour_name FROM tourist
+        ]]>
+	</select>
+
+
+
+
+
+	<!--최초 페이징에 필요한 c name 카운트 값 -->
+	<select id="getTourtotalCount" parameterType="String"
+		resultType="int">
+        <![CDATA[
+		SELECT COUNT(*) FROM tourist
+		WHERE 1=1
+		AND (Tour_name LIKE CONCAT('%',#{search},'%')
+		OR address LIKE CONCAT('%',#{search},'%'))
+        ]]>
+	</select>
+
+	<!--최초 페이징 에 필요한 tname 값 -->
+	<select id="getTourPaging" parameterType="Map"
+		resultType="String">
+        <![CDATA[
+            SELECT Tour_name
+			FROM (
+  			SELECT Tour_name, ROW_NUMBER() OVER (ORDER BY Tour_name) AS Tour_idx
+  			FROM tourist
+   			WHERE 1=1
+  			AND (Tour_name LIKE CONCAT('%', #{search}, '%') OR address LIKE CONCAT('%',#{search}, '%'))
+			) AS subquery
+			ORDER BY Tour_idx DESC LIMIT #{listNum} OFFSET #{start_rownum}
+			]]>
+	</select>
+
+	<!--t view에 필요한 tdto 값 -->
+	<select id="getTourNameSelec" parameterType="String"
+		resultType="com.myweb.dto.TourDTO">
+        <![CDATA[
+ 	   SELECT * FROM tourist where tour_name like  CONCAT('%', #{name}, '%');
+        ]]>
+	</select>
+
+
+
+
+
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.ImgMapper">
+
+        
+    <select id="getImgList"  parameterType="String" resultType="com.myweb.dto.ImgDTO">
+        <![CDATA[
+        SELECT file_idx , file_name FROM Img_name where file_name LIKE CONCAT('%',#{name},'%')
+        ]]>
+    </select>
+    <select id="getImgone"  parameterType="String" resultType="String">
+        <![CDATA[
+        SELECT file_name FROM Img_name where file_name LIKE CONCAT('%',#{name},'%') LIMIT 1
+        ]]>
+    </select>
+    
+    
+
+</mapper>

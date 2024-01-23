@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.AlarmMapper">
+
+<select id="getQnaOne" resultType="com.myweb.dto.QnaDTO">
+	 <![CDATA[
+	 		SELECT  n.* FROM (
+		
+		 SELECT * FROM (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY root, step ASC) AS no FROM qna
+   ORDER BY root, step ASC ) AS q
+ORDER BY no ASC
+)n WHERE idx= #{idx }
+		]]>
+	</select>
+	
+	<insert id="insertAlram" parameterType="com.myweb.dto.AlarmDTO" >
+	 <![CDATA[
+		insert into alarm (toid , fromid , bidx , title , category ,bgidx,step) 
+		values (#{toid},#{fromid},#{bidx},#{title},#{category},#{bgidx},#{step})
+]]>
+</insert>
+
+
+
+
+<select id="alramList" resultType="com.myweb.dto.AlarmDTO">
+<![CDATA[
+		select * from alarm where toid = #{toid} And readcheck = 1 And fromid != #{toid}
+]]>
+</select>
+
+
+<select id="getmembers" resultType="com.myweb.dto.AlarmDTO">
+<![CDATA[
+		select * from alarm where toid = #{toid}
+]]>
+</select>
+
+
+<select id="checkcount" resultType="int">
+<![CDATA[
+		select count(*) from alarm where toid = #{toid} And readcheck = 1 And fromid != #{toid}
+]]>
+</select>
+
+
+<select id="getadminrereinfo" resultType="com.myweb.dto.ReplyDTO">
+<![CDATA[
+
+	SELECT *
+FROM p_reply
+WHERE grp = #{bidx}
+ORDER BY regdate DESC
+LIMIT 1;
+]]>
+</select>
+
+<select id="getwriteradmininfo" resultType="com.myweb.dto.ReplyDTO">
+<![CDATA[
+
+	SELECT *
+FROM p_reply
+WHERE idx = #{idx}
+
+]]>
+</select>
+
+<select id="getadminidx" resultType="int">
+<![CDATA[
+
+	select * from p_reply order by grp desc limit 1;
+
+]]>
+</select>
+
+
+<select id="alarmClick" resultType="com.myweb.dto.QnaDTO">
+<![CDATA[
+		SELECT  n.* FROM (
+		
+		 SELECT * FROM (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY root, step ASC) AS no FROM qna
+   ORDER BY root, step ASC ) AS q
+ORDER BY no ASC
+)n  where no = #{no} + 1
+]]>
+</select>
+
+
+<delete id="alarmRemove">
+		<![CDATA[
+		DELETE FROM alarm WHERE idx=#{idx }
+			]]>
+	</delete>
+
+
+
+<update id="alarmRead" parameterType="int">
+    <![CDATA[
+    UPDATE alarm
+    SET readcheck = readcheck - 1
+    WHERE idx = #{idx}
+    ]]>
+</update>
+
+
+
+
+
+</mapper>

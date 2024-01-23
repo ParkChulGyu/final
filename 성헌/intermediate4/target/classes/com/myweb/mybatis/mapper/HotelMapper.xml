@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myweb.mybatis.mapper.HotelMapper">
+
+        <!--최초 페이징에 필요한 h name 카운트 값 -->
+	<select id="getHoteltotalCount" parameterType="String" resultType="int">
+        <![CDATA[
+		SELECT COUNT(*) FROM hotel
+		WHERE 1=1
+		AND (hotel_name LIKE CONCAT('%',#{search},'%')
+		OR address LIKE CONCAT('%',#{search},'%'))
+        ]]>
+	</select>
+    
+    
+		<!--최초 페이징 에 필요한 h name 값-->
+	<select id="getHotelPaging"
+		parameterType="Map"
+		resultType="String">
+        <![CDATA[
+            SELECT hotel_name
+			FROM (
+  			SELECT hotel_name, ROW_NUMBER() OVER (ORDER BY hotel_name) AS hotel_idx
+  			FROM hotel
+   			WHERE 1=1
+  			AND (hotel_name LIKE CONCAT('%', #{search}, '%') OR address LIKE CONCAT('%',#{search}, '%'))
+			) AS subquery
+			ORDER BY hotel_idx DESC LIMIT #{listNum} OFFSET #{start_rownum}
+			]]>
+	</select>
+        
+        	<!--h dto list 값-->
+    <select id="getHotelList" resultType="com.myweb.dto.HotelDTO">
+        <![CDATA[
+        SELECT hotel_name, post_num, contact, address, latitude, longitude, outline, scale, volume, rooms, room_type, parking, cooking, check_in, check_out, reservation, home_page, pick_up, café, other, seminar, sports, sauna, beauty, karaoke, bbq, campfire, bicycle_rental, gym, public_pc, shower, information
+   		 FROM hotel
+        ]]>
+    </select>
+    
+    	<!--h name list 값-->
+    <select id="getHotelNmaeList" resultType="com.myweb.dto.HotelDTO">
+        <![CDATA[
+        SELECT hotel_name FROM hotel
+        ]]>
+    </select>
+    
+    
+    	 
+        	<!--h view에 필요한 hdto 값-->
+    <select id="getHotelNameSelec" parameterType="String" resultType="com.myweb.dto.HotelDTO">
+        <![CDATA[
+ 	   SELECT * FROM hotel where hotel_name like  CONCAT('%', #{name}, '%');
+        ]]>
+    </select>
+	
+
+    
+    
+    
+
+</mapper>
