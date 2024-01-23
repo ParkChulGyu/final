@@ -1,0 +1,28 @@
+package hello.hellospring.service;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class MemberServiceTest {
+	
+
+	MemberService memberService = new MemberService();
+
+	@Test
+	void testJoin() {
+	}
+
+	@Test
+	void testValidateDuplicateMember() {
+	}
+
+	@Test
+	void testFindMembers() {
+	}
+
+	@Test
+	void testFindone() {
+	}
+
+}

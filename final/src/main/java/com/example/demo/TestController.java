@@ -22,7 +22,7 @@ public class TestController {
     }
 
     @GetMapping(value = "/api/user")
-    public List<User> getUserList() {
+    public List<Users> getUserList() {
         return testService.getUserList();
     }
 

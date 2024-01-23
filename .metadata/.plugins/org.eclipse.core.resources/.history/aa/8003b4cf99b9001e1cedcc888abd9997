@@ -1,0 +1,16 @@
+package repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import testDTO.NameDTO;
+
+public interface UserRepository {
+	
+	NameDTO save(NameDTO nameDto);
+	Optional<NameDTO> findById(Long id);
+	Optional<NameDTO> findByName(String name);
+	List<NameDTO> findAll();
+	
+
+}

@@ -1,0 +1,19 @@
+package com.example.demo.member.membercontroller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class MemberService {
+	private MemberRepository userRepository;
+
+    public List<Member> getMemberList() {
+       return MemberRepository.findAll();
+    }
+
+
+}

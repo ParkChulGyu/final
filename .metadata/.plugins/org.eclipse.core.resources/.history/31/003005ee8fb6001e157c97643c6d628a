@@ -1,0 +1,50 @@
+package hello.hellospring.service;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Optional;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import domain.Member;
+
+class MemberServiceTest {
+	
+
+	MemberService memberService = new MemberService();
+
+	@Test
+	void 연습가입() {
+		
+		//given 목표
+		Member member = new Member();
+		
+		member.setName("hello");
+		
+		//when 할때
+		Long saveId = memberService.join(member);
+		
+		
+		
+		//then 결과
+		Member findMember = memberService.findone(saveId).get();
+		Assertions.assertThat(null);
+
+		
+		
+	}
+
+	@Test
+	void testValidateDuplicateMember() {
+	}
+
+	@Test
+	void testFindMembers() {
+	}
+
+	@Test
+	void testFindone() {
+	}
+
+}

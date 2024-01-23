@@ -1,0 +1,30 @@
+package hello.hellospring.repository;
+
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import domain.Member;
+import repository.MemberRepository;
+import repository.MemotyMemberRepository;
+import static org.assertj.core.api.Assertions.*; //Assertions를 기본 메소드로 넣고 메소드만쓴다.
+
+public class MemmoryMemberRepositoryTest {
+	
+	MemberRepository repository = new MemotyMemberRepository();
+
+	
+	@Test
+	public void save() {
+		Member member = new Member();
+		
+		member.setName("spring");
+		
+		repository.save(member);
+		
+		Member result = repository.findById(member.getId()).get();
+		
+		assertThat(member).isEqualTo(result);
+		
+		
+	}
+}

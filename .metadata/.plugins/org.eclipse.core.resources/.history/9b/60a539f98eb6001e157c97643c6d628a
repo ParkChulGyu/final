@@ -1,0 +1,29 @@
+package hello.hellospring.service;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class MemberServiceTest {
+
+	@Test
+	void testJoin() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testValidateDuplicateMember() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testFindMembers() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testFindone() {
+		fail("Not yet implemented");
+	}
+
+}

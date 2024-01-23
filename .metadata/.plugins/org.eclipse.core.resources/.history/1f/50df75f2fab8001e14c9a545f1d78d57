@@ -1,0 +1,99 @@
+package hello.hellospring.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.aspectj.lang.annotation.Before;
+import org.assertj.core.api.Assertions.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import domain.Member;
+import hello.hellospring.repository.MemberRepository;
+import hello.hellospring.repository.MemoryMemberRepository;
+import jakarta.transaction.Transactional;
+
+
+@SpringBootTest
+@Transactional // 테스트에서만쓰는 롤백 어노테이션 // 메서드 마다 일종의 자동커밋을 막는 주석 // @Commit을 쓰면 롤백안하고 저장한다.
+class MemberServiceIntegrationTest {
+	
+
+	@Autowired MemberService memberService;
+	//@Autowired MemoryMemberRepository memberRepository;
+	@Autowired MemberRepository memberRepository;
+	
+	
+	
+
+//	@AfterEach // 로직 데이터가 다음파일에 영향을 줘서 만든 코드
+//	@Transactional 이제는 위에 이걸 써서 이부분 코드가 필요없다.
+//	public void afterEach() {
+//		memberRepository.clearStor();
+//	}
+	
+	@Test
+	void 연습가입() {
+		
+		//given 목표
+		Member member = new Member();
+		
+		member.setName("spring2");
+		
+		//when 할때
+		Long saveId = memberService.join(member);
+		
+		
+		
+		//then 결과
+		Member findMember = memberService.findone(saveId).get();
+		assertThat(member.getName()).isEqualTo(findMember.getName());
+
+	}
+	
+	
+	@Test
+	public void 중복회원예외() {
+		//given 담고
+		Member member1= new Member();
+		member1.setName("spring");
+		Member member2= new Member();
+		member2.setName("spring");
+		//when 할때
+		memberService.join(member1);
+		
+		//assertThrows 방법으로 확인
+		IllegalStateException e = assertThrows(IllegalStateException.class ,() -> memberService.join(member2));
+		//assertThrows(NullPointerException.class ,() -> memberService.join(member2));
+		
+		
+		assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원 입니다.");
+		
+		
+		// try catch 문법으로 예외 상황 확인
+//		try {
+//		memberService.join(member2);	
+//		fail();
+//		} catch (IllegalStateException e) {
+//			assertThat(e.getMessage()).isEqualTo("이미 존재하는 회원 입니다.");
+//		}
+		
+		//then 결과
+	}
+
+	@Test
+	void testValidateDuplicateMember() {
+	}
+
+	@Test
+	void testFindMembers() {
+	}
+
+	@Test
+	void testFindone() {
+	}
+
+}

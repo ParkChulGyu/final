@@ -1,0 +1,26 @@
+package com.example.demo.member.membercontroller;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class MemberService {
+	private UserRepository userRepository;
+
+    public List<User> getMemberList() {
+       return memberRepository.findAll();
+    }
+
+    public String getUser(String userId) {
+        return "{\n" +
+                "\t\t\"idx\": 1,\n" +
+                "\t\t\"user_id\": \"김길동\",\n" +
+                "\t\t\"user_pw\": 16,\n" +
+                "\t}";
+    }
+
+}

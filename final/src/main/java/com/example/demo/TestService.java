@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 public class TestService {
 	private UserTestRepository userRepository;
 
-    public List<User> getUserList() {
+    public List<Users> getUserList() {
        return userRepository.findAll();
     }
 

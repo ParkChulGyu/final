@@ -1,0 +1,30 @@
+package service;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class MemberServiceTest {
+	
+	MemberService memberService = new MemberService();
+
+	@Test
+	void 회원가입() {
+		//given
+		
+		//when
+		
+		//then
+		
+		
+	}
+	@Test
+	void 회원확인() {
+		
+	}
+	@Test
+	void 회원검색() {
+		
+	}
+
+}

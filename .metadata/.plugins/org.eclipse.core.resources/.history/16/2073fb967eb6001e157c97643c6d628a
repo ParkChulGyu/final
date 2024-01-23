@@ -1,0 +1,27 @@
+package hello.hellospring.service;
+
+import java.util.Optional;
+
+import domain.Member;
+import repository.MemberRepository;
+import repository.MemoryMemberRepository;
+
+public class MemberService {
+	
+	private final MemberRepository memberRepository = new MemoryMemberRepository();
+	
+	
+	// 회원 가입
+	
+	public Long join(Member member) {
+		
+		// 같은 이름이 있는 중복 회원
+		Optional<Member> result = memberRepository.findByName(member.getName());
+		
+		
+		return member.getId();
+	}
+	
+	
+	
+}

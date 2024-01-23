@@ -1,0 +1,30 @@
+package com.example.demo.member.membercontroller;
+
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.AllArgsConstructor;
+
+@RestController
+@AllArgsConstructor
+public class MemberController {
+	
+	
+	private final MemberService memberService;
+
+    @GetMapping(value = "/member")
+    public List<Member> getUserList() {
+        return memberService.getMemberList();
+    }
+
+    @GetMapping(value = "/member/{memberId}")
+    public String getUser(@PathVariable("userId") String memberId) {
+        return memberService.getUser(userId);
+    }
+	
+	
+
+}
