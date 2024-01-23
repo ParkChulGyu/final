@@ -27,7 +27,7 @@ public class TestController {
     }
 
     @GetMapping(value = "/api/user/{userId}")
-    public String getUser(@PathVariable("userId") String userId) {
+    public String getUser(@PathVariable Long userId) {
         return testService.getUser(userId);
     }
 	
