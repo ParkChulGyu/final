@@ -15,7 +15,7 @@ public class TestService {
        return userRepository.findAll();
     }
 
-    public String getUser(Long userId) {
+    public String getUser(String userId) {
         return "{\n" +
                 "\t\t\"idx\": 1,\n" +
                 "\t\t\"user_id\": \"김길동\",\n" +
