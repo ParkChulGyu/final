@@ -1,9 +1,0 @@
-package repository;
-
-import domain.Member;
-
-public interface MemberRepository {
-	
-	Member save(Member memver);
-
-}

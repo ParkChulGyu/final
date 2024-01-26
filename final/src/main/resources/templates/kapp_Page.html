@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+
+	<h2>Input date you want to see</h2>
+<h3>Example: 20220101</h3>
+<form method="POST" action="/api">
+    <input type="text" name="date" th:value="${date}"/>
+    <input type="submit" value="CLick"/>
+</form>
+
+</html>
+
+
+

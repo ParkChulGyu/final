@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+
+	<h1>Data from Flask API</h1>
+
+	<table class="table">
+		<thead class="table-dark">
+			<tr class="text-center">
+				<th>Key</th>
+				<th style="width:50%">Value</th>
+			</tr>
+		</thead>
+		<tbody id="jsonDataContainer">
+
+
+		</tbody>
+	</table>
+
+
+
+	<h1>Data from Flask API</h1>
+
+
+	<table class="table">
+
+		<thead class="table-dark">
+			<tr class="text-center">
+				<th>Key</th>
+				<th style="width:50%">Value</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr class="text-center" th:each="Key, Value : ${jsonData}">
+				<td class="text-start">
+					<a th:href="#" th:text="${Key}"></a>
+					</span>
+				</td>
+			</tr>
+		</tbody>
+
+	</table>
+
+
+
+
+	<script th:inline="javascript">
+		var flaskApiUrl = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
+
+		console.log(flaskApiUrl);
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', flaskApiUrl, true);
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) {
+				if (xhr.status === 200) {
+					try {
+						var jsonData = JSON.parse(xhr.responseText);
+						console.log(jsonData);
+
+						// Thymeleaf로 표시할 요소 선택
+						var jsonDataContainer = document.getElementById('jsonDataContainer');
+
+						// Thymeleaf로 표시할 내용 설정 (테이블 형식)
+						var template = '';
+						for (var key in jsonData) {
+							template += '<tr class="text-center" ><td>' + key + '</td><td>' + jsonData[key] + '</td></tr>';
+						}
+
+						// Thymeleaf로 표시할 내용을 HTML로 설정
+						jsonDataContainer.innerHTML = template;
+
+					} catch (e) {
+						console.error('Error parsing JSON:', e);
+					}
+				} else {
+					console.error('Request failed with status:', xhr.status);
+				}
+			}
+		};
+		xhr.send();
+	</script>
+</div>
+
+</html>
+
+
+

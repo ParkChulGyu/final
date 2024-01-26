@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="repository.MemotyMemberRepository"/>
-    <fullyQualifiedTypeName name="java.lang.AssertionError"/>
-    <fullyQualifiedTypeName name="org.junit.jupiter.api.Assertions"/>
-    <fullyQualifiedTypeName name="org.junit.jupiter.api.Test"/>
-    <fullyQualifiedTypeName name="java.util.ArrayList"/>
-    <fullyQualifiedTypeName name="org.apache.catalina.Store"/>
-    <fullyQualifiedTypeName name="javax.imageio.stream.MemoryCacheImageInputStream"/>
-    <fullyQualifiedTypeName name="repository.MemberRepository"/>
-    <fullyQualifiedTypeName name="java.lang.StackWalker.Option"/>
-    <fullyQualifiedTypeName name="service.MemberService"/>
-    <fullyQualifiedTypeName name="org.assertj.core.api.Assertions"/>
-    <fullyQualifiedTypeName name="java.lang.IllegalStateException"/>
     <fullyQualifiedTypeName name="java.lang.NullPointerException"/>
     <fullyQualifiedTypeName name="org.junit.jupiter.api.AfterEach"/>
     <fullyQualifiedTypeName name="org.aspectj.lang.annotation.Before"/>
@@ -24,7 +12,6 @@
     <fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
     <fullyQualifiedTypeName name="hello.hellospring.repository.MemoryMemberRepository"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
-    <fullyQualifiedTypeName name="lombok.Getter"/>
     <fullyQualifiedTypeName name="lombok.Setter"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="hello.hellospring.service.MemberService"/>
@@ -50,8 +37,6 @@
     <fullyQualifiedTypeName name="jakarta.persistence.EntityManager"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
     <fullyQualifiedTypeName name="hello.hellospring.SpringConfig"/>
-    <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
-    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
     <fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.domain.EntityScan"/>
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
     <fullyQualifiedTypeName name="domain.Member"/>
@@ -60,4 +45,19 @@
     <fullyQualifiedTypeName name="java.lang.Override"/>
     <fullyQualifiedTypeName name="org.springframework.data.jpa.repository.config.EnableJpaRepositories"/>
     <fullyQualifiedTypeName name="org.springframework.stereotype.Repository"/>
+    <fullyQualifiedTypeName name="com.example.demo.board.BoardCreateRequestDto"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Table"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Id"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GeneratedValue"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Column"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.ManyToOne"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.CascadeType"/>
+    <fullyQualifiedTypeName name="com.example.demo.Member.Member"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.JoinColumn"/>
+    <fullyQualifiedTypeName name="groovy.transform.builder.Builder"/>
+    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.Getter"/>
+    <fullyQualifiedTypeName name="lombok.Builder"/>
 </qualifiedTypeNameHistroy>

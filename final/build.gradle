@@ -41,6 +41,11 @@ dependencies {
 
 	implementation 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	
+	
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 
 
 
