@@ -15,6 +15,8 @@ public class TouristInfo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id; // 예시로 Long 타입의 ID를 사용하였습니다. 실제로 사용하는 데이터베이스에 맞게 조정하세요.
+	
+	
 
 	private String addr1;
 	private String addr2;

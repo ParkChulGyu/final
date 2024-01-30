@@ -1,9 +1,0 @@
-package hello.hellospring.repository;
-
-import repository.MemberRepository;
-
-public class MemmoryMemberRepositoryTest {
-	
-	MemberRepository repository = new MemmoryMemberRepository
-
-}
