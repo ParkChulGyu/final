@@ -30,7 +30,7 @@ public class FlaskController {
 	
 	@GetMapping("/flask")
     public String displayPage(Model model ) {
-        return "flask_Page";
+        return "flask/flask_Page";
     }
 	
 
@@ -38,7 +38,7 @@ public class FlaskController {
     public String kappPage(Model model ) {
 		
 		
-        return "kapp_Page";
+        return "apiapp/kapp_Page";
     }
 	
 	

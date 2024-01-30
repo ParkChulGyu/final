@@ -11,35 +11,89 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 
 
 public class TourService {
 
-	private final String serviceKey = "lqQazXlaDVBCC6RSW8rmSCPJnO4+6MDm4V4e15lOP5z8TonUtOFvQJd5sW9qL1j4/PezxtDigZOOtR4lZbgcvg==";
-	private final String isX = "latitude_value";
-	private final String isY = "longitude_value";
-
-	private final String numOfRows = "10";
-	private final String pageNo = "1";
-	private final String MobileOS = "ETC";
-	private final String MobileApp = "AppTest";
-	private final String _type = "json";
-	private final String listYN = "Y";
-	private final String arrange = "A";
-	private final String keyword = "%EA%B0%95%EC%9B%90";
-	
-	
-
 	public void fetchDataFromExternalAPI() {
-		String apiUrl = String.format(
-				"https://apis.data.go.kr/B551011/KorService1",
-				serviceKey, numOfRows, pageNo,MobileOS,MobileApp,_type,listYN,arrange,keyword);
 
-		RestTemplate restTemplate = new RestTemplate();
-		String result = restTemplate.getForObject(apiUrl, String.class);
+		// URL 설정
+		String baseUrl = "https://apis.data.go.kr/B551011/KorService1/searchKeyword1";
+		String mobileOS = "ETC";
+		String mobileApp = "AppTest";
+		String keyword = "강원";
+		String serviceKey = "lqQazXlaDVBCC6RSW8rmSCPJnO4%2B6MDm4V4e15lOP5z8TonUtOFvQJd5sW9qL1j4%2FPezxtDigZOOtR4lZbgcvg%3D%3D";
+		int numOfRows = 1;
+		int pageNo = 1;
+		String listYN = "Y";
+		String arrange = "A";
+		
+		 try {
+			 
+			 String uri = baseUrl +
+					 	"?numOfRows=" + numOfRows +
+					 	"&pageNo=" + pageNo+
+	                    "&MobileOS=" + mobileOS +
+	                    "&MobileApp=" + mobileApp +
+	                    "&listYN=" + listYN+
+	                    "&arrange=" + arrange+
+	                    "&keyword=" + URLEncoder.encode(keyword, StandardCharsets.UTF_8.toString()) +
+	                    "&serviceKey=" + serviceKey;
+		        
 
-		// 이후 result를 파싱하거나 원하는 작업을 수행
-		System.out.println(result);
+		        URI finalUri = URI.create(uri);
+		        
+		        System.out.println("finalUri : "+ finalUri );
+	            
+	            // HttpClient 생성
+	            HttpClient httpClient = HttpClient.newHttpClient();
+
+	            // HttpRequest 생성
+	            HttpRequest httpRequest = HttpRequest.newBuilder()
+	            		.uri(finalUri)
+	                    .header("accept", "*/*")
+	                    .build();
+	            
+	            //System.out.println("httpRequest : "+ httpRequest );
+	            
+
+	            // HttpResponse 받기
+	            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+	            // 응답 출력
+//	            System.out.println("Response Code: " + response.statusCode());
+//	            System.out.println("Response Body: " + response.body());
+	            
+	         // JSoup을 사용하여 <title> 값을 추출
+	            Document document = Jsoup.parse(response.body());
+	            
+	            // 응답 출력
+	            //System.out.println("Response Code: " + response.statusCode());
+	            System.out.println("Response Body: " + response.body());
+	            
+	            
+	            Elements titleElements = document.select("title");
+	            
+	            if (!titleElements.isEmpty()) {
+	                for (Element titleElement : titleElements) {
+	                    String title = titleElement.text();
+	                    //System.out.println("Title: " + title);
+	                }
+	            } else {
+	                System.out.println("No <title> elements found in the response.");
+	            }
+
+	            // 응답 헤더 출력
+	            HttpHeaders headers = response.headers();
+	            headers.map().forEach((k, v) -> System.out.println(k + ":" + v));
+
+	        } catch (IOException | InterruptedException e) {
+	            e.printStackTrace();
+	        }
 	}
 	
 	public void HttpRequestExample() {
@@ -47,6 +101,7 @@ public class TourService {
 	        try {
 	            // URL 설정
 	            String url = "https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=AppTest&keyword=%EA%B0%95%EC%9B%90&serviceKey=lqQazXlaDVBCC6RSW8rmSCPJnO4%2B6MDm4V4e15lOP5z8TonUtOFvQJd5sW9qL1j4%2FPezxtDigZOOtR4lZbgcvg%3D%3D";
+	            
 	            URI uri = URI.create(url);
 
 	            // HttpClient 생성
@@ -57,6 +112,8 @@ public class TourService {
 	                    .uri(uri)
 	                    .header("accept", "*/*")
 	                    .build();
+	            
+	            System.out.println("httpRequest : "+httpRequest);
 
 	            // HttpResponse 받기
 	            HttpResponse<String> response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -73,6 +130,7 @@ public class TourService {
 	                for (Element titleElement : titleElements) {
 	                    String title = titleElement.text();
 	                    System.out.println("Title: " + title);
+	                    
 	                }
 	            } else {
 	                System.out.println("No <title> elements found in the response.");

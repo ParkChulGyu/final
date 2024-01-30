@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+    <div layout:fragment="content" class="container my-3">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<aside class="side-bar">
+  <section class="side-bar__icon-box">
+    <section class="side-bar__icon-1">
+      <div></div>
+      <div></div>
+      <div></div>
+    </section>
+  </section>
+  <ul>
+    <li>
+      <a href="#"><i class="fa-solid fa-cat"></i> 관광타입</a>
+      
+      <ul>
+        <li><a href="#">관광지 : 12</a></li>
+        <li><a href="#">문화시설 : 14</a></li>
+        <li><a href="#">축제행사 : 15</a></li>
+        <li><a href="#">여행코스 : 25</a></li>
+        <li><a href="#">레포츠 : 28</a></li>
+        <li><a href="#">숙박 : 32</a></li>
+        <li><a href="#">쇼핑 : 38</a></li>
+        <li><a href="#">음식점 : 39</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">menu2</a>
+      <ul>
+        <li><a href="#">text1</a></li>
+        <li><a href="#">text2</a></li>
+      </ul>
+    </li>
+    <li>
+</aside>
+        
+		<h5>관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점) ID </h5>
+        <h2>Input date you want to see</h2>
+        <h3>Example: 20220101</h3>
+        <form method="POST" action="/api">
+            <input type="text" name="date" th:value="${date}"/>
+            <input type="submit" value="Click"/>
+        </form>
+    </div>
+
+</html>
