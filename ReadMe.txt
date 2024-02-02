@@ -1,3 +1,7 @@
+23년 02월 02일
+ ajex 리턴을 map으로 데이터 리턴 수정
+<ul class="pagination"> 부분 구현 애러 발생
+
 23년 01월 26일
 NAVBAR 데이터 수정
 flask 페이지 까지 테스트 (flaskRun 필요)
