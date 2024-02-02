@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="왔니"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="Absolut"/>
-			<item value="ap"/>
-			<item value="ab"/>
-			<item value="sor"/>
-			<item value="root"/>
-			<item value="root "/>
-			<item value="fluid"/>
-			<item value="collapse "/>
-			<item value="httpClient"/>
-			<item value="httpRequest"/>
-			<item value="json"/>
-			<item value="Jsoup"/>
-			<item value="UriComponentsBuilder"/>
+			<item value="왔니"/>
+			<item value="end_rownum"/>
+			<item value="bnext"/>
+			<item value="bnext "/>
+			<item value="blockNum"/>
+			<item value="System"/>
+			<item value="jquery"/>
+			<item value="paging"/>
+			<item value="model"/>
+			<item value="touristList"/>
 			<item value="contentTypeId"/>
-			<item value="arrange"/>
+			<item value="Key"/>
+			<item value="resultContainer"/>
+			<item value="위치"/>
+			<item value="Absolut"/>
 		</list>
 		<list key="replacehistory">
 		</list>

@@ -15,14 +15,12 @@ footer {
             width: 100%; /* 전체 너비 차지 */
             bottom: 0; /* 하단 정렬 */
         }
-        
-/* 2차 이상의 메뉴를 숨기기 */
+ 
+ /* 2차 이상의 메뉴를 숨기기 */
 .side-bar > ul ul {
   display: none;
   list-style: none; 
 }
-
-
 
 /* 사이드바의 너비와 높이를 변수를 통해 통제 */
 :root {
@@ -35,12 +33,14 @@ footer {
   padding: 0;
   list-style: none;   	    /* 해당 태그의 list-style을 none으로 하는 것으로 ●을 제거한다 */
 
-
   position: fixed;    /* 스크롤을 따라오도록 지정 */
   background-color: black;
   width: var(--side-bar-width);
   min-height: var(--side-bar-height);   /* 사이드바의 높이를 전체 화면 높이의 90%로 지정 */
   margin-top: calc((100vh - var(--side-bar-height)) / 2);    /* 사이드바 위와 아래의 마진을 동일하게 지정 */
+  left: 5%;  /* 왼쪽 끝에 고정 */
+  top: 2%; /* 상단 정렬 */
+  transform: translateY(-30%); /* 세로 중앙 정렬 */
 }
 
 /* 모든 메뉴의 a에 속성값 부여 */
@@ -76,7 +76,6 @@ footer {
   left: 100%;     /* 2차 메뉴를 1차 메뉴의 너비만큼 이동 */
   width: 100%;    /* 1차 메뉴의 너비를 상속 */
 }
-
 
 /* 사이드바 너비의 80%만큼 왼쪽으로 이동 */
 .side-bar {

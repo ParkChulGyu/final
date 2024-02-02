@@ -1,50 +1,173 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
 
-    <div layout:fragment="content" class="container my-3">
-        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<div layout:fragment="content" class="container my-3">
 
-<aside class="side-bar">
-  <section class="side-bar__icon-box">
-    <section class="side-bar__icon-1">
-      <div></div>
-      <div></div>
-      <div></div>
-    </section>
-  </section>
-  <ul>
-    <li>
-      <a href="#"><i class="fa-solid fa-cat"></i> 관광타입</a>
-      
-      <ul>
-        <li><a href="#">관광지 : 12</a></li>
-        <li><a href="#">문화시설 : 14</a></li>
-        <li><a href="#">축제행사 : 15</a></li>
-        <li><a href="#">여행코스 : 25</a></li>
-        <li><a href="#">레포츠 : 28</a></li>
-        <li><a href="#">숙박 : 32</a></li>
-        <li><a href="#">쇼핑 : 38</a></li>
-        <li><a href="#">음식점 : 39</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#">menu2</a>
-      <ul>
-        <li><a href="#">text1</a></li>
-        <li><a href="#">text2</a></li>
-      </ul>
-    </li>
-    <li>
-</aside>
-        
-		<h5>관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점) ID </h5>
-        <h2>Input date you want to see</h2>
-        <h3>Example: 20220101</h3>
-        <form method="POST" action="/api">
-            <input type="text" name="date" th:value="${date}"/>
-            <input type="submit" value="Click"/>
-        </form>
-    </div>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+	<aside class="side-bar">
+		<section class="side-bar__icon-box">
+			<section class="side-bar__icon-1">
+				<div></div>
+				<div></div>
+				<div></div>
+			</section>
+		</section>
+		<ul>
+			<li>
+				<a href="#"><i class="fa-solid fa-cat"></i> 관광타입</a>
+
+				<ul>
+					<li><a href="#" class="ajax-link" contentTypeId="12">관광지 : 12</a></li>
+					<li><a href="#" class="ajax-link" contentTypeId="14">문화시설 : 14</a></li>
+					<li><a href="#" class="ajax-link" contentTypeId="15">축제행사 : 15</a></li>
+					<li><a href="#" class="ajax-link" contentTypeId="25">여행코스 : 25</a></li>
+					<li><a href="#" class="ajax-link" contentTypeId="28">레포츠 : 28</a></li>
+					<li><a href="#" class="ajax-link" contentTypeId="32">숙박 : 32</a></li>
+					<li><a href="#" class="ajax-link" contentTypeId="38">쇼핑 : 38</a></li>
+					<li><a href="#" class="ajax-link" contentTypeId="39">음식점 : 39</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">menu2</a>
+				<ul>
+					<li><a href="#">text1</a></li>
+					<li><a href="#">text2</a></li>
+				</ul>
+			</li>
+			<li>
+	</aside>
+	<!--
+	여기부터 아래까지 임시 데이터
+	-->
+	<h5>관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점) ID </h5>
+	<h2>Input date you want to see</h2>
+	<h3>Example: 20220101</h3>
+	<form method="POST" action="/api">
+		<input type="text" name="date" th:value="${date}" />
+		<input type="submit" value="Click" />
+	</form>
+	<!--
+	여기부터 여기까지 임시 데이터
+	-->
+
+
+	<div class="list_wrap">
+		<ul id="touristList">
+			<li th:each="tourist, tourist1Stat : ${touristDTOList}" th:class="'item item' + ${tourist1Stat.index + 1}">
+				<div class="image">
+					<img th:src="${tourist.firstimage}" class="images" />
+				</div>
+				<div class="cont">
+					<strong th:text="${tourist.title}"></strong>
+					<p th:text="${tourist.addr1}"></p>
+					<a href="#">바로가기</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<div>
+	<ul id="paginationContainer"></ul>
+	</div>
+
+
+
+
+	<script>
+		$(document).ready(function () {
+			$(".ajax-link").click(function (e) {
+
+				var contentTypeId = $(this).attr('contentTypeId');
+
+				console.log("contentTypeId = " + contentTypeId);
+
+				e.preventDefault();
+				$.ajax({
+					type: "GET",
+					url: "/api/updateList", // 컨트롤러의 엔드포인트 주소
+					data: {
+						
+						contentTypeId: contentTypeId,
+													},
+					success: function (data) {
+						// AJAX 성공 시 처리
+
+						var jsonData = JSON.parse(data);
+
+						console.log(jsonData); // 여긴 왔어
+						console.log(jsonData.touristDTO.length); // 여긴 왔어
+						console.log(jsonData.numOfRows); // 여긴 왔어
+						console.log(jsonData.pageNo); // 여긴 왔어
+						console.log(jsonData.totalCount); // 여긴 왔어
+						console.log(jsonData.pagingDTO); // 여긴 왔어
+						//$("#resultContainer").html(data);
+						
+						
+
+						// JSON 데이터를 받아와서 동적으로 HTML 생성
+						var html = "";
+
+						for (var i = 0; i < jsonData.touristDTO.length; i++) {
+							var tourist = jsonData.touristDTO[i];
+							html += '<li class="item item' + (i + 1) + '">';
+							html += '<div class="image"><img src="' + tourist.firstimage + '" class="images" /></div>';
+							html += '<div class="cont">';
+							html += '<strong>' + tourist.title + '</strong>';
+							html += '<p>' + tourist.addr1 + '</p>';
+							html += '<a href="#">바로가기</a>';
+							html += '</div></li>';
+						}
+
+						// 생성된 HTML을 #touristList에 삽입
+						$("#touristList").html(html);
+						
+						createPagination(jsonData.pagingDTO);
+
+
+					},
+					error: function () {
+						// AJAX 실패 시 처리
+						alert("Failed to load data");
+					}
+				});
+			});
+		});
+		
+		
+		function createPagination(pagingDTO) {
+			console.log("pagingDTO.prev 왔니?" + pagingDTO.prev);
+			
+                var paginationHtml = ""
+               	
+               	paginationHtml += '<ul class="pagination">';
+
+                if (pagingDTO.prev) {
+                    paginationHtml += '<li class="page-btn"><a href="#">이전</a></li>';
+                }
+
+                for (var i = 0; i < pagingDTO.blockNum; i++) {
+                    if (pagingDTO.startPage[i] === pagingDTO.blockNum ) {
+                        paginationHtml += '<li class="page-btn"><a href="javascript:void(0);" style="cursor: default;">' + pagingDTO.startPage[i] + '</a></li>';
+                    } else {
+                        paginationHtml += '<li class="page-btn"><a href="#">' + pagingDTO.startPage[i] + '</a></li>';
+                    }
+                }
+
+                if (pagingDTO.next) {
+                    paginationHtml += '<li class="page-btn"><a href="#">다음</a></li>';
+                }
+
+                paginationHtml += '</ul>';
+
+				// console.log("paginationHtml 잘 왔니?" + paginationHtml);
+                // 페이지네이션을 원하는 위치에 추가
+                $('#paginationContainer').html(paginationHtml);
+            }
+            
+	</script>
+	
+</div>
+
+
 
 </html>
