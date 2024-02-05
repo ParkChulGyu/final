@@ -1,15 +1,13 @@
 회원  
 
 DTO
-user_idx
-user_id
-user_pw
-user_phone
-user_nick
-user_email
-user_birth
-user_sysdate
-user_grade
+id
+username
+password
+email
+phone
+nick
+birth
 
 ------------------------------
 페이지
@@ -24,9 +22,9 @@ user_grade
 
 ------------------------
 
-회원가입 페이지( ) 
+회원가입 페이지( O ) 
 
-로그인 페이지( )
+로그인 페이지( O )
 
 카카오톡 로그인( ),  (          )   ( )
 

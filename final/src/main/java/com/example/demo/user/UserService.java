@@ -1,8 +1,8 @@
 package com.example.demo.user;
 
+import java.sql.Date;
 import java.util.Optional;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,23 @@ public class UserService {
 	
 	 private final UserRepository userRepository;
 	 private final PasswordEncoder passwordEncoder;
-	    public SiteUser create(String username, String email, String password) {
+
+	 
+	 
+	 public void withdrawUser(String username) {
+	        SiteUser user = userRepository.findByusername(username)
+	                .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+	        userRepository.delete(user);
+	    }   
+	 
+	 public SiteUser create(String username, String phone, String nick, Date birth, String email, String password) {
 	        SiteUser user = new SiteUser();
 	        user.setUsername(username);
-	        user.setEmail(email);
+            user.setPhone(phone);
+            user.setBirth(birth);
+            user.setNick(nick);
+            user.setEmail(email);
 //	        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 //	        빈에 설정해놓고 new하지 않고 사용하는 거
 	        user.setPassword(passwordEncoder.encode(password));
@@ -32,7 +45,14 @@ public class UserService {
 	            return siteUser.get();
 	        } else {
 	            throw new DataNotFoundException("siteuser not found");
+	        
+	        
+	            
+	            
 	        }
+	        
+	        
+	        
 	    }
 
 }
