@@ -26,7 +26,6 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "signup_form";
         }
-        System.out.println("여기오니");
 
         if (!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect", 
@@ -35,11 +34,10 @@ public class UserController {
         }
         try {
         userService.create(userCreateForm.getUsername(), 
-        		userCreateForm.getPhone(),userCreateForm.getNick(), userCreateForm.getBirth(),
-        		userCreateForm.getEmail(), userCreateForm.getPassword1());
+                userCreateForm.getEmail(), userCreateForm.getPassword1());
         }catch(DataIntegrityViolationException e) {
             e.printStackTrace();
-         bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
             return "signup_form";
         }catch(Exception e) {
             e.printStackTrace();
@@ -55,6 +53,4 @@ public class UserController {
         return "login_form";
     }
   
-    
-    
 }

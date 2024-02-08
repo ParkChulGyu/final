@@ -1,6 +1,8 @@
 package com.example.demo.question;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,8 @@ public class QuestionController {
 	
 	private final QuestionService questionService;
 	 private final UserService userService;
+	 private final FileService fileService;
+	    private final FileUtils fileUtils;
 	
 	@GetMapping("/list")
     public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -44,41 +48,55 @@ public class QuestionController {
        
 		Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
-		
 		return "question_detail";
     }
 	
 	@GetMapping("/create")
-    public String questionCreate(QuestionForm questionForm) {
+    public String questionCreate(QuestionForm questionForm, Question question,Model model) {
+		model.addAttribute("question", question);
         return "question_form";
     }
 	@PostMapping("/create")
-    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult,@RequestParam(value="subject") String subject, @RequestParam(value="content") String content,Principal principal) {
+    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult,@RequestParam(value="subject") String subject, @RequestParam(value="content") String content,Principal principal,PostRequest params, Model model) {
 		if (bindingResult.hasErrors()) {
             return "question_form";
         }
 		
+		
 		SiteUser siteUser = this.userService.getUser(principal.getName());
 		
-		this.questionService.create(questionForm.getSubject(), questionForm.getContent(),siteUser); // TODO 질문을 저장한다.
-        return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
-    }
+		Integer id = this.questionService.create(questionForm.getSubject(), questionForm.getContent(),siteUser); // TODO 질문을 저장한다.
+       
+		List<FileRequest> files = fileUtils.uploadFiles(params.getFiles());
+		
+		Question question = this.questionService.getQuestion(id);
+		
+		fileService.saveFiles(question, files);
+		
+		
+		
+		return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
+    
+		
+	
+	}
 	
 	@PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
+    public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal,Model model) {
         Question question = this.questionService.getQuestion(id);
         if(!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         questionForm.setSubject(question.getSubject());
         questionForm.setContent(question.getContent());
+        model.addAttribute("question", question);
         return "question_form";
     }
 	@PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult, 
-            Principal principal, @PathVariable("id") Integer id) {
+            Principal principal, @PathVariable("id") Integer id,final PostRequest params) {
         if (bindingResult.hasErrors()) {
             return "question_form";
         }
@@ -87,6 +105,31 @@ public class QuestionController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        
+        
+        System.out.println(params.getRemoveFileIds());
+        System.out.println(params.getFiles());
+        // 2. 파일 업로드 (to disk)
+        List<FileRequest> uploadFiles = fileUtils.uploadFiles(params.getFiles());
+
+        // 3. 파일 정보 저장 (to database)
+        fileService.saveFiles(question, uploadFiles);
+
+        // 4. 삭제할 파일 정보 조회 (from database)
+        List<FileRequest> deleteFiles = new ArrayList<>(); 
+        for (Long Id : params.getRemoveFileIds()) {
+        	deleteFiles.add(fileService.findAllFileById(Id));
+        
+        }
+        System.out.println("중간 정검 이거 되니?" + deleteFiles);
+        // 5. 파일 삭제 (from disk)
+        fileUtils.deleteFiles(deleteFiles);
+
+        // 6. 파일 삭제 (from database)
+        fileService.deleteAllFileByIds(params.getRemoveFileIds());
+        
+        
+        
         return String.format("redirect:/question/detail/%s", id);
     }
 	

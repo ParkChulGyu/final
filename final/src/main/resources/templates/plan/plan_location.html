@@ -1,0 +1,387 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>갈 곳 정하기</title>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
+	<style>
+		ul {
+			text-align: center;
+			/* 부모 요소에 수평 중앙 정렬 적용 */
+			list-style: none;
+			/* 리스트 스타일 제거 */
+		}
+
+
+		.left_full_box {
+			height: 100%;
+
+		}
+
+		.left_day_set {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 14%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+
+			/* 내용과 테두리 사이의 여백 조절 */
+
+		}
+
+		.schedule_full_box {
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 14%;
+			width: 14%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+			padding: 20px;
+			/* 내용과 테두리 사이의 여백 조절 */
+		}
+
+
+
+		.pn_date {
+
+			width: 100%;
+			height: 50px;
+			line-height: 50px;
+			background: #203341;
+			color: #fff;
+			text-align: center;
+			border-bottom: solid 1px #374854;
+			font-size: 12px;
+			cursor: pointer;
+
+		}
+
+		.cat_menu li {
+			width: 100%;
+			height: 70px;
+			background: #203341;
+			color: #fff;
+			text-align: center;
+			border-bottom: solid 1px #374854;
+			font-size: 12px;
+			cursor: pointer;
+		}
+
+		.title_box {
+			width: 265px;
+			height: 50px;
+			background: #707070;
+			color: #fff;
+			line-height: 50px;
+			font-size: 15px;
+			font-weight: bold;
+			padding: 0px 10px;
+		}
+
+
+		#day_optimize_btn {
+			width: 265px;
+			height: 30px;
+			text-align: center;
+			line-height: 30px;
+			border: solid #3099dd 1px;
+			margin-left: 10px;
+			cursor: pointer;
+			background: #49b2e9;
+			padding-left: 5px;
+			color: #fff;
+			margin: 10 0 10 0;
+		}
+
+		#city_list {
+
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 28%;
+			width: 14%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+			padding: 20px;
+			/* 내용과 테두리 사이의 여백 조절 */
+		}
+	</style>
+</head>
+
+<body>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+
+	<div id="map_city" style="flex:1;height:100%;">
+
+		<div id="map" style="flex:1;height:100%;"></div>
+		<div id="city_list">
+
+
+			<div id="list_box" style="height: 637px; overflow-y: scroll;">
+
+			</div>
+		</div>
+	</div>
+
+	<div class="left_full_box">
+		<div class="left_day_set">
+
+			<ul class="pn_title_box" style="width: 200px;background: #203341; padding-left: 0px; ">
+				<li class="pn_date">
+					<div class="full_date_info" style="display:inline-block"></div>
+					<div class="fl day_edit_start_btn"
+						style="display:inline-block;margin-top: 18px;margin-left: 10px;background: url(https://www.earthtory.com/res/img/workspace/new/cat_set_icon.png) no-repeat;padding-left: 18px;line-height: 15px;">
+						EDIT</div>
+				</li>
+
+			</ul>
+			<ul class="cat_menu" id="cat_menu"
+				style="width: 200px;height: 600px;background: #203341;overflow-y: auto;padding-left: 0px;">
+				<li id="show_all_day" style="line-height: 70px;font-size: 15px !important;">전체 일정 보기</li>
+
+			</ul>
+			<ul id="cat_add_box"
+				style="width: 160px; background: rgb(32, 51, 65); color: rgb(255, 255, 255); height: 409px; text-align: center;">
+				<li style="padding-top:15px; ">
+					<div style="width:124px;height:32px;line-height:32px;border:solid 1px #fff;text-align:center;margin:0 auto;cursor:pointer;"
+						onclick="add_plan_day()">Day 추가</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="schedule_full_box">
+			<div class="title_box" id="title_box">
+
+			</div>
+			<div id="day_controll_btn_box">
+				<div id="day_optimize_btn">경로 최적화</div>
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=362b656b5b93008aab3b5504dea7f99d"></script>
+
+
+
+	<script type='text/javascript' th:inline="javascript">
+
+
+
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center: new kakao.maps.LatLng(37.715133, 126.734086), // 지도의 중심좌표
+				level: 8 // 지도의 확대 레벨
+			};
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+
+		window.onload = () => {
+			left_day_set();
+
+		}
+
+
+
+		var start_sub;
+		var end_sub;
+		var start = new Date(/*[[${start}]]*/ null);
+		var end = new Date(/*[[${end}]]*/ null);
+		var check_day = 1;
+		function left_day_set() {
+			var set_daylist =  /*[[${set_daylist}]]*/[];
+			var data_list = {}
+			start_sub = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+			end_sub = end.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+
+
+
+			$(".full_date_info").text(start_sub + " ~ " + end_sub);
+
+			start.setDate(start.getDate() - 1);
+
+			for (var item of set_daylist) {
+				for (var i = 0; i < parseInt(item.day); i++) {
+
+					start.setDate(start.getDate() + 1);
+					start_day = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+
+					var div = $(
+						`<li data = "` + check_day + `" data-date="` + start_day + `" data-f_lat="` + item.lat + `" data-f_lng="` + item.lng + `" original-title="` + item.location + `" onclick="open_right_box(this),open_city(this)">
+							<div class="cat_date_left_day">
+								<div class="cat_left_day">DAY`+ check_day + `</div>
+								<div class="cat_left_date">`+ start_day + `</div>
+							</div>
+							<div class="cat_date_right_box">
+								<div class="cat_right_weekday">묙요일</div>
+								<div class="cat_right_city">`+ item.location + `</div>
+							</div>
+						</li>`
+
+
+					)
+					$('#cat_menu').append(div);
+					check_day++;
+				}
+			}
+
+
+		}
+
+
+		function add_plan_day() {
+			start.setDate(start.getDate() + 1);
+			end.setDate(end.getDate() + 1);
+			start_add_day = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+			end_add_day = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+			var add_div = $(
+				`<li data = "` + check_day + ` "data-date="` + start_add_day + `" data-f_lat="" data-f_lng="" original-title="" onclick="open_right_box(this),open_city(this)">
+							<div class="cat_date_left_day">
+								<div class="cat_left_day">DAY`+ check_day + `</div>
+								<div class="cat_left_date">`+ start_add_day + `</div>
+							</div>
+							<div class="cat_date_right_box">
+								<div class="cat_right_weekday">묙요일</div>
+								<div class="cat_right_city"></div>
+							</div>
+						</li>`
+
+
+			)
+			$('#cat_menu').append(add_div);
+			check_day++;
+
+			$(".full_date_info").text(start_sub + " ~ " + end_add_day);
+		}
+
+
+		function open_right_box(e) {
+			$('.schedule_full_box').css('display', 'block');
+
+			var data = $(e).attr("data");
+			var date = $(e).attr("data-date");
+			console.log(data);
+				$('#title_box').empty();
+			var schedule_make = $(
+				`<div class="schedule_detail_title" data-date="` + date + `">
+				 <div class="schedule_detail_title_text" style="width:150px;padding-left:10px;font-size:15px;display:inline-block;">
+					 <div class="schedule_detail_title_text_text">
+						 Day`+ data + `  <span style="color:#999999">|</span>  ` + date + `
+						 
+					 </div>
+				 </div>
+				 <div class="day_reset_btn" style="display:inline-block; width: 20px;height: 20px;background: url(https://www.earthtory.com/res/img/workspace/_day_reset_icon.png) no-repeat;background-size: 20px 20px;margin-top: 14px;margin-left: 3px;cursor: pointer;"></div>
+				 <div class="day_prev_btn" style="display:inline-block; width: 22px;height: 24px;border: solid #fff 1px;background: url(https://www.earthtory.com/res/img/workspace/_prev_icon.png) no-repeat 6px 6px;margin-top: 13px;cursor: pointer;"></div>
+				 <div class="day_next_btn" style="display:inline-block; width: 22px;height: 24px;border: solid #fff 1px;background: url(https://www.earthtory.com/res/img/workspace/_next_icon.png) no-repeat 6px 6px;margin-top: 13px;cursor: pointer;"></div>
+			 </div>`
+			)
+			$('#title_box').append(schedule_make);
+
+		}
+
+		function open_city(e) {
+			var location = $(e).attr("data-original-title");
+			var city_lat = $(e).attr("data-f_lat");
+			var city_lng = $(e).attr("data-f_lng");
+			// 지도 중심을 부드럽게 이동시킵니다
+			var moveLatLon = new kakao.maps.LatLng(city_lat, city_lng);
+
+
+
+
+			$.ajax({
+				url: '/plan/call_list_box', // 요청을 보낼 URL
+				method: "get", // HTTP 메서드 (GET, POST 등)
+				data: {
+					city_lat: city_lat,
+					city_lng: city_lng
+
+				}, // 요청에 포함할 데이터 (선택 사항)
+				success: function (list_box) {
+					// 요청이 성공한 경우 실행할 코드
+						$('#list_box').empty();
+					for (var i = 0; i < list_box.length; i++) {
+						var title = list_box[i].title;
+						var image = list_box[i].firstimage;
+						var cat2 = list_box[i].cat2;
+						var cat3 = list_box[i].cat3;
+						
+						var put_box = $(
+							`<div class="day_spot_item" style="padding: 15px;cursor: move;border-bottom: solid #a7a7a7 1px;background: #fff;width: 100%;position: relative;">
+								<div class="img_box" style = "width: 82px; height: 75px;position: relative;cursor: pointer;">
+									<img style = "width: 82px; height: 75px;"src="`+image+`">
+								</div>
+								<div class="info_box" style = "padding-left: 10px;width: 153px; ">
+									<div class="title">`+title+`</div>
+									<div class="sub_title">`+cat2+`,`+cat3+`</div>
+								</div>
+								<div class="spot_to_inspot" style="cursor: pointer;position: absolute;top: 15px;right: 15px;">
+									<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+									
+								</div>
+							</div>`
+						)
+						
+						$('#list_box').append(put_box);
+					}
+
+
+
+				},
+				error: function (xhr, status, error) {
+					// 요청이 실패한 경우 실행할 코드
+					console.error('Error:', error);
+				}
+			});
+
+			map.panTo(moveLatLon);
+			$('#city_list').css('display', 'block');
+
+
+		}
+
+
+	</script>
+
+
+</body>
+
+</html>

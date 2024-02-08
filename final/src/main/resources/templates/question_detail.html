@@ -18,14 +18,17 @@
 						<span th:if="${question.author != null}" th:text="${question.author.username}"></span>
 					</div>
 					<div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+
+
 				</div>
 			</div>
+			<div id="files">첨부파일</div>
 			<div class="my-3">
 				<a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                th:data-uri="@{|/question/vote/${question.id}|}">
-                추천
-                <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
-            	</a>
+					th:data-uri="@{|/question/vote/${question.id}|}">
+					추천
+					<span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+				</a>
 				<a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
 					sec:authorize="isAuthenticated()"
 					th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
@@ -57,10 +60,10 @@
 			</div>
 			<div class="my-3">
 				<a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                th:data-uri="@{|/answer/vote/${answer.id}|}">
-                추천
-                <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
-            </a>
+					th:data-uri="@{|/answer/vote/${answer.id}|}">
+					추천
+					<span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+				</a>
 				<a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
 					sec:authorize="isAuthenticated()"
 					th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
@@ -82,6 +85,11 @@
 		<input type="submit" value="답변등록" class="btn btn-primary my-2">
 	</form>
 </div>
+
+
+
+
+<script layout:fragment="script" type='text/javascript' src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script layout:fragment="script" type='text/javascript'>
 	const delete_elements = document.getElementsByClassName("delete");
 	Array.from(delete_elements).forEach(function (element) {
@@ -91,15 +99,82 @@
 			};
 		});
 	});
-	
-const recommend_elements = document.getElementsByClassName("recommend");
-Array.from(recommend_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        if(confirm("정말로 추천하시겠습니까?")) {
-            location.href = this.dataset.uri;
-        };
-    });
-});
+
+	const recommend_elements = document.getElementsByClassName("recommend");
+	Array.from(recommend_elements).forEach(function (element) {
+		element.addEventListener('click', function () {
+			if (confirm("정말로 추천하시겠습니까?")) {
+				location.href = this.dataset.uri;
+			};
+		});
+	});
+
+
+</script>
+
+<script layout:fragment="script" type='text/javascript' th:inline="javascript">
+	// 전체 파일 조회
+	function findAllFile() {
+
+
+		var postId = /*[[${question.id}]]*/ null;
+		console.log("dfdf 체크" + postId)
+		const url = `file/posts/${postId}`;
+
+		$.ajax({
+			url: '/file/posts',
+			type: 'get',
+			data: {
+				postId: postId
+			},
+			success: function (response) {
+
+
+
+				console.log("response 확인" + response.g)
+				// 3. 파일 영역 추가
+				let fileHtml = '<div class="file_down"><div class="cont">';
+				response.forEach(row => {
+					
+					fileHtml += `<a href="/file/download/${row.id}"><span class="icons"><i class="fas fa-folder-open"></i></span>${row.originalName},${row.id}</a><br>`;
+				})
+				fileHtml += '</div></div>';
+				// 4. 파일 HTML 렌더링
+				document.getElementById('files').innerHTML = fileHtml;
+
+
+			}
+
+		})
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	window.onload = () => {
+		findAllFile();
+		var postId = /*[[${question.id}]]*/ null;
+
+	}
 </script>
 
 </html>

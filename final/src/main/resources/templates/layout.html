@@ -8,31 +8,18 @@
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
     <!-- sbb CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-    <!--side bar css-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-     <!--card List css-->
-     <link rel="stylesheet" type="text/css"  th:href="@{/style3.css}">
-     <!--jquery-->
-     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> 
     <title>Hello, sbb!</title>
+     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 <!-- 네비게이션바 -->
 <nav th:replace="~{navbar :: navbarFragment}"></nav>
-
-
-<!-- 사이드바 -->
-
+	
+	
+	
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
-
 <th:block layout:fragment="content"></th:block>
-
-
-<!-- 푸터 -->
-<footer th:replace="~{footer :: footerFragment}"></footer>
-
-
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
 <script th:src="@{/bootstrap.min.js}"></script>
 <!-- 자바스크립트 Start -->

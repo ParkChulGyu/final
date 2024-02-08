@@ -1,0 +1,755 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>시간 정하기</title>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
+	<style>
+		#modal {
+			display: none;
+			position: relative;
+			width: 100%;
+			height: 100%;
+			z-index: 1;
+		}
+
+		#modal h2 {
+			margin: 0;
+		}
+
+		#modal button {
+			display: inline-block;
+			width: 100px;
+			margin-left: calc(100% - 100px - 10px);
+		}
+
+		#modal .modal_content {
+			width: 300px;
+			margin: 100px auto;
+			padding: 20px 10px;
+			background: #fff;
+			border: 2px solid #666;
+		}
+
+		#modal .modal_layer {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			z-index: -1;
+		}
+
+
+		#modalBackground {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.5);
+			display: none;
+			/* 초기에는 숨김 상태 */
+			z-index: -1;
+			/* 모달보다 위에 표시되도록 설정 */
+		}
+
+		.calendar {
+			width: 100% !important;
+			height: 300px !important;
+		}
+
+		#selectionContainer {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 14%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+			padding: 20px;
+			/* 내용과 테두리 사이의 여백 조절 */
+		}
+
+		#select_detail_view_city {
+			position: absolute;
+			top: 100px;
+			left: 355px;
+			height: 250px;
+			width: 300px;
+			background: #fff;
+			border-radius: 5px;
+			z-index: 999;
+			padding: 15px;
+			display: none;
+
+
+
+
+
+
+
+		}
+
+		.s_cities:first-child .city_route_info {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+
+
+
+	<div id="map" style="flex:1;height:100%; z-index: 1"></div>
+
+
+	<div id="selectionContainer">
+		<!-- 왼쪽에 선택할 콘텐츠를 추가하세요 -->
+		<h2 style="margin-left: 68px;margin-top: 5.92;">대한민국</h2>
+
+
+		<input style="margin-left: 33px;" type="text" name="styledDates" />
+
+		<div class="blankfill" style="width:100%;height:51px;border-bottom:solid #d6d6d6 1px;"></div>
+
+		<div id="city_list_box">
+			<div class="item" style="padding : 15px; border-bottom: solid #a7a7a7 1px; display: flex;">
+				<div class="img_box" style="float:left;">
+					<img src="http://img.earthtory.com/img/city_images/310/seoul_1425373106.jpg"
+						style="width: 150px; height: 100px;">
+				</div>
+				<div class="info_box" style="float:left;">
+					<div class="info_title" style="">서울</div>
+					<div class="info_sub_title" style="">Seoul</div>
+				</div>
+				<div class="spot_to_inspot" data-lat="37.56653500" data-lng="126.97796920" location="서울"
+					onclick="day_where_plan(this)">
+					<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+				</div>
+			</div>
+
+			<div class="item" style="padding : 15px; border-bottom: solid #a7a7a7 1px; display: flex;">
+				<div class="img_box" style="float:left;">
+					<img src="http://img.earthtory.com/img/city_images/311/busan_1425371432.jpg"
+						style="width: 150px; height: 100px;">
+				</div>
+				<div class="info_box" style="float:left;">
+					<div class="info_title" style="">부산</div>
+					<div class="info_sub_title" style="">Busan</div>
+				</div>
+				<div class="spot_to_inspot" data-lat="35.17955430" data-lng="129.07564160" location="부산"
+					onclick="day_where_plan(this)">
+					<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+				</div>
+			</div>
+
+			<div class="item" style="padding : 15px; border-bottom: solid #a7a7a7 1px; display: flex;">
+				<div class="img_box" style="float:left;">
+					<img src="https://lh5.googleusercontent.com/p/AF1QipNdler-7-K4mlaGNUsHBZVp0R_J9OWXfSehUwvi=w540-h312-n-k-no"
+						style="width: 150px; height: 100px;">
+				</div>
+				<div class="info_box" style="float:left;">
+					<div class="info_title">인천</div>
+					<div class="info_sub_title">Incheon</div>
+				</div>
+				<div class="spot_to_inspot" data-lat="37.45625570" data-lng="126.70520620" location="인천"
+					onclick="day_where_plan(this)">
+					<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+
+	<div class="select_detail_view_city" id="select_detail_view_city">
+		<div class="select_detail_top">
+			<div class="where_to_travel" style=" display: inline-block;">여행도시</div>
+			<div class="day_to_travel" style=" display: inline-block;"></div>
+		</div>
+
+		<div id="selected_cities"
+			style="overflow-y: auto; max-height: 689px; width: 100%; padding: 0px 15px;padding-top: 20px; padding-bottom: 20px ">
+
+		</div>
+
+		<div class="select_detail_button">
+			<button onclick="nextpatge()">상세 일정 만들기</button>
+		</div>
+
+	</div>
+
+
+
+	<p>
+		<button onclick="setCenter()">지도 중심좌표 이동시키기</button>
+		<button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button>
+	</p>
+
+
+
+	<div id="modalBackground"></div>
+
+	<div id="root">
+
+		<button type="button" id="modal_opne_btn">모달 창 열기</button>
+
+	</div>
+
+
+	<div id="modal">
+
+		<div class="modal_content">
+			<h2>모달 창</h2>
+
+			<p>모달 창 입니다.</p>
+
+			<div class="modal_change" id="modal_change"></div>
+			<button type="button" id="modal_close_btn">모달 창 닫기</button>
+
+		</div>
+
+		<div class="modal_layer"></div>
+	</div>
+
+
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=362b656b5b93008aab3b5504dea7f99d"></script>
+
+
+
+	<script>
+
+		window.onload = function () {
+
+			$('input[name="styledDates"]').data('daterangepicker').show();
+
+
+		};
+
+
+		var check = 0;
+		var daycount;
+		var start;
+		var end;
+	
+		function day_where_plan(e) {
+
+			var lat = parseFloat($(e).attr("data-lat"));
+			var lng = parseFloat($(e).attr("data-lng"));
+			var latlng = new kakao.maps.LatLng(lat, lng);
+
+			start = $(e).attr("start-date");
+			end = $(e).attr("end-date");
+			daycount = $(e).attr("daycount");
+			var location = $(e).attr("location");
+			
+			check++;
+
+						console.log("start" + start);
+						console.log("start" + end);
+						
+						if (start === undefined || end === undefined) {
+							alert("출발일과 도착일을 먼저 정해주세요");
+							return;
+						}
+
+			//	var daycount = $(".city_set_day_info" + check_day).find('span').text();
+
+
+			$('.day_to_travel').html(daycount - 1 + '박' + daycount + '일');
+
+
+			$('#select_detail_view_city').css('display', 'block');
+
+
+			var newDiv = $(
+				`<div class="s_cities checknumber` + check + `">
+      					 
+      					 <div class="city_route_info" style="background: url(https://www.earthtory.com/res/img/workspace/new/item_route_bg.png) no-repeat 20px 0px; padding-left :63px; height:41px;" >
+							  <div class="city_distance_info`+ check + `" style="padding-top:12px">얼마가 될까</div>
+						   </div>
+      					 
+      					 
+      					 
+      					  <div class="city_info" style="background: #efefef; color: #555555; font-size: 15px; border-radius: 5px ;line-height: 39px; width: 270px;">
+           					 <div class="del_city_btn" style=" display: inline-block; margin-left: 5" onclick="deleteCity($('.checknumber'+`+ check + `),` + lng + `,` + lat + `,` + check + `)">
+                				<img src="https://www.earthtory.com/res/img/workspace/new/del_city_btn_a.png">
+           					 </div>
+           					 <div class="fl" style=" display: inline-block;">`+ location + `</div>
+           					 <div class="city_set_day_box" style="float:right; margin-right: 10px">
+									<div class="city_set_minus_btn" style=" display: inline-block;" onclick="set_minus_day(this)" check_day = "`+ check + `">
+										<img src="https://www.earthtory.com/res/img/workspace/new/city_item_minus_btn.png">
+									</div>
+									<div class="city_set_day_info`+ check + ` check_block" style=" display: inline-block;" lat="`+lat+`"  lng="`+lng+`"  array_location="`+location+`"><span>2</span>일</div>
+									<div class="city_set_day_info" style=" display: inline-block;" onclick="set_plus_day(this)" check_day = "`+ check + `">
+										<img src="https://www.earthtory.com/res/img/workspace/new/city_item_plus_btn.png">
+									</div>
+							 </div>
+       					 </div>
+   					 </div>`
+			);
+
+			$('#selected_cities').append(newDiv);
+
+			// 요소의 현재 높이를 가져옵니다.
+			//		var currentHeight = $("#select_detail_view_city").height();
+
+			// 비례적으로 높이를 증가시킵니다 (예시로 10%씩 늘립니다).
+			//			var proportionalHeight = currentHeight * 1.1;
+
+			// 요소의 높이를 설정합니다.
+			//		$("#select_detail_view_city").height(proportionalHeight);
+
+			// existingDiv 안에 새로운 div 추가
+
+
+
+
+
+			var markerPosition = new kakao.maps.LatLng(lat, lng);
+
+			var marker = new kakao.maps.Marker({
+				position: markerPosition
+			});
+
+			marker.setMap(map);
+
+
+			//함수 호출
+			addMarker(latlng, check);
+
+
+
+
+		}
+
+
+
+		function check_day_limit() {
+
+
+
+
+			// 모든 check_block 클래스를 가진 div 요소를 선택합니다.
+			var divs = document.querySelectorAll('.check_block');
+			var sum = 0;
+
+			// 각 div 요소의 값을 가져와 합을 계산합니다.
+			divs.forEach(function (div) {
+				// div 요소의 값을 가져와 정수로 변환하여 합에 더합니다.
+				var value = parseInt(div.innerText.trim());
+				sum += value;
+			});
+				
+			// 합이 daycount 변수의 값보다 크거나 같으면 알림을 표시하고 작동을 멈춥니다.
+			if (sum > daycount) {
+				
+
+				return false;
+
+			}
+
+			return true;
+
+
+
+
+		};
+
+
+
+
+
+		function deleteCity(element, lat, lng, check) {
+			var latlng_in = new kakao.maps.LatLng(lat, lng);
+			var targetLat = latlng_in.getLat().toFixed(7); // 삭제할 위치의 위도를 소수점 아래 7자리까지 표시
+			var targetLng = latlng_in.getLng().toFixed(7); // 삭제할 위치의 경도를 소수점 아래 7자리까지 표시
+
+
+
+
+
+
+			for (var i = 0; i < markers.length; i++) {
+
+
+
+				var markerLat = markers[i].getPosition().getLat().toFixed(7); // 마커의 위도를 소수점 아래 7자리까지 표시
+				var markerLng = markers[i].getPosition().getLng().toFixed(7); // 마커의 경도를 소수점 아래 7자리까지 표시
+
+
+
+				if (markerLat === targetLng && markerLng === targetLat) { // 마커의 위치를 비교합니다.
+					markers[i].setMap(null); // 마커를 지도에서 제거합니다.
+					markers.splice(i, 1); // 배열에서 해당 마커를 제거합니다.
+					redrawMap(check);
+
+
+
+
+
+
+
+					$(element).remove();
+					break;
+				}
+			}
+
+		}
+
+
+		function redrawMap(check) {
+			// 이전 지도 객체를 제거합니다.
+			//	map.delete();
+
+			// 새로운 지도 객체를 생성합니다.
+
+			map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+			// 남아있는 마커들을 다시 지도에 표시합니다.
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(map);
+				var markerLat = markers[i].getPosition().getLat().toFixed(7); // 마커의 위도를 소수점 아래 7자리까지 표시
+				var markerLng = markers[i].getPosition().getLng().toFixed(7); // 마커의 경도를 소수점 아래 7자리까지 표시
+				var latlng_in = new kakao.maps.LatLng(markerLat, markerLng);
+				//addMarker(latlng_in, check);
+			}
+			drawPolyline(check)
+
+		}
+
+
+
+
+		function drawPolyline(check) {
+
+			previousMarker = null; // 이전 마커
+			// 폴리라인을 그리기 위한 좌표 배열을 생성합니다.
+			var path = [];
+			var pre = null;
+			var check_check = check + 1;
+			// markers 배열 내의 마커들의 위치를 순차적으로 가져와 좌표 배열에 추가합니다.
+			for (var i = 0; i < markers.length; i++) {
+				var markerPosition = markers[i];
+				path.push(markerPosition.getPosition());
+
+				if (previousMarker !== null) {
+
+					var distance = getLineDistance(previousMarker.getPosition(), markerPosition.getPosition());
+					var distancecheck = distance.toFixed(2) + 'km';
+					totalDistance += distance;
+					$(".city_distance_info" + check_check).text(distancecheck);
+
+				}
+
+				previousMarker = markerPosition;
+
+
+			}
+
+			// 폴리라인을 생성합니다.
+			polyline = new kakao.maps.Polyline({
+				path: path,
+				strokeWeight: 3,
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.7,
+				strokeStyle: 'solid'
+			});
+
+			// 지도에 폴리라인을 추가합니다.
+			polyline.setMap(map);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+		var previousMarker = null; // 이전 마커
+		var totalDistance = 0; // 누적 거리
+		var markers = []; // 마커를 담을 배열
+		var lines = []; // 폴리라인을 담을 배열
+
+		function addMarker(latlng, check) {
+			var marker = new kakao.maps.Marker({
+				position: latlng
+			});
+			marker.setMap(map);
+			markers.push(marker);
+			var check_in = check;
+
+			if (previousMarker !== null) {
+				// 이전 마커와 새로운 마커 사이의 거리 계산
+				var distance = getLineDistance(previousMarker.getPosition(), marker.getPosition());
+				var distancecheck = distance.toFixed(2) + 'km';
+
+				$(".city_distance_info" + check_in).text(distancecheck);
+				totalDistance += distance; // 누적 거리 업데이트
+
+				// 새로운 마커와 이전 마커를 연결하는 폴리라인을 그립니다.
+				var linePath = [markers[markers.length - 2].getPosition(), markers[markers.length - 1].getPosition()];
+				var polyline = new kakao.maps.Polyline({
+					path: linePath,
+					strokeWeight: 3,
+					strokeColor: 'rgba(255, 71, 34, 0.8)', // 핑크색과 유사한 빨간색 (RGBA 형식)
+					strokeOpacity: 0.8,
+					strokeStyle: 'solid'
+				});
+				polyline.setMap(map);
+				lines.push(polyline);
+			}
+
+			previousMarker = marker; // 현재 마커를 이전 마커로 저장
+			return previousMarker;
+		}
+
+
+
+		function getLineDistance(point1, point2) {
+			var lat1 = point1.getLat(), lon1 = point1.getLng(); // 첫 번째 지점의 위도와 경도
+			var lat2 = point2.getLat(), lon2 = point2.getLng(); // 두 번째 지점의 위도와 경도
+
+			var R = 6371; // 지구 반경 (단위: km)
+			var dLat = (lat2 - lat1) * Math.PI / 180;
+			var dLon = (lon2 - lon1) * Math.PI / 180;
+			var a =
+				Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+				Math.sin(dLon / 2) * Math.sin(dLon / 2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			var distance = R * c; // 거리 (단위: km)
+			return distance;
+		}
+
+
+
+		function set_minus_day(e) {
+			var check_day = $(e).attr("check_day");
+			var daycount = $(".city_set_day_info" + check_day).find('span').text();
+			var decreasedCount = parseInt(daycount) - 1;
+			$(".city_set_day_info" + check_day).find('span').text(decreasedCount);
+
+		}
+
+		function set_plus_day(e) {
+			var check_day = $(e).attr("check_day");
+			var daycount = $(".city_set_day_info" + check_day).find('span').text();
+			var increasedCount = parseInt(daycount) + 1;
+			$(".city_set_day_info" + check_day).find('span').text(increasedCount);
+
+		}
+
+
+
+		$(document).ready(function () {
+
+			$('input[name="styledDates"]').daterangepicker({
+				autoApply: true, // 달력이 열리면 자동으로 적용되도록 설정합니다.
+				locale: {
+					format: 'YYYY-MM-DD'
+				},
+				separator: ' ~ ',
+				applyLabel: "적용",
+				cancelLabel: "닫기"
+			}).on('apply.daterangepicker', function (ev, picker) {
+				// 적용 버튼을 눌렀을 때 실행되는 코드
+				$(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+				// 달력을 숨김
+				$(this).data('daterangepicker').hide();
+			});
+
+			$('input[name="styledDates"]').on('apply.daterangepicker', function (ev, picker) {
+				var startDate = picker.startDate.format('YYYY-MM-DD');
+				var endDate = picker.endDate.format('YYYY-MM-DD');
+
+				// 선택된 날짜의 갯수를 계산합니다
+				var dayCount = picker.endDate.diff(picker.startDate, 'days') + 1;
+
+
+				// 가져온 날짜 값을 사용하거나 출력합니다
+
+				$('.spot_to_inspot').attr('start-date', startDate);
+				$('.spot_to_inspot').attr('end-date', endDate);
+				$('.spot_to_inspot').attr('daycount', dayCount);
+
+			});
+
+
+			// DateRangePicker 초기화 및 설정 스타일
+			$('input[name="styledDates"]').on('show.daterangepicker', function (ev, picker) {
+				// 배경 div를 보이게 하고, 달력을 보이게 한다.
+				$('#modalBackground').css('display', 'block');
+				picker.container.css('display', 'block');
+			});
+
+			// DateRangePicker 닫을 때 배경 숨기기
+			$('input[name="styledDates"]').on('hide.daterangepicker', function (ev, picker) {
+				$('#modalBackground').css('display', 'none');
+			});
+
+			// DateRangePicker 초기화 및 설정 스타일
+			$('input[name="styledDates"]').on('apply.daterangepicker', function (ev, picker) {
+				// input 필드를 자동으로 업데이트
+				$(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+			});
+
+		});
+
+
+
+		document.getElementById("modal_opne_btn").onclick = function () {
+			document.getElementById("modal").style.display = "block";
+		}
+
+		document.getElementById("modal_close_btn").onclick = function () {
+			document.getElementById("modal").style.display = "none";
+		}
+
+
+
+
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center: new kakao.maps.LatLng(37.715133, 126.734086), // 지도의 중심좌표
+				level: 13 // 지도의 확대 레벨
+			};
+			var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+
+
+
+		function setCenter() {
+			// 이동할 위도 경도 위치를 생성합니다 
+			var moveLatLon = new kakao.maps.LatLng(37.566535, 126.977969);
+
+
+			// 마커가 표시될 위치입니다 
+			var markerPosition = new kakao.maps.LatLng(37.566535, 126.977969);
+
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition
+			});
+
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+
+			// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+			// marker.setMap(null);  
+
+
+
+
+			// 지도 중심을 이동 시킵니다
+			map.setCenter(moveLatLon);
+
+
+
+
+
+
+		}
+
+		function panTo() {
+			// 이동할 위도 경도 위치를 생성합니다 
+			var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
+
+			// 지도 중심을 부드럽게 이동시킵니다
+			// 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+			map.panTo(moveLatLon);
+
+
+
+		}
+
+			function nextpatge() {
+			var locations= [];
+			var locations_day= [];
+			var locations_where=[];
+			var lattis=[];
+			var lngis=[];
+			if (!check_day_limit()) {
+				alert("여행일자를 다시 한번 확인 해 주세요");
+				return;
+			}
+			
+			
+			
+			var divs = document.querySelectorAll('.check_block');
+			
+			// 각 div 요소의 값을 가져와 합을 계산합니다.
+			divs.forEach(function (div) {
+				// div 요소의 값을 가져와 정수로 변환하여 합에 더합니다.
+				var value = parseInt(div.innerText.trim());
+				var location_check = $(div).attr("array_location");
+				var latti = $(div).attr("lat");
+				var lngi = $(div).attr("lng");
+				locations.push([value,location_check]);
+				locations_day.push(value);
+				locations_where.push(location_check);
+				lattis.push(latti);
+				lngis.push(lngi);
+				
+			});
+			
+			
+
+				$.ajax({
+				url: "/plan/plan_location_ajax",
+				type: "Get",
+				data:{
+					start: start,
+					end: end,
+					locations_day : JSON.stringify(locations_day),
+					locations_where : JSON.stringify(locations_where)
+				},
+				 
+				success: function (response) {
+					// 서버에서 HTML 주소를 받아왔을 때
+					// 받은 주소로 이동합니다.
+						//var response_data = JSON.parse(response);
+						console.log("하위");
+						console.log(response.list[0])
+						
+				},
+				error: function (xhr, status, error) {
+					// AJAX 요청에 실패했을 때 처리할 내용을 작성합니다.
+				}
+			});
+
+			console.log("locations_day " + locations_day[0]);
+			window.location.href = "/plan/plan_location?lattis="+lattis+"&lngis="+lngis+"&locations_day="+locations_day+"&locations_where="+locations_where+"&start="+start+"&end="+end+"";
+
+			
+			//window.location.href = "/plan/plan_location?locations="+locations+"&start="+start+"&end="+end+"";
+		}
+
+
+
+
+
+	</script>
+</body>
+
+</html>

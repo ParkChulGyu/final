@@ -16,11 +16,13 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor
 @Entity
 @Table(name = "member")
+@Setter
 public class Member {
     //필드
     @Id
@@ -51,5 +53,7 @@ public class Member {
         this.email = email;
         this.contact = contact;
     }
+
+	
 }
 
