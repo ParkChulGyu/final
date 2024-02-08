@@ -18,14 +18,14 @@
 				<a href="#"><i class="fa-solid fa-cat"></i> 관광타입</a>
 
 				<ul>
-					<li><a href="#" class="ajax-link" contentTypeId="12">관광지 : 12</a></li>
-					<li><a href="#" class="ajax-link" contentTypeId="14">문화시설 : 14</a></li>
-					<li><a href="#" class="ajax-link" contentTypeId="15">축제행사 : 15</a></li>
-					<li><a href="#" class="ajax-link" contentTypeId="25">여행코스 : 25</a></li>
-					<li><a href="#" class="ajax-link" contentTypeId="28">레포츠 : 28</a></li>
-					<li><a href="#" class="ajax-link" contentTypeId="32">숙박 : 32</a></li>
-					<li><a href="#" class="ajax-link" contentTypeId="38">쇼핑 : 38</a></li>
-					<li><a href="#" class="ajax-link" contentTypeId="39">음식점 : 39</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="12" pageno="1">관광지 : 12</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="14" pageno="1">문화시설 : 14</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="15" pageno="1">축제행사 : 15</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="25" pageno="1">여행코스 : 25</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="28" pageno="1">레포츠 : 28</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="32" pageno="1">숙박 : 32</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="38" pageno="1">쇼핑 : 38</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="39" pageno="1">음식점 : 39</a></li>
 				</ul>
 			</li>
 			<li>
@@ -40,9 +40,7 @@
 	<!--
 	여기부터 아래까지 임시 데이터
 	-->
-	<h5>관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점) ID </h5>
-	<h2>Input date you want to see</h2>
-	<h3>Example: 20220101</h3>
+	<h5 id="totalCountContainer">0</h5>
 	<form method="POST" action="/api">
 		<input type="text" name="date" th:value="${date}" />
 		<input type="submit" value="Click" />
@@ -65,9 +63,14 @@
 				</div>
 			</li>
 		</ul>
-	</div>
-	<div>
-	<ul id="paginationContainer"></ul>
+
+		<div id="paginationContainer">
+			<ul class="pagination justify-content-center">
+				<li class="page-item"> <a class="page-link" href="javascript:void(0)"> <span>이전</span> </a> </li>
+				<li class="page-item"><a th:text="${page}" class="page-link" href="javascript:void(0)"></a></li>
+				<li class="page-item"> <a class="page-link" href="javascript:void(0)"><span>다음</span></a></li>
+			</ul>
+		</div>
 	</div>
 
 
@@ -78,17 +81,20 @@
 			$(".ajax-link").click(function (e) {
 
 				var contentTypeId = $(this).attr('contentTypeId');
+				var pageno = $(this).attr('pageno');
 
 				console.log("contentTypeId = " + contentTypeId);
+				console.log("pageno = " + pageno);
 
 				e.preventDefault();
 				$.ajax({
 					type: "GET",
 					url: "/api/updateList", // 컨트롤러의 엔드포인트 주소
 					data: {
-						
+
 						contentTypeId: contentTypeId,
-													},
+						pageno: pageno
+					},
 					success: function (data) {
 						// AJAX 성공 시 처리
 
@@ -100,28 +106,29 @@
 						console.log(jsonData.pageNo); // 여긴 왔어
 						console.log(jsonData.totalCount); // 여긴 왔어
 						console.log(jsonData.pagingDTO); // 여긴 왔어
+						console.log("contentid ==" + jsonData.touristDTO[0].contentid); // 여긴 왔어
 						//$("#resultContainer").html(data);
-						
-						
+
+
 
 						// JSON 데이터를 받아와서 동적으로 HTML 생성
 						var html = "";
 
 						for (var i = 0; i < jsonData.touristDTO.length; i++) {
 							var tourist = jsonData.touristDTO[i];
+							var imageUrl = tourist.firstimage ? tourist.firstimage : 'https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-travel-map-hand-drawn-illustration-png-image_2618830.jpg';
 							html += '<li class="item item' + (i + 1) + '">';
-							html += '<div class="image"><img src="' + tourist.firstimage + '" class="images" /></div>';
+							html += '<div class="image"><img src="' + imageUrl + '" class="images" /></div>';
 							html += '<div class="cont">';
 							html += '<strong>' + tourist.title + '</strong>';
 							html += '<p>' + tourist.addr1 + '</p>';
-							html += '<a href="#">바로가기</a>';
+							html += '<a href="' + '/api/tourdetail?contentid=' + tourist.contentid + '">바로가기</a>';
 							html += '</div></li>';
 						}
 
 						// 생성된 HTML을 #touristList에 삽입
 						$("#touristList").html(html);
-						
-						createPagination(jsonData.pagingDTO);
+						createPagination(jsonData.pagingDTO, jsonData.touristDTO[0].contenttypeid);
 
 
 					},
@@ -132,40 +139,118 @@
 				});
 			});
 		});
-		
-		
-		function createPagination(pagingDTO) {
-			console.log("pagingDTO.prev 왔니?" + pagingDTO.prev);
-			
-                var paginationHtml = ""
-               	
-               	paginationHtml += '<ul class="pagination">';
 
-                if (pagingDTO.prev) {
-                    paginationHtml += '<li class="page-btn"><a href="#">이전</a></li>';
-                }
+		function PageTransition(e) {
 
-                for (var i = 0; i < pagingDTO.blockNum; i++) {
-                    if (pagingDTO.startPage[i] === pagingDTO.blockNum ) {
-                        paginationHtml += '<li class="page-btn"><a href="javascript:void(0);" style="cursor: default;">' + pagingDTO.startPage[i] + '</a></li>';
-                    } else {
-                        paginationHtml += '<li class="page-btn"><a href="#">' + pagingDTO.startPage[i] + '</a></li>';
-                    }
-                }
+			var contentTypeId = $(e).attr('attr-contentTypeId');
+			var pageNo = $(e).attr('attr-pageno');
 
-                if (pagingDTO.next) {
-                    paginationHtml += '<li class="page-btn"><a href="#">다음</a></li>';
-                }
+			console.log("contentTypeId2 = " + contentTypeId);
+			console.log("pageno2 = " + pageNo);
 
-                paginationHtml += '</ul>';
+			//e.preventDefault();
 
-				// console.log("paginationHtml 잘 왔니?" + paginationHtml);
-                // 페이지네이션을 원하는 위치에 추가
-                $('#paginationContainer').html(paginationHtml);
-            }
-            
+			$.ajax({
+				type: "GET",
+				url: "/api/updateList", // 컨트롤러의 엔드포인트 주소
+				data: {
+					contentTypeId: contentTypeId
+					, pageNo: pageNo
+
+				},
+				success: function (data) {
+					// AJAX 성공 시 처리
+
+					var jsonData = JSON.parse(data);
+
+					//console.log(jsonData); // 여긴 왔어
+					//console.log(jsonData.touristDTO.length); // 여긴 왔어
+					//console.log(jsonData.numOfRows); // 여긴 왔어
+					//console.log(jsonData.pageNo); // 여긴 왔어
+					//console.log(jsonData.totalCount); // 여긴 왔어
+					//console.log(jsonData.pagingDTO); // 여긴 왔어
+					//$("#resultContainer").html(data);
+
+					// JSON 데이터를 받아와서 동적으로 HTML 생성
+					var html = "";
+
+					for (var i = 0; i < jsonData.touristDTO.length; i++) {
+						var tourist = jsonData.touristDTO[i];
+						var imageUrl = tourist.firstimage ? tourist.firstimage : 'https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-travel-map-hand-drawn-illustration-png-image_2618830.jpg';
+						html += '<li class="item item' + (i + 1) + '">';
+						html += '<div class="image"><img src="' + imageUrl + '" class="images" /></div>';
+						html += '<div class="cont">';
+						html += '<strong>' + tourist.title + '</strong>';
+						html += '<p>' + tourist.addr1 + '</p>';
+						html += '<a href="#">바로가기</a>';
+						html += '</div></li>';
+					}
+
+					createPagination(jsonData.pagingDTO, jsonData.touristDTO[0].contenttypeid);
+
+					// 생성된 HTML을 #touristList에 삽입
+					$("#touristList").html(html);
+
+
+
+				},
+				error: function () {
+					// AJAX 실패 시 처리
+					alert("Failed to load data");
+				}
+			});
+		}
+
+		function createPagination(pagingDTO, contentTypeId) {
+			//			console.log("pagingDTO.blockNum 왔니?" + pagingDTO.blockNum);
+			//			console.log("pagingDTO.pageNo 왔니?" + pagingDTO.pageNo);
+			//			console.log("pagingDTO.startPage 왔니?" + pagingDTO.startPage);
+			//			console.log("pagingDTO.start_rownum 왔니?" + pagingDTO.start_rownum);
+			//			console.log("pagingDTO.prev 왔니?" + pagingDTO.prev);
+			//			console.log("pagingDTO.next 왔니?" + pagingDTO.next);
+			//			console.log(typeof pagingDTO.prev);
+			//			console.log(typeof pagingDTO.next);
+			console.log(" createPagination contentTypeId 값  : " + contentTypeId);
+			var paginationHtml = ""
+
+
+
+			paginationHtml += '<ul class="pagination justify-content-center">';
+
+			if (pagingDTO.prev) {
+				paginationHtml += '<li class="page-item"> <a class="page-link" href="javascript:void(0);"  onclick="PageTransition(this);" attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + (pagingDTO.pageNo - 1) + '" > <span>이전</span> </a> </li>';
+			} else {
+				paginationHtml += '<li class="page-item disabled" > <a class="page-link" href="javascript:void(0);" > <span>이전</span> </a> </li>';
+			}
+
+			for (var i = 0; i < pagingDTO.blockNum; i++) {
+				//consol.log("i값 : "+ i);
+				//console.log(pnum);
+				var pnum = (pagingDTO.startPage + i);
+				if (pagingDTO.pageNo === (pagingDTO.startPage + i)) {
+					paginationHtml += '<li class="page-item disabled"><a class="page-link" href="javascript:void(0);" contentTypeId=' + contentTypeId + ' pageNo=' + pagingDTO.pageNo + '>' + pagingDTO.pageNo + '</a></li>';
+				} else {
+					paginationHtml += '<li class="page-item "><a href="javascript:void(0);"  onclick="PageTransition(this);" class="page-link" attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + pnum + '">' + (pnum) + '</a></li>';
+				}
+			}
+
+			if (pagingDTO.next) {
+				paginationHtml += '<li class="page-item"> <a class="page-link" href="javascript:void(0); "  onclick="PageTransition(this);" attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + (pnum + 1) + '" ><span>다음</span></a></li>';
+			} else {
+				paginationHtml += '<li class="page-item disabled"> <a class="page-link" href="javascript:void(0); "  attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + (pnum + 1) + '" ><span>다음</span></a></li>';
+			}
+
+			paginationHtml += '</ul>';
+
+			// console.log("paginationHtml 잘 왔니?" + paginationHtml);
+			// 페이지네이션을 원하는 위치에 추가
+			var totalc = "전체 데이터 수 : " + pagingDTO.totalCount + "개";
+			console.log("totalc = " + totalc);
+			$('#paginationContainer').html(paginationHtml);
+			$('#totalCountContainer').html(totalc);
+		}
 	</script>
-	
+
 </div>
 
 

@@ -50,22 +50,21 @@ public class FlaskJsonController {
 	@ResponseBody 
 	@GetMapping("/updateList")
 	public String updateList(@RequestParam(name = "contentTypeId") String contentTypeId
-								, @RequestParam(value="pageNo", defaultValue="1") int pageNo
-								, @RequestParam(value="listNum", defaultValue="5") int listNum
-								, @RequestParam(value="blockNum", defaultValue="10") int blockNum
-								, @RequestParam(value="totalCount", defaultValue="0") int totalCount
-								, @RequestParam(value = "keyword", defaultValue = "") String keyword
-								
+			, @RequestParam(value="pageNo", defaultValue="1") String pageNo
+			, @RequestParam(value="listNum", defaultValue="6") String listNum
+			, @RequestParam(value="blockNum", defaultValue="10") String blockNum
+			, @RequestParam(value="totalCount", defaultValue="0") String totalCount
+			, @RequestParam(value = "keyword", defaultValue = "_") String keyword
 								) throws JsonProcessingException {
 		
 		
 		//  파라미터 값 확인 사용
-		//System.out.println("Received contentTypeId: " + contentTypeId);
-		//System.out.println("Received pageNo: " + pageNo);
-		//System.out.println("Received listNum: " + listNum);
-		//System.out.println("Received blockNum: " + blockNum);
-		//System.out.println("Received totalCount: " + totalCount);
-		//System.out.println("Received keyword: " + keyword);
+//		System.out.println("Received contentTypeId: " + contentTypeId);
+//		System.out.println("Received pageno: " + pageNo);
+//		System.out.println("Received listNum: " + listNum);
+//		System.out.println("Received blockNum: " + blockNum);
+//		System.out.println("Received totalCount: " + totalCount);
+//		System.out.println("Received keyword: " + keyword);
 		
 		// 여기에서 원하는 작업 수행
 		
@@ -74,15 +73,29 @@ public class FlaskJsonController {
 //		List<TouristDTO> touristDTOList = t_service.fetchDataFromExternalAPI(contentTypeId);
 		map = t_service.fetchDataFromExternalAPI(map);
 		
+		map.put("contentTypeId", contentTypeId);
+		map.put("pageNo", pageNo);
+		map.put("numOfRows", listNum);
+		map.put("keyword", keyword);
+		
 		//System.out.println(touristDTOList);
+		System.out.println("map.get totalCount : "+map.get("totalCount"));
 		
 		// 페이징 값 세팅
-		if (!(map.get("totalCount") == null))totalCount = Integer.parseInt((String) map.get("totalCount"));
-		pagingDTO.setPageNo(pageNo);
-		pagingDTO.setListNum(listNum);
-		pagingDTO.setBlockNum(blockNum);
-		pagingDTO.setTotalCount(totalCount);
+		
+		if (!(map.get("totalCount") == null))totalCount = (String)(map.get("totalCount"));
+		
+		pagingDTO.setPageNo(Integer.parseInt(pageNo));
+		pagingDTO.setListNum(Integer.parseInt(listNum));
+		pagingDTO.setBlockNum(Integer.parseInt(blockNum));
+		pagingDTO.setTotalCount(Integer.parseInt(totalCount));
+		
 		pagingDTO.setPaging();
+		
+//		System.out.println("너왜 30이 나오냐"+pagingDTO.getEnd_rownum());
+//		System.out.println(pagingDTO.getEndPage());
+//		System.out.println(pagingDTO.getStartPage());
+		
 		map.put("pagingDTO", pagingDTO);
 		
 		//ajex 에 값 보내기

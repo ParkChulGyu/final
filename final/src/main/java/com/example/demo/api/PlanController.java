@@ -36,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/plan")
 public class PlanController {
 
-	private final OpenApiController openApiController;
 	private final PlanService planService;
 	 private final OpenApiManager openApiManager;
 	

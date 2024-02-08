@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 
-import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @Service

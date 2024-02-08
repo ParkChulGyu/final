@@ -30,6 +30,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
+import java.util.Map;
+import com.example.demo.api.model.TourDetailDTO;
+
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/api")
@@ -58,20 +63,17 @@ public class FlaskController {
 
 		return "apiapp/kapp_Page";
 	}
-
 	
-	public String updateList(@RequestParam(name = "value") String value) throws JsonProcessingException {
-		// value 파라미터 값 사용
-		System.out.println("Received value: " + value);
-
-		// 여기에서 원하는 작업 수행
-
-		List<TouristDTO> touristDTOList = t_service.fetchDataFromExternalAPI();
-
-		ObjectMapper objectMapper = new ObjectMapper();
-		String jsonResult = objectMapper.writeValueAsString(touristDTOList);
-
-		return jsonResult;
+	@GetMapping("/tourdetail")
+	public String apidetail(Model model , @RequestParam(name = "contentid") String contentid) throws Exception {
+		System.out.println("contentid = "+contentid);
+		Map<String, Object> map = new HashMap<>();
+		map.put("contentid",contentid);
+		Map<String, Object> tourDetailDTO =	t_service.fetchDataFromExternalAPIdetail(map);
+		
+		model.addAttribute(tourDetailDTO.get("tourDetailDTO"));
+		
+		return "apiapp/tour_detail";
 	}
 
 }
