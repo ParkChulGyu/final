@@ -51,15 +51,16 @@ public class TourService {
 //		String searchKeyword = "searchKeyword";
 		String mobileOS = "ETC";
 		String mobileApp = "AppTest";
-		String contentId = (String) map.get("contentId");
+		String contentId = (String) map.get("contentid");
 
-//		System.out.println("map : "+map);
+		//System.out.println("map : "+map);
+		//System.out.println("contentId =="+contentId);
 
-		if (contentId == null)
-			contentId = "2792802";
+		if(contentId == null)contentId = "2792802";
 
+		
 		String uri = apiUrl + "/detailCommon1" + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp="
-				+ mobileApp + "&_type=json" + "&contentId=2792802"
+				+ mobileApp + "&_type=json" + "&contentId="+contentId
 				+ "&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=1&pageNo=1";
 
 		URI finalUri = URI.create(uri);
@@ -139,6 +140,7 @@ public class TourService {
 				;
 				String pageNo = (String) map.get("pageNo");
 				String keyword = (String) map.get("keyword");
+				
 
 //						System.out.println("map : "+map);
 
@@ -159,7 +161,7 @@ public class TourService {
 
 			String uri = apiUrl + "/searchKeyword1" + "?numOfRows=" + numOfRows + "&pageNo=" + pageNo
 					+ "&contentTypeId=" + contentTypeId + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp
-					+ "&listYN=" + listYN + "&arrange=" + arrange + "&keyword="
+					+ "&listYN=" + listYN + "&arrange=" + arrange + "&keyword="  
 					+ URLEncoder.encode(keyword, StandardCharsets.UTF_8.toString()) + "&serviceKey=" + serviceKey;
 
 			URI finalUri = URI.create(uri);
@@ -295,7 +297,7 @@ public class TourService {
 		String arrange = "A";
 //		String serviceKey = "lqQazXlaDVBCC6RSW8rmSCPJnO4%2B6MDm4V4e15lOP5z8TonUtOFvQJd5sW9qL1j4%2FPezxtDigZOOtR4lZbgcvg%3D%3D";
 		String keyword = "강원";
-		int numOfRows = 5;
+		int numOfRows = 6;
 		int pageNo = 1;
 		String totalCount = "";
 

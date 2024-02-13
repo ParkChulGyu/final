@@ -49,7 +49,7 @@ public class FlaskJsonController {
 	
 	@ResponseBody 
 	@GetMapping("/updateList")
-	public String updateList(@RequestParam(name = "contentTypeId") String contentTypeId
+	public String updateList(@RequestParam(name = "contentTypeId" , defaultValue="12") String contentTypeId
 			, @RequestParam(value="pageNo", defaultValue="1") String pageNo
 			, @RequestParam(value="listNum", defaultValue="6") String listNum
 			, @RequestParam(value="blockNum", defaultValue="10") String blockNum
@@ -79,7 +79,7 @@ public class FlaskJsonController {
 		map.put("keyword", keyword);
 		
 		//System.out.println(touristDTOList);
-		System.out.println("map.get totalCount : "+map.get("totalCount"));
+		//System.out.println("map.get totalCount : "+map.get("totalCount"));
 		
 		// 페이징 값 세팅
 		

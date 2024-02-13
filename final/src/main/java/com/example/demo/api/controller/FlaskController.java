@@ -47,6 +47,11 @@ public class FlaskController {
 	public String displayPage(Model model) {
 		return "flask/flask_Page";
 	}
+	
+	@GetMapping("/data_chart")
+	public String datadisplayPage(Model model) {
+		return "flask/data_chart";
+	}
 
 	@GetMapping("/kapp")
 	public String kappPageEndpoint(Model model) {
@@ -66,7 +71,7 @@ public class FlaskController {
 	
 	@GetMapping("/tourdetail")
 	public String apidetail(Model model , @RequestParam(name = "contentid") String contentid) throws Exception {
-		System.out.println("contentid = "+contentid);
+		//System.out.println("contentid = "+contentid);
 		Map<String, Object> map = new HashMap<>();
 		map.put("contentid",contentid);
 		Map<String, Object> tourDetailDTO =	t_service.fetchDataFromExternalAPIdetail(map);

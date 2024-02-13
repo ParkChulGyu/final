@@ -5,19 +5,21 @@
 <div layout:fragment="content" class="container my-3">
 	<!-- tour_detail -->
 
-			<br><br>
+
+	<br><br>
 	<div style="text-align: center;">
 		<h1>
 			<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.title}"></div>
 		</h1>
 	</div>
-			<br><br>
+	<br><br>
 
 	<div>
 		<div style="text-align: center;">
-			<img th:src="${tourDetailDTO.firstimage != null ? tourDetailDTO.firstimage : 'https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-travel-map-hand-drawn-illustration-png-image_2618830.jpg'}"
+			<img th:src="${tourDetailDTO.firstimage != '' ? tourDetailDTO.firstimage : 'https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-travel-map-hand-drawn-illustration-png-image_2618830.jpg'}"
 				alt="Tour Image" class="tour-image"
 				style="width: 615px; height: 410px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); border-radius: 15px;">
+
 		</div>
 
 
@@ -29,11 +31,12 @@
 			<tr>
 				<th>홈페이지</th>
 				<td>
-					<div class="card-text" style="white-space: pre-line;" th:utext="${tourDetailDTO.homepage}">홈페이지</div>
+					<div class="card-text" style="white-space: pre-line;" th:utext="${tourDetailDTO.homepage}">홈페이지
+					</div>
 				</td>
 			</tr>
 			<tr>
-				<th>					
+				<th>
 					<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.telname}"></div>
 				</th>
 				<td>
@@ -41,35 +44,36 @@
 				</td>
 			</tr>
 			<tr>
-				
-			<th>주소</th>
-			<td>
-				<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.addr1}"></div>
-				<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.addr2}"></div>
-			</tb></tr>
+
+				<th>주소</th>
+				<td>
+					<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.addr1}"></div>
+					<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.addr2}"></div>
+					</tb>
+			</tr>
 		</table>
 		<br>
-		
+
 		<div style="text-align: center;">
-		<div id="map" class="map-container" style="width:1000px;height:400px;  margin: 0 auto;"></div>
+			<div id="map" class="map-container" style="width:1000px;height:400px;  margin: 0 auto;"></div>
 		</div>
-<!--
+		<!--
 		<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.mapx}"></div>
 		<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.mapy}"></div>
-	-->	
-		<div  style="width:100%;height:200px;" ></div>
+	-->
+		<div style="width:100%;height:200px;"></div>
 
 
 		<script type="text/javascript"
 			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9f1f2c1b1007bd9757da7145b63c26e0"></script>
-			
-			<script type='text/javascript' th:inline="javascript">
-			
+
+		<script type='text/javascript' th:inline="javascript">
+
 			var mapxx =  /*[[${tourDetailDTO.mapx}]]*/ null;
 			var mapyy = (/*[[${tourDetailDTO.mapy}]]*/ null);
-			
-			console.log(mapxx , mapyy);
-			
+
+			console.log(mapxx, mapyy);
+
 			var container = document.getElementById('map');
 			var options = {
 				center: new kakao.maps.LatLng(mapyy, mapxx),
@@ -99,4 +103,5 @@
 
 	</div>
 </div>
+
 </html>

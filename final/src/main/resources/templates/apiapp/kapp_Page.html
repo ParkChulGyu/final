@@ -15,7 +15,7 @@
 		</section>
 		<ul>
 			<li>
-				<a href="#"><i class="fa-solid fa-cat"></i> 관광타입</a>
+				<a href="javascript:void(0);"><i class="fa-solid fa-cat"></i> 관광타입</a>
 
 				<ul>
 					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="12" pageno="1">관광지 : 12</a></li>
@@ -29,10 +29,26 @@
 				</ul>
 			</li>
 			<li>
-				<a href="#">menu2</a>
+				<a href="javascript:void(0);">지역</a>
 				<ul>
-					<li><a href="#">text1</a></li>
-					<li><a href="#">text2</a></li>
+					<li><a href="javascript:void(0);" areaCode=1 pageno="1">서울</a></li>
+					<li><a href="javascript:void(0);" areaCode=2 pageno="1">인천</a></li>
+					<li><a href="javascript:void(0);" areaCode=3 pageno="1">대전</a></li>
+					<li><a href="javascript:void(0);" areaCode=4 pageno="1">대구</a></li>
+					<li><a href="javascript:void(0);" areaCode=5 pageno="1">광주</a></li>
+					<li><a href="javascript:void(0);" areaCode=6 pageno="1" >부산</a></li>
+					<li><a href="javascript:void(0);" areaCode=7 pageno="1">울산</a></li>
+					<li><a href="javascript:void(0);" areaCode=8 pageno="1">세종시</a></li>
+					<li><a href="javascript:void(0);" areaCode=31 pageno="1">경기도</a></li>
+					<li><a href="javascript:void(0);" areaCode=32 pageno="1">강원도</a></li>
+					<li><a href="javascript:void(0);" areaCode=33 pageno="1" >충정북도</a></li>
+					<li><a href="javascript:void(0);" areaCode=34 pageno="1">충청남도</a></li>
+					<li><a href="javascript:void(0);" areaCode=35 pageno="1">경상북도</a></li>
+					<li><a href="javascript:void(0);" areaCode=36 pageno="1">경상남도</a></li>
+					<li><a href="javascript:void(0);" areaCode=37 pageno="1">전북</a></li>
+					<li><a href="javascript:void(0);" areaCode=38 pageno="1">전라남도 </a></li>
+					<li><a href="javascript:void(0);" areaCode=39 pageno="1">제주도</a></li>
+					
 				</ul>
 			</li>
 			<li>
@@ -49,9 +65,11 @@
 	여기부터 여기까지 임시 데이터
 	-->
 
-
+	
 	<div class="list_wrap">
 		<ul id="touristList">
+			<div id="loading"><img id="loading-image" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg0Gu4jlb7OgS88AbOv0Ako1lbG6lkM0KY6jPVvFBuTyQNAOEa8budfy8-RrGQrzqYf-bo7dXIEbpJMpO8zf1aDijce6LlRgxfvj5QVGtXA6TgiElPZtPwaJ7OlyO6Zwg0K_V21n_ZErg08Y0ddzoyMc-eNiueJhbJArdSoeEsPjz5RJA1izwJgySKnaQ/s600/%EB%A1%9C%EB%94%A9.gif" alt="Loading..." /></div>
+			<!--
 			<li th:each="tourist, tourist1Stat : ${touristDTOList}" th:class="'item item' + ${tourist1Stat.index + 1}">
 				<div class="image">
 					<img th:src="${tourist.firstimage}" class="images" />
@@ -62,13 +80,16 @@
 					<a href="#">바로가기</a>
 				</div>
 			</li>
+			-->
 		</ul>
 
 		<div id="paginationContainer">
 			<ul class="pagination justify-content-center">
+				<!--
 				<li class="page-item"> <a class="page-link" href="javascript:void(0)"> <span>이전</span> </a> </li>
 				<li class="page-item"><a th:text="${page}" class="page-link" href="javascript:void(0)"></a></li>
 				<li class="page-item"> <a class="page-link" href="javascript:void(0)"><span>다음</span></a></li>
+				-->
 			</ul>
 		</div>
 	</div>
@@ -77,6 +98,17 @@
 
 
 	<script>
+			// 페이지 최초 로딩시 적용될 json 호출
+		document.addEventListener("DOMContentLoaded", function () {
+			// 페이지 로드 시 실행할 작업
+			// Ajax 요청 보내기
+			PageTransition();
+			
+			//console.log('여기왔으면 확인');
+			
+		});
+		
+
 		$(document).ready(function () {
 			$(".ajax-link").click(function (e) {
 
@@ -182,7 +214,7 @@
 						html += '<div class="cont">';
 						html += '<strong>' + tourist.title + '</strong>';
 						html += '<p>' + tourist.addr1 + '</p>';
-						html += '<a href="#">바로가기</a>';
+						html += '<a href="' + '/api/tourdetail?contentid=' + tourist.contentid + '">바로가기</a>';
 						html += '</div></li>';
 					}
 
