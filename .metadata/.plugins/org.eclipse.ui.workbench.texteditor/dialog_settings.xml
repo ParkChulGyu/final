@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="왔니"/>
+		<item key="selection" value="바로가기"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="왔니"/>
-			<item value="end_rownum"/>
-			<item value="bnext"/>
-			<item value="bnext "/>
-			<item value="blockNum"/>
-			<item value="System"/>
-			<item value="jquery"/>
-			<item value="paging"/>
-			<item value="model"/>
-			<item value="touristList"/>
-			<item value="contentTypeId"/>
-			<item value="Key"/>
-			<item value="resultContainer"/>
-			<item value="위치"/>
-			<item value="Absolut"/>
+			<item value="바로가기"/>
+			<item value="navbarFragment"/>
+			<item value="fluid"/>
+			<item value="updateList"/>
+			<item value="시작"/>
+			<item value="후기"/>
+			<item value="=="/>
+			<item value="JSONObject"/>
+			<item value="responbody"/>
+			<item value="삭제"/>
+			<item value="javascript"/>
+			<item value="바로"/>
+			<item value="PageTransition"/>
+			<item value="다음"/>
+			<item value="paginationHtml"/>
 		</list>
 		<list key="replacehistory">
 		</list>
