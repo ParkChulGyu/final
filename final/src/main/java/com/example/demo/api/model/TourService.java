@@ -109,7 +109,7 @@ public class TourService {
 
 //		System.out.println("jsonItem :::"+jsonItem);
 		tourDetailDTO = mapElementsToDtoListDetail(jsonItem);
-//		System.out.println("tourDetailDTO == "+tourDetailDTO);
+		// System.out.println("tourDetailDTO == "+tourDetailDTO);
 		map.put("tourDetailDTO", tourDetailDTO);
 
 		// 응답 헤더 출력
@@ -144,14 +144,10 @@ public class TourService {
 
 //						System.out.println("map : "+map);
 
-				if (contentTypeId == null)
-					contentTypeId = "12";
-				if (numOfRows == null)
-					numOfRows = "6";
-				if (pageNo == null)
-					pageNo = "1";
-				if (keyword == null)
-					keyword = "강원";
+				if (contentTypeId == null)contentTypeId = "12";
+				if (numOfRows == null)numOfRows = "6";
+				if (pageNo == null)pageNo = "1";
+				if (keyword == null)keyword = "강원";
 
 				int totalCount = 0;
 
@@ -263,7 +259,7 @@ public class TourService {
 			Document document = Jsoup.parse(response.body());
 			// 응답 출력
 			// System.out.println("Response Code: " + response.statusCode());
-			System.out.println("Response Body: " + response.body());
+			//System.out.println("Response Body: " + response.body());
 
 			Elements itemElements = document.select("item");
 
