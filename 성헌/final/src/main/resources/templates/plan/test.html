@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DateRangePicker with Modal-like Background</title>
+
+	<!-- Bootstrap 스타일시트 및 jQuery 로드 -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<!-- DateRangePicker 스타일시트 및 스크립트 로드 -->
+	<link rel="stylesheet" type="text/css"
+		href="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.css" />
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+</head>
+
+<body>
+
+	<div id="map" style="flex:1;height:100%; z-index: 1"></div>
+
+
+<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=362b656b5b93008aab3b5504dea7f99d"></script>
+	<script>
+
+$(document).ready(function () {
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = { 
+        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+        level: 5 // 지도의 확대 레벨
+    };
+
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+// 폴리라인을 그릴 좌표 배열을 생성합니다.
+var linePath = [
+    new kakao.maps.LatLng(37.566826, 126.9786567), // 서울시청
+    new kakao.maps.LatLng(37.5658859, 126.9754788), // 을지로입구역
+    new kakao.maps.LatLng(37.5702485, 126.983413), // 광화문
+];
+
+// 폴리라인을 생성합니다.
+var polyline = new kakao.maps.Polyline({
+    path: linePath, // 폴리라인을 구성하는 좌표 배열입니다
+    strokeWeight: 5, // 선의 두께입니다 
+    strokeColor: '#FF0000', // 선의 색깔입니다
+    strokeOpacity: 0.7, // 선의 투명도입니다
+    strokeStyle: 'solid' // 선의 스타일입니다
+});
+
+// 지도에 폴리라인을 표시합니다
+polyline.setMap(map);
+	})
+	</script>
+
+</style>
+
+</body>
+
+</html>

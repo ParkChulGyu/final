@@ -1,0 +1,1668 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>갈 곳 정하기</title>
+
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.3.0"></script>
+
+	<style>
+		ul {
+			text-align: center;
+			/* 부모 요소에 수평 중앙 정렬 적용 */
+			list-style: none;
+			/* 리스트 스타일 제거 */
+		}
+
+
+		.left_full_box {
+			height: 100%;
+
+		}
+
+		.left_day_set {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 14%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+
+			/* 내용과 테두리 사이의 여백 조절 */
+
+		}
+
+		.schedule_full_box {
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 14%;
+			width: 14%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+			padding: 20px;
+			/* 내용과 테두리 사이의 여백 조절 */
+		}
+
+
+
+		.pn_date {
+
+			width: 100%;
+			height: 50px;
+			line-height: 50px;
+			background: #203341;
+			color: #fff;
+			text-align: center;
+			border-bottom: solid 1px #374854;
+			font-size: 12px;
+			cursor: pointer;
+
+		}
+
+		.cat_menu li {
+			width: 100%;
+			height: 70px;
+			background: #203341;
+			color: #fff;
+			text-align: center;
+			border-bottom: solid 1px #374854;
+			font-size: 12px;
+			cursor: pointer;
+		}
+
+		.title_box {
+			width: 265px;
+			height: 50px;
+			background: #707070;
+			color: #fff;
+			line-height: 50px;
+			font-size: 15px;
+			font-weight: bold;
+			padding: 0px 10px;
+		}
+
+
+		#day_optimize_btn {
+			width: 265px;
+			height: 30px;
+			text-align: center;
+			line-height: 30px;
+			border: solid #3099dd 1px;
+			margin-left: 10px;
+			cursor: pointer;
+			background: #49b2e9;
+			padding-left: 5px;
+			color: #fff;
+			margin: 10 0 10 0;
+		}
+
+		#city_list {
+
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 28%;
+			width: 14%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+			padding: 20px;
+			/* 내용과 테두리 사이의 여백 조절 */
+		}
+
+		#detail_view_full_box {
+
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 28%;
+			width: 16%;
+			/* 선택할 콘텐츠의 너비 조절 */
+			height: 100%;
+			background-color: #fff;
+			/* 선택할 콘텐츠의 배경색 조절 */
+			z-index: 1;
+			/* 맵 위에 나타나도록 설정 */
+			overflow-y: auto;
+			/* 내용이 많을 경우 스크롤 허용 */
+			padding: 20px;
+			/* 내용과 테두리 사이의 여백 조절 */
+
+		}
+
+
+
+
+
+
+		.list_title {
+			width: 365px;
+			height: 50px;
+			background: #1a7ad9;
+			line-height: 50px;
+			color: #fff;
+			padding-left: 10px;
+			font-size: 15px;
+			font-weight: bold;
+		}
+
+		.list_title_option_menu {
+			position: absolute;
+			font-size: 12px;
+			color: #fff;
+			top: 12px;
+			right: 15px;
+			font-weight: normal;
+			cursor: pointer;
+			width: 76px;
+			height: 26px;
+			line-height: 26px;
+			text-align: center;
+			border: solid 1px #fff;
+			background: url(/https://www.earthtory.com/res/img/workspace/w_arrow_down.png)no-repeat 62px 10px;
+			padding-right: 6px;
+		}
+
+		.list_search_box {
+			height: 75px;
+			border-bottom: solid #dadada 1px;
+			padding-top: 10px;
+			background: #fff;
+			text-align: center;
+		}
+
+		#input_search {
+			width: 328px;
+			height: 31px;
+			border: solid #c8c8ca 1px;
+			padding-left: 5px;
+			font-family: 'nanum';
+			background: url(https://www.earthtory.com/res/img/common/gnb/search_icon.png) no-repeat;
+			background-position: 300px 4px
+		}
+
+		.list_cat_item {
+			width: 68px;
+
+		}
+
+		#map_tag_select_box {
+			width: 318px;
+			height: 31px;
+			background: #fff url(https://www.earthtory.com/res/img/flight/drop_select_arrow_a.png) no-repeat 300px 12px;
+			line-height: 31px;
+			margin: 0 auto;
+			margin-top: 5px;
+			padding-left: 5px;
+			font-size: 13px;
+			color: #808080;
+			cursor: pointer;
+		}
+
+		#map_tag_select_sub_box {
+			position: absolute;
+			width: 318px;
+			padding: 10px;
+			border: solid 1px #c8c8ca;
+			background: #fff;
+			padding-bottom: 3px;
+			max-height: 252px;
+			overflow-y: auto;
+			margin-top: -1px;
+			z-index: 9;
+			left: 24px
+		}
+
+		.day_spot_item {
+			padding: 15px;
+			/*cursor: move;*/
+			border-bottom: solid #a7a7a7 1px;
+			background: #fff;
+			width: 100%;
+			position: relative;
+		}
+
+		.day_spot_item:hover .item_contr_box {
+			display: block;
+		}
+
+
+
+		.spot_order_box {
+			width: 18px;
+			height: 18px;
+			border-radius: 9px;
+			position: absolute;
+			left: -3px;
+			top: -3px;
+			background: #223b68;
+			line-height: 19px;
+			text-align: center;
+			color: white;
+			font-size: 10px;
+		}
+
+		#schedule_detail_box .day_spot_item:nth-child(2) .spot_distance_box {
+			display: none;
+		}
+	</style>
+</head>
+
+<body>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/moment.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/daterangepicker@3.1.0/daterangepicker.min.js"></script>
+
+	<div id="map_city" style="flex:1;height:100%;">
+
+		<div id="map" style="flex:1;height:100%;"></div>
+		<div id="city_list">
+			<div class="list_title">
+
+
+			</div>
+			<div class="list_search_full_box" style="margin-left: 20px;">
+				<div class="list_search_box">
+					<input type="text" id="input_search" oninput="search_keyword(this)"
+						onchange="search_keyword_check(this)" autocomplete='off' placeholder="키워드 검색">
+
+				</div>
+				<div class="list_category_box" style="background: #f7f7f7;height: 120px;padding-top: 8px;">
+					<div class="list_cat_item" contenttype_id="39" onclick="item_contenttype(this)"><img
+							src="https://www.earthtory.com/res/img/workspace/new/ic_200_a.png">
+					</div>
+					<div class="list_cat_item" contenttype_id="38" onclick="item_contenttype(this)"><img
+							src="https://www.earthtory.com/res/img/workspace/new/ic_400_c.png">
+					</div>
+
+					<!--	<div class="list_cat_item"><img scr="https://www.earthtory.com/res/img/workspace/new/ic_300_a.png">
+					</div>
+					<div class="list_cat_item"><img src="https://www.earthtory.com/res/img/workspace/new/ic_100_a.png">
+					</div>
+					<div class="list_cat_item"><img src="data:image/png;base64,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"></div>
+					<div class="list_cat_item"><img src="https://www.earthtory.com/res/img/workspace/new/ic_000_a.png"></div>-->
+					<div class="list_tag_box" style="position: relative">
+						<div id="map_tag_select_box" onclick="open_sub_box(this)" data_is_open="0"
+							class="et_slide_parent" style="border: 1px solid rgb(247, 135, 15);">태그 선택</div>
+						<div id="map_tag_select_sub_box" class="et_slide" style="display:none;"></div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<div id="list_box" style="height: 637px; overflow-y: scroll; margin-top: 32px;">
+
+			</div>
+		</div>
+
+		<div id="detail_view_full_box" class="detail_view_full_box"></div>
+
+	</div>
+
+	<div class="left_full_box">
+		<div class="left_day_set">
+
+			<ul class="pn_title_box" style="width: 200px;background: #203341; padding-left: 0px; ">
+				<li class="pn_date">
+					<div class="full_date_info" style="display:inline-block"></div>
+					<div class="fl day_edit_start_btn"
+						style="display:inline-block;margin-top: 18px;margin-left: 10px;background: url(https://www.earthtory.com/res/img/workspace/new/cat_set_icon.png) no-repeat;padding-left: 18px;line-height: 15px;">
+						EDIT</div>
+				</li>
+
+			</ul>
+			<ul class="cat_menu" id="cat_menu"
+				style="width: 200px;height: 600px;background: #203341;overflow-y: auto;padding-left: 0px;">
+				<li id="show_all_day" style="line-height: 70px;font-size: 15px !important;">전체 일정 보기</li>
+
+			</ul>
+			<ul id="cat_add_box"
+				style="width: 160px; background: rgb(32, 51, 65); color: rgb(255, 255, 255); height: 409px; text-align: center;">
+				<li style="padding-top:15px; ">
+					<div style="width:124px;height:32px;line-height:32px;border:solid 1px #fff;text-align:center;margin:0 auto;cursor:pointer;"
+						onclick="add_plan_day()">Day 추가</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="schedule_full_box">
+			<div class="title_box" id="title_box">
+
+			</div>
+			<div id="day_controll_btn_box">
+				<div id="day_optimize_btn">경로 최적화</div>
+			</div>
+			<div id="schedule_detail_box" style="height: 738px; display: block;">
+				<div th:if="${#lists.isEmpty(scheduleDetailList)}">
+					<div class="tip_box" style="padding-bottom: 20px;text-align: center;padding-top: 20px;">
+						<img src="https://www.earthtory.com/res/img/workspace/tip_ko.png">
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=362b656b5b93008aab3b5504dea7f99d&libraries=services"></script>
+
+
+
+
+	<script type='text/javascript' th:inline="javascript">
+
+		var map;
+
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+			mapOption = {
+				center: new kakao.maps.LatLng(37.715133, 126.734086), // 지도의 중심좌표
+				level: 8 // 지도의 확대 레벨
+			};
+		map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+
+		window.onload = () => {
+			left_day_set();
+			// 함수 호출
+			//drawRoute(routeData);
+
+
+
+
+
+
+
+
+
+
+
+
+		}
+
+
+
+
+
+
+		var start_sub;
+		var end_sub;
+		var start = new Date(/*[[${start}]]*/ null);
+		var end = new Date(/*[[${end}]]*/ null);
+		var check_day = 1;
+
+		function left_day_set() {
+			var set_daylist =  /*[[${set_daylist}]]*/[];
+			var data_list = {}
+			start_sub = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+			end_sub = end.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+
+
+			$(".full_date_info").text(start_sub + " ~ " + end_sub);
+
+			start.setDate(start.getDate() - 1);
+
+			for (var item of set_daylist) {
+				for (var i = 0; i < parseInt(item.day); i++) {
+
+					start.setDate(start.getDate() + 1);
+					start_day = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+
+					var div = $(
+						`<li data = "` + check_day + `" data-date="` + start_day + `" data-f_lat="` + item.lat + `" data-f_lng="` + item.lng + `" original-title="` + item.location + `" onclick="open_right_box(this),open_city(this)">
+							<div class="cat_date_left_day">
+								<div class="cat_left_day">DAY`+ check_day + `</div>
+								<div class="cat_left_date">`+ start_day + `</div>
+							</div>
+							<div class="cat_date_right_box">
+								<div class="cat_right_weekday">묙요일</div>
+								<div class="cat_right_city">`+ item.location + `</div>
+							</div>
+						</li>`
+
+
+					)
+					$('#cat_menu').append(div);
+					check_day++;
+				}
+			}
+
+
+		}
+
+
+		function add_plan_day() {
+			start.setDate(start.getDate() + 1);
+			end.setDate(end.getDate() + 1);
+			start_add_day = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+			end_add_day = start.toLocaleDateString('ko-KR', {month: '2-digit', day: '2-digit'}).replace(/\//g, '-').replace('.', '-').replace(/\.+$/, '');
+			var add_div = $(
+				`<li data = "` + check_day + ` "data-date="` + start_add_day + `" data-f_lat="" data-f_lng="" original-title="" onclick="open_right_box(this),open_city(this)">
+							<div class="cat_date_left_day">
+								<div class="cat_left_day">DAY`+ check_day + `</div>
+								<div class="cat_left_date">`+ start_add_day + `</div>
+							</div>
+							<div class="cat_date_right_box">
+								<div class="cat_right_weekday">묙요일</div>
+								<div class="cat_right_city"></div>
+							</div>
+						</li>`
+
+
+			)
+			$('#cat_menu').append(add_div);
+			check_day++;
+
+			$(".full_date_info").text(start_sub + " ~ " + end_add_day);
+		}
+
+
+		function open_right_box(e) {
+			$('.schedule_full_box').css('display', 'block');
+
+			var data = $(e).attr("data");
+			var date = $(e).attr("data-date");
+			$('#title_box').empty();
+			var schedule_make = $(
+				`<div class="schedule_detail_title" data-date="` + date + `">
+				 <div class="schedule_detail_title_text" style="width:150px;padding-left:10px;font-size:15px;display:inline-block;">
+					 <div class="schedule_detail_title_text_text">
+						 Day`+ data + `  <span style="color:#999999">|</span>  ` + date + `
+						 
+					 </div>
+				 </div>
+				 <div class="day_reset_btn" style="display:inline-block; width: 20px;height: 20px;background: url(https://www.earthtory.com/res/img/workspace/_day_reset_icon.png) no-repeat;background-size: 20px 20px;margin-top: 14px;margin-left: 3px;cursor: pointer;"></div>
+				 <div class="day_prev_btn" style="display:inline-block; width: 22px;height: 24px;border: solid #fff 1px;background: url(https://www.earthtory.com/res/img/workspace/_prev_icon.png) no-repeat 6px 6px;margin-top: 13px;cursor: pointer;"></div>
+				 <div class="day_next_btn" style="display:inline-block; width: 22px;height: 24px;border: solid #fff 1px;background: url(https://www.earthtory.com/res/img/workspace/_next_icon.png) no-repeat 6px 6px;margin-top: 13px;cursor: pointer;"></div>
+			 </div>`
+			)
+			$('#title_box').append(schedule_make);
+
+		}
+
+		function open_city(e) {
+			var location = $(e).attr("original-title");
+			var city_lat = $(e).attr("data-f_lat");
+			var city_lng = $(e).attr("data-f_lng");
+			// 지도 중심을 부드럽게 이동시킵니다
+			var moveLatLon = new kakao.maps.LatLng(city_lat, city_lng);
+			$('.list_title').empty();
+
+			var list_title = $(
+				`<span class="list_title_location">` + location + `</span>
+				<div class="list_title_option_menu" style="">도시 변경</div>`
+			)
+			$(".list_title").append(list_title);
+
+			$.ajax({
+				url: '/plan/call_list_box', // 요청을 보낼 URL
+				method: "get", // HTTP 메서드 (GET, POST 등)
+				data: {
+					city_lat: city_lat,
+					city_lng: city_lng
+
+				}, // 요청에 포함할 데이터 (선택 사항)
+				success: function (list_box) {
+					// 요청이 성공한 경우 실행할 코드
+					$('#list_box').empty();
+
+					for (var i = 0; i < list_box.length; i++) {
+						var title = list_box[i].title;
+						var image = list_box[i].firstimage;
+						var cat2 = list_box[i].cat2;
+						var cat3 = list_box[i].cat3;
+						var mapx = list_box[i].mapx;
+						var mapy = list_box[i].mapy;
+						var contentid = list_box[i].contentid;
+
+
+
+
+						var put_box = $(
+							`<div class="day_spot_item" style="padding: 15px;cursor: move;border-bottom: solid #a7a7a7 1px;background: #fff;width: 100%;position: relative;">
+								<div class="img_box" style = "width: 82px; height: 75px;position: relative;cursor: pointer;">
+									<img style = "width: 82px; height: 75px;"src="`+ image + `">
+								</div>
+								<div class="info_box" style = "padding-left: 10px;width: 153px; ">
+									<div class="title">`+ title + `</div>
+									<div class="sub_title">`+ cat2 + `,` + cat3 + `</div>
+								</div>
+								<div class="spot_to_inspot" onclick = "add_detail_box(this)" contentid="`+ contentid + `" title="` + title + `" image="` + image + `" cat3="` + cat3 + `" mapx="` + mapx + `" mapy="` + mapy + `" style="cursor: pointer;position: absolute;top: 15px;right: 15px;">
+									<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+									
+								</div>
+							</div>`
+						)
+
+						$('#list_box').append(put_box);
+
+
+
+					}
+
+
+
+				},
+				error: function (xhr, status, error) {
+					// 요청이 실패한 경우 실행할 코드
+					console.error('Error:', error);
+				}
+			});
+
+			map.panTo(moveLatLon);
+			$('#city_list').css('display', 'block');
+
+
+		}
+
+
+
+		var contenttype_id;
+		var areaCode;
+		function item_contenttype(e) {
+
+
+			$('.list_cat_item').removeClass('on');
+			$(e).addClass('on');
+
+			contenttype_id = $(e).attr("contenttype_id");
+			var location = $(".list_title_location").text().trim();
+			$('#map_tag_select_box').text("태그 선택");
+			$('#input_search').val(null);
+
+
+			switch (location) {
+				case "서울":
+					areaCode = "1";
+					break;
+				case "인천":
+					areaCode = "2";
+					break;
+				case "대전":
+					areaCode = "3";
+					break;
+				case "대구":
+					areaCode = "4";
+					break;
+				case "광주":
+					areaCode = "5";
+					break;
+				case "부산":
+					areaCode = "6";
+					break;
+				case "울산":
+					areaCode = "7";
+					break;
+				default:    //제주도
+					areaCode = "39";
+					break;
+
+			}
+
+			$.ajax({
+				url: '/plan/contenttype_id', // 요청을 보낼 URL
+				method: "get", // HTTP 메서드 (GET, POST 등)
+				data: {
+					areaCode: areaCode,
+					contenttype_id: contenttype_id,
+
+
+				}, // 요청에 포함할 데이터 (선택 사항)
+				success: function (list_box) {
+					// 요청이 성공한 경우 실행할 코드
+					$('#list_box').empty();
+					$('#map_tag_select_sub_box').empty();
+
+
+					for (var i = 0; i < list_box.length; i++) {
+						var title = list_box[i].title;
+						var image = list_box[i].firstimage;
+						var cat2 = list_box[i].cat2;
+						var cat3 = list_box[i].cat3;
+						var mapx = list_box[i].mapx;
+						var mapy = list_box[i].mapy;
+
+						var put_box = $(
+							`<div class="day_spot_item" style="padding: 15px;cursor: move;border-bottom: solid #a7a7a7 1px;background: #fff;width: 100%;position: relative;">
+								<div class="img_box" style = "width: 82px; height: 75px;position: relative;cursor: pointer;">
+									<img style = "width: 82px; height: 75px;"src="`+ image + `">
+								</div>
+								<div class="info_box" style = "padding-left: 10px;width: 153px; ">
+									<div class="title">`+ title + `</div>
+									<div class="sub_title">`+ cat2 + `,` + cat3 + `</div>
+								</div>
+								<div class="spot_to_inspot"  title="`+ title + `" image="` + image + `" cat3="` + cat3 + `" mapx="` + mapx + `" mapy="` + mapy + `"  style="cursor: pointer;position: absolute;top: 15px;right: 15px;">
+									<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+									
+								</div>
+							</div>`
+						)
+
+						$('#list_box').append(put_box);
+					}
+
+
+
+
+
+
+
+
+					var category;
+					switch (contenttype_id) {
+						case "39":
+							category = $(
+								`<div onclick="list_by_category(this)" class="item" cat3="A05020100" category="한식" >한식</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A05020200" category="서양식">서양식</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A05020300" category="일식">일식</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A05020400" category="중식" >중식</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A05020700" category="이색음식점">이색음식점</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A05020900" category="카페/전통찻집">카페/전통찻집</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A05021000" category="클럽">클럽</div>`
+							);
+							break;
+
+						case "38":
+
+
+
+							category = $(
+								`<div onclick="list_by_category(this)" class="item" cat3="A04010100" category="5일장">5일장</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04010200" category="상설시장">상설시장</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04010300" category="백화점">백화점</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04010400" category="면세점">면세점</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04010500" category="대형마트">대형마트</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04010600" category="전문매장">전문매장/상가</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04010700" category="공예/공방">공예/공방</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04010900" category="특산물판매점">특산물판매점</div>
+							 <div onclick="list_by_category(this)" class="item" cat3="A04011000" category="사후면세점">사후면세점</div>`
+
+							);
+							break;
+						default:
+							areaCode = "39";
+							break;
+					}
+					$('#map_tag_select_sub_box').append(category);
+
+
+
+
+
+
+
+
+				},
+				error: function (xhr, status, error) {
+					// 요청이 실패한 경우 실행할 코드
+					console.error('Error:', error);
+				}
+			});
+
+		}
+
+		function open_sub_box(e) {
+
+			if ($('#map_tag_select_sub_box').is(':empty')) {
+				var empty = $(`<div>태그를 선택해 주세요</div>`)
+				$('#map_tag_select_sub_box').append(empty);
+
+			}
+
+
+			var dataIsOpen = $(e).attr("data_is_open")
+
+			if (dataIsOpen === "0") {
+
+				$('#map_tag_select_sub_box').css('display', 'block');
+				$(e).attr('data_is_open', '1');
+			} else if (dataIsOpen === "1") {
+				// data_is_open이 "1"일 때 수행할 작업
+				// 예를 들어:
+				$('#map_tag_select_sub_box').css('display', 'none');
+				$(e).attr('data_is_open', '0');
+			}
+
+
+		}
+
+
+		function list_by_category(e) {
+			$('#map_tag_select_sub_box').css('display', 'none');
+			$('#map_tag_select_box').attr('data_is_open', '0');
+			var cat3 = $(e).attr("cat3");
+			var category = $(e).attr("category");
+			$('#map_tag_select_box').text(category);
+
+
+			$.ajax({
+				url: '/plan/cat3', // 요청을 보낼 URL
+				method: "get", // HTTP 메서드 (GET, POST 등)
+				data: {
+					cat3: cat3,
+					areaCode: areaCode,
+					contenttype_id: contenttype_id,
+
+
+
+				}, // 요청에 포함할 데이터 (선택 사항)
+				success: function (list_box) {
+					// 요청이 성공한 경우 실행할 코드
+					$('#list_box').empty();
+
+
+					for (var i = 0; i < list_box.length; i++) {
+						var title = list_box[i].title;
+						var image = list_box[i].firstimage;
+						var cat2 = list_box[i].cat2;
+						var cat3 = list_box[i].cat3;
+						var mapx = list_box[i].mapx;
+						var mapy = list_box[i].mapy;
+
+						var put_box = $(
+							`<div class="day_spot_item" style="padding: 15px;cursor: move;border-bottom: solid #a7a7a7 1px;background: #fff;width: 100%;position: relative;">
+								<div class="img_box" style = "width: 82px; height: 75px;position: relative;cursor: pointer;">
+									<img style = "width: 82px; height: 75px;"src="`+ image + `">
+								</div>
+								<div class="info_box" style = "padding-left: 10px;width: 153px; ">
+									<div class="title">`+ title + `</div>
+									<div class="sub_title">`+ cat2 + `,` + cat3 + `</div>
+								</div>
+								<div class="spot_to_inspot"  title="`+ title + `" image="` + image + `" cat3="` + cat3 + `" mapx="` + mapx + `" mapy="` + mapy + `"  style="cursor: pointer;position: absolute;top: 15px;right: 15px;">
+									<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+									
+								</div>
+							</div>`
+						)
+
+						$('#list_box').append(put_box);
+					}
+
+				},
+				error: function (xhr, status, error) {
+					// 요청이 실패한 경우 실행할 코드
+					console.error('Error:', error);
+				}
+			});
+
+
+		}
+
+
+		function search_keyword(e) {
+			var keyword = $(e).val();
+
+			$.ajax({
+				url: '/plan/searchKeyword', // 요청을 보낼 URL
+				method: "get", // HTTP 메서드 (GET, POST 등)
+				data: {
+					keyword: keyword,
+
+
+
+				}, // 요청에 포함할 데이터 (선택 사항)
+				success: function (list_box) {
+					// 요청이 성공한 경우 실행할 코드
+					$('#list_box').empty();
+
+
+					for (var i = 0; i < list_box.length; i++) {
+						var title = list_box[i].title;
+						var image = list_box[i].firstimage;
+						var cat2 = list_box[i].cat2;
+						var cat3 = list_box[i].cat3;
+						var mapx = list_box[i].mapx;
+						var mapy = list_box[i].mapy;
+
+						var put_box = $(
+							`<div class="day_spot_item" style="padding: 15px;cursor: move;border-bottom: solid #a7a7a7 1px;background: #fff;width: 100%;position: relative;">
+								<div class="img_box" style = "width: 82px; height: 75px;position: relative;cursor: pointer;">
+									<img style = "width: 82px; height: 75px;"src="`+ image + `">
+								</div>
+								<div class="info_box" style = "padding-left: 10px;width: 153px; ">
+									<div class="title">`+ title + `</div>
+									<div class="sub_title">`+ cat2 + `,` + cat3 + `</div>
+								</div>
+								<div class="spot_to_inspot"  title="`+ title + `" image="` + image + `" cat3="` + cat3 + `" mapx="` + mapx + `" mapy="` + mapy + `"  style="cursor: pointer;position: absolute;top: 15px;right: 15px;">
+									<img src="https://www.earthtory.com/res/img/workspace/new/spot_to_inspot_a.png">
+									
+								</div>
+							</div>`
+						)
+
+						$('#list_box').append(put_box);
+					}
+
+				},
+				error: function (xhr, status, error) {
+					// 요청이 실패한 경우 실행할 코드
+				}
+			})
+		}
+
+
+		function search_keyword_check(e) {
+			var keyword = $(e).val();
+			if (keyword === null || keyword === "") {
+				$('.on').click();
+
+			}
+
+		}
+
+		var data_check = 0;
+		var check_for_up = 0;
+		var pre_title;
+		function add_detail_box(e) {
+			var title = $(e).attr("title");
+			var image = $(e).attr("image");
+			var cat3 = $(e).attr("cat3");
+			var mapx = $(e).attr("mapx");
+			var mapy = $(e).attr("mapy");
+			var contentid = $(e).attr("contentid");
+			var data_set_day = $('.schedule_detail_title_text_text').text();
+			data_check++;
+			check_for_up++;
+			$('.tip_box').hide();
+
+			var latlng = new kakao.maps.LatLng(mapy, mapx);
+			var distance_is = addMarker(latlng);
+			var day_spot = $(
+				`<div class="day_spot_item" data_check=` + data_check + ` data_set_day="` + data_set_day + `">
+					<div class="spot_distance_box spot_distance_box`+ check_for_up + `" pre_title="` + pre_title + `" title="` + title + `" mapy="` + mapy + `"   mapx="` + mapx + `" distance_is ="` + distance_is + `"  onclick="openKakaoMap(this)" >` + distance_is + `추천 경로</div>
+					<div class="img_box">
+						<div class="spot_order_box">`+ data_check + `</div>
+						<img src="`+ image + `" style="width: 82px;height: 75px;">
+						<div style="position:absolute;top:35px;left:40px;width:22px;height:20px;">
+	    				<img src="https://www.earthtory.com/res/img/workspace/list_memo_btn_off.png" style="width:22px;height:20px;">
+						</div>
+					</div>
+					<div class="info_box" style="padding-left: 10px;width: 153px;">
+						<div class="title" style="display: inline-block;">`+ title + `</div>
+						<div class="sub"  style="display: inline-block;">`+ cat3 + `</div>
+					</div>
+					<div class="item_contr_box" style="display:block">
+						<div class="item_set_plan" title="메모&예산"  title_real = "`+ title + `" contentid ="` + contentid + `" onclick="detail_view(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_set_icon_a.png"></div>
+						<div class="btn_del" mapx="`+ mapx + `" mapy = "` + mapy + `" data_check=` + data_check + ` check_for_up="` + check_for_up + `" onclick="del_add_box(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_del_icon_a.png"></div>
+					</div>
+				</div>`
+			)
+			$('#schedule_detail_box').append(day_spot);
+			//$('#schedule_detail_box').children().eq(data_check).find('.spot_order_box').val(data_check);
+
+			pre_title = title;
+
+		}
+
+
+		function del_add_box(e) {
+			var data_checks = $(e).attr("data_check")
+			var check_for_up = $(e).attr("check_for_up")
+			var mapx = $(e).attr("mapx")
+			var mapy = $(e).attr("mapy")
+
+
+			$('#schedule_detail_box [data_check="' + data_checks + '"]').remove();
+
+
+			$('#schedule_detail_box').children().each(function (index) {
+				$(this).find('.spot_order_box').text(index);
+			});
+
+			var latlng_in = new kakao.maps.LatLng(mapx, mapy);
+			var targetLat = latlng_in.getLat().toFixed(7); // 삭제할 위치의 위도를 소수점 아래 7자리까지 표시
+			var targetLng = latlng_in.getLng().toFixed(7); // 삭제할 위치의 경도를 소수점 아래 7자리까지 표시
+
+
+			for (var i = 0; i < markers.length; i++) {
+
+
+
+				var markerLat = markers[i].getPosition().getLat().toFixed(7); // 마커의 위도를 소수점 아래 7자리까지 표시
+				var markerLng = markers[i].getPosition().getLng().toFixed(7); // 마커의 경도를 소수점 아래 7자리까지 표시
+
+
+
+				if (markerLat === targetLng && markerLng === targetLat) { // 마커의 위치를 비교합니다.
+					markers[i].setMap(null); // 마커를 지도에서 제거합니다.
+					markers.splice(i, 1); // 배열에서 해당 마커를 제거합니다.
+					console.log("data_checks : " + data_checks)
+					redrawMap(check_for_up, data_checks);
+
+
+					break;
+				}
+			}
+
+
+			data_check--;
+
+		}
+
+		function redrawMap(check_for_up, data_checks) {
+			// 이전 지도 객체를 제거합니다.
+			//	map.delete();
+
+			// 새로운 지도 객체를 생성합니다.
+
+
+			map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+			// 남아있는 마커들을 다시 지도에 표시합니다.
+			var latling_in;
+			for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(map);
+				var markerLat = markers[i].getPosition().getLat().toFixed(7); // 마커의 위도를 소수점 아래 7자리까지 표시
+				var markerLng = markers[i].getPosition().getLng().toFixed(7); // 마커의 경도를 소수점 아래 7자리까지 표시
+				latlng_in = new kakao.maps.LatLng(markerLat, markerLng);
+			}
+			map.setCenter(latlng_in);
+			if (parseInt(data_checks) > 1) {
+
+				drawPolyline(check_for_up)
+			}
+
+		}
+
+
+		function drawPolyline(check_for_up) {
+
+			previousMarker = null; // 이전 마커
+			// 폴리라인을 그리기 위한 좌표 배열을 생성합니다.
+			var path = [];
+			var pre = null;
+			var check_check = parseInt(check_for_up) + 1;
+
+			console.log("check_check" + check_check);
+			// markers 배열 내의 마커들의 위치를 순차적으로 가져와 좌표 배열에 추가합니다.
+			for (var i = 0; i < markers.length; i++) {
+				var markerPosition = markers[i];
+				path.push(markerPosition.getPosition());
+
+				if (previousMarker !== null) {
+
+					var distance = getLineDistance(previousMarker.getPosition(), markerPosition.getPosition());
+					var distancecheck = distance.toFixed(2) + 'km';
+					totalDistance += distance;
+					$(".spot_distance_box" + check_check).text(distancecheck);
+
+				}
+
+				pre_previousMarker = previousMarker;
+				previousMarker = markerPosition;
+
+			}
+
+			// 폴리라인을 생성합니다.
+			polyline = new kakao.maps.Polyline({
+				path: path,
+				strokeWeight: 3,
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.7,
+				strokeStyle: 'solid'
+			});
+
+			// 지도에 폴리라인을 추가합니다.
+			polyline.setMap(map);
+		}
+
+
+
+
+
+
+
+		function detail_view(e) {
+			var contentid = $(e).attr("contentid");
+			var title = $(e).attr("title_real");
+			$('#detail_view_full_box').empty();
+			$("#detail_view_full_box").css('display', 'block');
+
+
+
+			$.ajax({
+				url: '/plan/detail', // 요청을 보낼 URL
+				method: "get", // HTTP 메서드 (GET, POST 등)
+				data: {
+					contentid: contentid,
+
+
+
+				}, // 요청에 포함할 데이터 (선택 사항)
+				success: function (box) {
+					// 요청이 성공한 경우 실행할 코드
+
+
+
+					var title = box.title;
+					var image = box.firstimage;
+					var cat2 = box.cat2;
+					var cat3 = box.cat3;
+					var mapx = box.mapx;
+					var mapy = box.mapy;
+					var addr1 = box.addr1;
+					var addr2 = box.addr2;
+					var homepage = box.homepage;
+					var contentid = box.contentid;
+					var overview = box.overview;
+					//detail_close_btn right - 40px로 바꾸기
+					var detail_view = $(
+						`<div class="spot_title" style="line-height: 50px;padding-left: 20px;color: #363636;font-size: 15px;font-weight: bold;">` + title + `</div>
+						<div id="detail_close_btn" onclick="detail_close()"    style="width: 40px;height: 40px; position: absolute;top: 10px;right: 0px;background: url(https://www.earthtory.com/res/img/map/info_close_btn.png);cursor: pointer;"></div>
+						<div class="spot_img" style="width: 380px;height: 182px;position: relative;"><img src="`+ image + `"    style="width: 380px;height: 182px"></div>
+						<div class="detail_content">
+							<div class="info_first">
+								<div class="in_full_box">
+									<div class="info_memo">
+										<div style="font-size:15px;color:#363636;font-weight:bold;text-align:left;padding-bottom:10px;padding-left:8px;">예산</div>
+										<div style="padding-left:10px;padding-bottom:15px;">
+											<div class="budget_currency" style=" float: left; width: 70px;height: 31px;border: solid #c8c8ca 1px;line-height: 31px;margin: 0 auto;margin-top: 0px;padding-left: 15px;font-size: 13px;color: #808080;text-align: left;cursor: pointer;">KRW</div>
+											<div class="set_money" style="float: left;"><input type="text" class="budget_input placeholder="0" onkeyup=""></div>
+										</div>
+										<div style="font-size:15px;color:#363636;font-weight:bold;text-align:left;padding-bottom:10px;padding-left:8px;">메모</div>
+										<textarea id="memo_input" data_set_day="" data_set_order=""></textarea>
+									
+									</div>
+								</div>
+								
+								<div class="in_full_box" style="line-height:22px;font-size:11px;color:#808080;padding-bottom:20px;font-size:13px;">
+									<img src="https://www.earthtory.com/res/img/workspace/new/tip_desc_icon.png">`+ overview + `
+								</div>
+								<div class="infomation" style="box-sizing:border-box;">
+									<div style="width:100%;padding:15px;border:solid #d4d4d4 1px;">
+										<div style="color:#808080;font-size:13px;padding-left:20px;background:url('https://www.earthtory.com/res/img/workspace/new/addr_desc_icon.png') no-repeat 2px 2px;line-height:16px;padding-bottom:10px;">`+ addr1 + ` ` + addr2 + `</div>
+										<div class="sub_title" style="float: left; padding-top: 5px;padding-bottom: 10px;width: 93px;font-size: 12px;color: #555555;">카테고리</div>
+										<div class="sub_info" style=" float: left; padding-top: 5px;padding-bottom: 10px;font-size: 12px;color: #808080;width: 190px;line-height: 18px;">`+ cat2 + ` ` + cat3 + `</div>
+									</div>
+								</div>
+								<div class="sub_desc" style="    padding-top: 20px;font-size: 13px;color: #808080;line-height: 24px;padding-bottom: 15px;"></div>
+							
+								<div class="info_third" style="padding-top:30px;">
+									<div style="font-size:15px;color:#363636;font-weight:bold;padding-bottom:10px;padding-left:20px;">블로그</div>
+									
+								</div>
+							</div>
+							
+						</div>
+						`
+					)
+
+					$('#detail_view_full_box').append(detail_view);
+
+
+
+
+
+
+
+					$.ajax({
+						url: '/plan/search_blog', // 요청을 보낼 URL
+						method: "get", // HTTP 메서드 (GET, POST 등)
+						data: {
+
+							title, title,
+
+
+						}, // 요청에 포함할 데이터 (선택 사항)
+						success: function (response) {
+							// 요청이 성공한 경우 실행할 코드
+
+
+							var maxLength = 20;
+							for (var i = 0; i < response.length; i++) {
+								var title = response[i].title;
+								var description = response[i].description;
+								var trimmedDescription = description.length > maxLength ? description.substring(0, maxLength) + "..." : description;
+
+
+								var link = response[i].link;
+								var blog = $(
+									`<a href="` + link + `" target="_blank">
+								<div class="in_full_box">
+									<div class="blog_item" style="padding-bottom: 20px;margin-bottom: 10px;border-bottom: 1px solid #dbdbdb">
+										<div class="blog_title" style="font-size:15px;color:#1a7ad9;padding-bottom:5px;font-weight:bold;line-height:20px;">`+ title + `</div>
+										<div class="blog_description" style="font-size: 15px;color: #1a7ad9;padding-bottom: 5px;font-weight: bold;line-height: 20px;">`+ description + `</div>
+									</div>
+								</div>	
+							</a>`
+
+								)
+								$('.info_third').append(blog);
+							}
+
+
+
+
+						},
+						error: function (xhr, status, error) {
+							// 요청이 실패한 경우 실행할 코드
+						}
+					})
+
+
+
+
+
+
+
+
+
+
+				},
+				error: function (xhr, status, error) {
+					// 요청이 실패한 경우 실행할 코드
+				}
+			})
+
+
+
+
+
+
+
+
+
+		}
+
+
+		function detail_close() {
+			$('#detail_view_full_box').css("display", "none");
+		}
+
+
+
+
+
+
+		// WGS84 좌표를 카텍 좌표계로 변환하는 함수
+		function convertToKATEC(lat, lng) {
+			// WGS84 좌표계 정의
+			proj4.defs("EPSG:4326", "+proj=longlat +datum=WGS84 +no_defs");
+			// 카텍(KATEC) 좌표계 정의
+			proj4.defs("EPSG:5179", "+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=bessel +units=m +no_defs");
+
+			// WGS84 좌표를 카텍 좌표계로 변환
+			var katecCoords = proj4("EPSG:4326", "EPSG:5179", [lng, lat]);
+
+
+
+			proj4.defs("EPSG:5181", "+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=500000 +ellps=GRS80 +units=m +no_defs");
+
+			// 변환할 좌표를 정의합니다. (WGS84 좌표계)
+			var sourceCoord = [126.9239, 37.5547]; // [경도, 위도]
+
+			// Proj4js를 사용하여 좌표를 변환합니다.
+			var source = new proj4.Proj('EPSG:4326'); // 원본 좌표계 (WGS84)
+			var dest = new proj4.Proj('EPSG:5181'); // 목적 좌표계 (EPSG:5181)
+			var pt = proj4.transform(source, dest, [lng, lat]); // 좌표 변환 수행
+
+			// 변환된 좌표를 출력합니다.
+			console.log(pt); // 변환된 좌표
+
+
+
+			return pt;
+		}
+
+
+
+		function openKakaoMap(e) {
+			var lat = $(e).attr("mapx");
+			var lng = $(e).attr("mapy");
+			var ex_lat = pre_previousMarker.getPosition().getLat();
+			var ex_lng = pre_previousMarker.getPosition().getLng();
+
+
+			console.log("latlat check : " + lat);
+			console.log("lnglng check : " + lng);
+			console.log("ex_latex_lat check : " + ex_lat);
+			console.log("ex_lngex_lng check : " + ex_lng);
+			var pre_title = $(e).attr("pre_title");
+			var title = $(e).attr("title");
+			var target = 'car';
+
+
+			//37.49870191290001
+			//127.0285433827
+			// WCONGNAMUL, CONGNAMUL
+			var REST_API_KEY = '653207f7b82a5728fc88da0d8c668496';
+			var lat_change;
+			var lng_change;
+			var ex_lng_change;
+			var ex_lat_change;
+			var input_coord = 'WGS84';
+			var output_coord = 'WCONGNAMUL';
+
+			$.ajax({
+				url: 'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+				type: 'GET',
+				data: {
+					x: ex_lat,
+					y: ex_lng,
+					input_coord: input_coord,
+					output_coord: output_coord
+				},
+				headers: {
+					'Authorization': 'KakaoAK ' + REST_API_KEY
+				},
+				success: function (response) {
+					ex_lat_change = response.documents[0].x;
+					ex_lng_change = response.documents[0].y;
+					
+
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+					// 오류를 처리하는 코드를 여기에 추가하세요
+					$('#result').html('오류 발생: ' + error);
+				}
+			});
+			$.ajax({
+				url: 'https://dapi.kakao.com/v2/local/geo/transcoord.json',
+				type: 'GET',
+				data: {
+					x: lat,
+					y: lng,
+					input_coord: input_coord,
+					output_coord: output_coord
+				},
+				headers: {
+					'Authorization': 'KakaoAK ' + REST_API_KEY
+				},
+				success: function (response) {
+					lat_change = response.documents[0].x;
+					lng_change = response.documents[0].y;
+					
+
+				},
+				error: function (xhr, status, error) {
+					console.error(xhr.responseText);
+					// 오류를 처리하는 코드를 여기에 추가하세요
+					$('#result').html('오류 발생: ' + error);
+				}
+			});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			//var startCoords = convertToKATEC(parseFloat(ex_lng), parseFloat(ex_lat));
+			//var endCoords = convertToKATEC(parseFloat(lat), parseFloat(lng));
+
+			//			var geocoder = new kakao.maps.services.Geocoder();
+			//			geocoder.coord2Address(lat, lng, function (result, status) {
+			//				if (status === kakao.maps.services.Status.OK) {
+			//					var des_address = result[0].address.address_name;
+			//					console.log('주소: ' + des_address);
+			//				} else {
+			//					console.error('좌표로 주소를 가져오는 데 실패했습니다.');
+			//				}
+			//			});
+			//			geocoder.coord2Address(ex_lng, ex_lat, function (result, status) {
+			//				if (status === kakao.maps.services.Status.OK) {
+			//					pre_address = result[0].address.address_name;
+			//					console.log('주소: ' + pre_address);
+			//				} else {
+			//				console.error('좌표로 주소를 가져오는 데 실패했습니다.');
+			//			}
+			//	});
+
+
+			var url = 'https://map.kakao.com/?map_type=TYPE_MAP&target=' + target +
+				'&rt=' + lng + ',' + lat + ',' + ex_lat + ',' + ex_lng +
+				'&rt1=' + pre_title + '&rt2=' + title + '&rtIds=,8430129';
+
+			console.log("url check : " + url);
+
+			//var kakaoMapUrl = 'https://map.kakao.com/?sName='+pre_title+'&eName='+title+'&sx=' + ex_lat + '&sy=' + ex_lng + '&ex=' + lng + '&ey=' + lat + '&path=0&by=CAR';
+
+			//var test_url = 'https://map.kakao.com/link/to/' + title + ',' + lng + ',' + lat + '';
+
+
+			var width = 600; // 폭
+			var height = 400; // 높이
+			var options = 'width=' + width + ',height=' + height;
+
+			//window.open(url, '_blank', options);
+
+			/*			var test_window =
+			
+						var interval = setInterval(function () {
+							if (test_window && test_window.document.readyState === 'complete') {
+								clearInterval(interval); // 인터벌을 중지합니다.
+								// 새 창의 로드가 완료되면 실행될 함수를 호출합니다.
+								onLoad();
+							}
+						}, 1000); // 1초마다 확인합니다.
+			
+						function onLoad() {
+							// 새 창이 로드되었을 때 실행될 함수
+							alert("새 창이 로드되었습니다.");
+			
+							// 새 창의 DOM에서 검색창 요소를 찾아서 값 입력
+							var inputElement = $(test_window.document).find('#info.route.waypointSuggest.input0'); // 변경하고자 하는 입력 필드의 ID를 지정합니다.
+							if (inputElement.length > 0) {
+								inputElement.val(pre_title); // 변경하고자 하는 값을 설정합니다.
+							}
+						}*/
+
+		}
+
+
+
+
+
+		function get_address_by_xy() {
+			var geocoder = new kakao.maps.services.Geocoder();
+			geocoder.coord2Address(lat, lng, function (result, status) {
+				if (status === kakao.maps.services.Status.OK) {
+					var des_address = result[0].address.address_name;
+				} else {
+					console.error('좌표로 주소를 가져오는 데 실패했습니다.');
+				}
+			});
+			geocoder.coord2Address(ex_lng, ex_lat, function (result, status) {
+				if (status === kakao.maps.services.Status.OK) {
+					pre_address = result[0].address.address_name;
+				} else {
+					console.error('좌표로 주소를 가져오는 데 실패했습니다.');
+				}
+			});
+		}
+
+
+
+
+
+
+		var previousMarker = null; // 이전 마커
+		var pre_previousMarker = null;
+		var totalDistance = 0; // 누적 거리
+		var markers = []; // 마커를 담을 배열
+		var lines = []; // 폴리라인을 담을 배열
+
+		function addMarker(latlng) {
+
+			var marker = new kakao.maps.Marker({
+				position: latlng
+			});
+			marker.setMap(map);
+			markers.push(marker);
+
+			if (previousMarker !== null) {
+				// 이전 마커와 새로운 마커 사이의 거리 계산
+				var distance = getLineDistance(previousMarker.getPosition(), marker.getPosition());
+				var distancecheck = distance.toFixed(2) + 'km';
+
+				totalDistance += distance; // 누적 거리 업데이트
+
+				// 새로운 마커와 이전 마커를 연결하는 폴리라인을 그립니다.
+				var linePath = [markers[markers.length - 2].getPosition(), markers[markers.length - 1].getPosition()];
+				var polyline = new kakao.maps.Polyline({
+					path: linePath,
+					strokeWeight: 3,
+					strokeColor: '#FF0000', // 핑크색과 유사한 빨간색 (RGBA 형식)
+					strokeOpacity: 0.7,
+					strokeStyle: 'solid'
+				});
+				polyline.setMap(map);
+				lines.push(polyline);
+			}
+			pre_previousMarker = previousMarker;
+			previousMarker = marker; // 현재 마커를 이전 마커로 저장
+			return distancecheck;
+		}
+
+		function getLineDistance(point1, point2) {
+			var lat1 = point1.getLat(), lon1 = point1.getLng(); // 첫 번째 지점의 위도와 경도
+			var lat2 = point2.getLat(), lon2 = point2.getLng(); // 두 번째 지점의 위도와 경도
+
+			var R = 6371; // 지구 반경 (단위: km)
+			var dLat = (lat2 - lat1) * Math.PI / 180;
+			var dLon = (lon2 - lon1) * Math.PI / 180;
+			var a =
+				Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+				Math.sin(dLon / 2) * Math.sin(dLon / 2);
+			var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			var distance = R * c; // 거리 (단위: km)
+			return distance;
+		}
+
+
+
+
+
+
+
+		/*
+		function drawRoute(routeData) {
+			// 경로 정보에서 좌표 추출
+			var path = [];
+			routeData.routes[0].sections.forEach(function (section) {
+				section.roads.forEach(function (road) {
+					road.vertexes.forEach(function (vertex, index) {
+						// 경로 좌표 추가
+						if (index % 2 === 0) {
+							path.push(new kakao.maps.LatLng(road.vertexes[index + 1], vertex));
+						}
+					});
+				});
+			});
+
+			// 지도에 표시할 선 생성
+			var polyline = new kakao.maps.Polyline({
+				path: path,
+				strokeWeight: 4,
+				strokeColor: '#FF0000',
+				strokeOpacity: 0.7,
+				strokeStyle: 'solid'
+			});
+
+			// 지도에 선 표시
+			polyline.setMap(map);
+
+			// 경로 정보 출력
+			var summary = routeData.routes[0].summary;
+			console.log('Distance:', summary.distance, 'm');
+			console.log('Duration:', summary.duration, 'sec');
+			console.log('Taxi Fare:', summary.fare.taxi, 'KRW');
+			console.log('Traffic Toll:', summary.fare.toll, 'KRW');
+			console.log('Traffic Priority:', summary.priority);
+			console.log('Traffic Bound:', summary.bound);
+		}
+
+		// 경로 정보
+		var routeData = {
+			"trans_id": "c9d60cbabdd44deeafb1e78feb8c8b86",
+			"routes": [{
+				"result_code": 0,
+				"result_msg": "길찾기 성공",
+				"summary": {
+					"origin": {
+						"name": "",
+						"x": 127.11015051307636,
+						"y": 37.394725518530834
+					},
+					"destination": {
+						"name": "",
+						"x": 127.10823557165544,
+						"y": 37.401928707331656
+					},
+					"waypoints": [],
+					"priority": "RECOMMEND",
+					"bound": {
+						"min_x": 127.10833536148644,
+						"min_y": 37.39445954360996,
+						"max_x": 127.1098222529551,
+						"max_y": 37.40242724407785
+					},
+					"fare": {
+						"taxi": 3800,
+						"toll": 0
+					},
+					"distance": 1033,
+					"duration": 349
+				},
+				"sections": [{
+					"distance": 1033,
+					"duration": 349,
+					"bound": {
+						"min_x": 127.10824109988312,
+						"min_y": 37.394469584427156,
+						"max_x": 127.10991634747967,
+						"max_y": 37.40242613861426
+					},
+					"roads": [{
+						"name": "",
+						"distance": 22,
+						"duration": 5,
+						"traffic_speed": 16,
+						"traffic_state": 0,
+						"vertexes": [
+							127.10991634747967,
+							37.39447145478345,
+							127.10966790676201,
+							37.394469584427156
+						]
+					},
+					{
+						"name": "판교역로",
+						"distance": 883,
+						"duration": 279,
+						"traffic_speed": 9,
+						"traffic_state": 1,
+						"vertexes": [
+							127.10966790676201,
+							37.394469584427156,
+							127.10967141980313,
+							37.39512739646385,
+							127.10968100356395,
+							37.396226781360426,
+							127.10967417816033,
+							37.39775855885587,
+							127.10968323318781,
+							37.39794785293074,
+							127.10967534594126,
+							37.39861458950405,
+							127.10967214334856,
+							37.399840028043634,
+							127.1096931266438,
+							37.40093048716485,
+							127.10967543155922,
+							37.40242613861426
+						]
+					},
+					{
+						"name": "판교역로241번길",
+						"distance": 128,
+						"duration": 65,
+						"traffic_speed": 15,
+						"traffic_state": 2,
+						"vertexes": [
+							127.10967543155922,
+							37.40242613861426,
+							127.10860261294675,
+							37.40240904474889,
+							127.10824109988312,
+							37.402415329497174
+						]
+					}
+					],
+					"guides": [{
+						"name": "출발지",
+						"x": 127.10991634747967,
+						"y": 37.39447145478345,
+						"distance": 0,
+						"duration": 0,
+						"type": 100,
+						"guidance": "출발지",
+						"road_index": 0
+					},
+					{
+						"name": "",
+						"x": 127.10966790676201,
+						"y": 37.394469584427156,
+						"distance": 22,
+						"duration": 5,
+						"type": 2,
+						"guidance": "우회전",
+						"road_index": 1
+					},
+					{
+						"name": "",
+						"x": 127.10967543155922,
+						"y": 37.40242613861426,
+						"distance": 883,
+						"duration": 279,
+						"type": 1,
+						"guidance": "좌회전",
+						"road_index": 2
+					},
+					{
+						"name": "목적지",
+						"x": 127.10824109988312,
+						"y": 37.402415329497174,
+						"distance": 128,
+						"duration": 65,
+						"type": 101,
+						"guidance": "목적지",
+						"road_index": -1
+					}
+					]
+				}]
+			}]
+		};
+			*/
+
+
+
+	</script>
+
+
+</body>
+
+</html>

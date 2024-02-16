@@ -1,0 +1,86 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>회원가입</h4>
+        </div>
+    </div>
+    <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <div class="mb-3">
+            <label for="username" class="form-label">사용자ID</label>
+            <input type="text" th:field="*{username}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password1" class="form-label">비밀번호</label>
+            <input type="password" th:field="*{password1}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="password2" class="form-label">비밀번호 확인</label>
+            <input type="password" th:field="*{password2}" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일</label>
+            <input type="email" th:field="*{email}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">회원가입</button>
+    </form>
+</div>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+	th:if="${question != null}"
+	th:each="question : ${questionList}"
+	th:each="question, loop : ${questionList}"
+	loop.index: 루프의 순서(루프의 반복 순서, 0부터 1씩 증가)
+loop.count: 루프의 순서(루프의 반복 순서, 1부터 1씩 증가)
+loop.size: 반복 객체의 요소 개수(예를 들어 questionList의 요소 개수)
+loop.first: 루프의 첫 번째 순서인 경우 true
+loop.last: 루프의 마지막 순서인 경우 true
+loop.odd: 루프의 홀수 번째 순서인 경우 true
+loop.even: 루프의 짝수 번째 순서인 경우 true
+loop.current: 현재 대입된 객체(여기서는 question과 동일)
+	
+-->
