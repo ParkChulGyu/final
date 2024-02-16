@@ -1,0 +1,121 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+	<div class="my-3 border-bottom">
+		<div>
+			<h4 class="log4">회원가입</h4>
+		</div>
+	</div>
+	<form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+			<div class="mb-3 log4">
+			<label for="username" class="form-label">사용자ID</label>
+			</div>
+<div class="mb-3 log4">
+    		<input type="text" id="username" name="username" required>
+            <button type="button" onclick="checkUsername()">중복 확인</button>
+            <p id="result"></p>
+         <script>
+    function checkUsername() {
+        var username = document.getElementById('username').value;
+
+         console.log(username);
+        // AJAX 요청을 통해 서버에 아이디 중복 여부 확인
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/user/checkUsername?username=' + username, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    // 서버 응답이 "사용 가능한 아이디입니다."인 경우에만 메시지 변경
+                    if (xhr.responseText.trim() === "사용 가능한 아이디입니다.") {
+                        document.getElementById('result').innerText = xhr.responseText;
+                    } else {
+                        document.getElementById('result').innerText = "이미 사용 중인 아이디입니다.";
+                    }
+                } else {
+                    document.getElementById('result').innerText = "오류 발생";
+                }
+            }
+        };
+
+        xhr.send();
+    }
+</script>
+         
+		</div>
+		<div class="mb-3 log4">
+			<label for="password1" class="form-label">비밀번호</label>
+			<input type="password" th:field="*{password1}" class="form-control">
+		</div>
+		<div class="mb-3 log4">
+			<label for="password2" class="form-label">비밀번호 확인</label>
+			<input type="password" th:field="*{password2}" class="form-control">
+		</div>
+		<div class="mb-3 log4">
+			<label for="phone" class="form-label">전화번호</label>
+			<input type="tel" th:field="*{phone}" class="form-control">
+		</div>
+		<div class="mb-3 log4">
+			<label for="nick" class="form-label">닉네임</label>
+			<input type="text" th:field="*{nick}" class="form-control">
+		</div>
+		<div class="mb-3 log4">
+			<h5>생년월일</h5>
+			<input type="date" th:field="*{birth}" class="form-control">
+		</div>
+		<div class="mb-3 log4">
+			<label for="email" class="form-label">이메                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    일</label>
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    function sendNumber() {
+        $("#mail_number").css("display", "block");
+        $.ajax({
+            url: "/user/send",
+            type: "post",
+            dataType: "json",
+            data: {"mail": $("#mail").val()},
+            success: function (data) {
+                alert("인증번호 발송");
+                $("#Confirm").attr("value", data);
+            }
+        });
+    }
+
+    function confirmNumber() {
+        let mail = $("#mail").val();
+        let number = $("#number").val();
+
+        $.ajax({
+           url: "/user/verify",
+           type: "post",
+            dataType: "json",
+            data: {"mail": mail, "verifyCode": number},
+            success: function (data, status, xhr) {
+               console.log(status);
+            }
+        });
+    }
+</script>
+<body>
+    <div id="mail_input" name="mail_input">
+        <input type="text" name="mail" id="mail" placeholder="이메일 입력">
+        <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호</button>
+    </div>
+    <br>
+    <div id="mail_number" name="mail_number" style="display: none">
+        <input type="text" name="number" id="number" placeholder="인증번호 입력">
+        <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
+    </div>
+    <br>
+    <input type="text" id="Confirm" name="Confirm" style="display: none" value="">
+     </div>
+		<div class="mb-3 log4">
+			<label class="checkbox-inline"><input type="checkbox"> <a href="#">이용 약관</a> 에 동의합니다</label>
+		</div>
+		<div class="mb-3 log4">
+			<button type="submit">회원가입</button>
+		</div>
+	</form>
+	<div class="text-center">계정이 있다면? <a href="/login">로그인하기</a></div>
+</div>
+</html>
