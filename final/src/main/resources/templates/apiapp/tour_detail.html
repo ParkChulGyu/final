@@ -63,16 +63,17 @@
 		<div class="parent-div">
 			<div class="child-div" style="width: 50%;  float:left;">
 				<div style="text-align: center;">
-					<div id="map" class="map-container" style="width:500px;height:400px;  "></div>
+					<div id="map" class="map-container" style="width:500px; height:400px;  "></div>
 				</div>
 
 			</div>
-			<div class="child-div"  style="width: 50%;  float:left;">
-				<div id="chart_div" style="width: 500px; height: 400px; white-space: nowrap; left: 0;"></div>
+			<div class="child-div" style="width: 50%;  float:left;">
+				<div id="" style="width: 100px; height: 100px; white-space: nowrap; left: 0;">안녕하세요</div>
+				<div id="chart_div" style="width: 500px; height: 300px; white-space: nowrap; left: 0;"></div>
 			</div>
 		</div>
 
-	<div style="width:100%;height:500px; "></div>
+		<div style="width:100%;height:500px; "></div>
 
 
 		<!--지도 그리기 스크립트 -->
@@ -121,8 +122,27 @@
 			function drawChart() {
 				// 모델에서 전달된 데이터를 JavaScript 변수에 할당
 				var weatherData = /*[[(${weatherTMPDTOList})]]*/[];
+				var weatherData2 = /*[[(${weatherPOPDTOList})]]*/[];
+				
+				var Tour_name  = /*[[(${tourDetailDTO.title})]]*/null;
 
 				console.log(weatherData);
+				console.log(weatherData2);
+
+				var combinedData = [];
+
+				for (var i = 0; i < weatherData.length; i++) {
+					var time = weatherData[i].fcstTime; // 기존 데이터의 시간을 가져옴
+					var tmp = weatherData[i].tmp;
+					var hour = time.substring(0, 2);
+					var formattedTime = hour + '시';
+					var humidity = weatherData2[i].pop; // 습도 데이터를 가져옴
+					combinedData.push([formattedTime, parseInt(tmp), parseInt(humidity)]); // 시간, 온도, 습도를 함께 저장
+				}
+
+				console.log('combinedData ==' + combinedData);
+
+
 
 				// 구글 차트 라이브러리 로드
 				google.charts.load('current', {'packages': ['corechart']});
@@ -131,21 +151,32 @@
 				google.charts.setOnLoadCallback(function () {
 					// 데이터를 구글 차트 형식으로 변환
 					var data = new google.visualization.DataTable();
-					data.addColumn('string', 'Time');
-					data.addColumn('number', 'Temperature');
-					for (var i = 0; i < weatherData.length; i++) {
-						//console.log(weatherData[i]);
-						var fcstTime = weatherData[i].fcstTime;
-						var hour = fcstTime.substring(0, 2);
-						var formattedTime = hour + '시';
-						console.log(parseInt(weatherData[i].TMP));
-						data.addRow([formattedTime, parseInt(weatherData[i].tmp)]);
-					}
+					data.addColumn('string', '시간');
+					data.addColumn('number', '기온');
+					data.addColumn('number', '강수확률');
+					data.addRows(combinedData); // 정리된 데이터를 차트에 추가
+
+					//					for (var i = 0; i < weatherData.length; i++) {
+					//						//console.log(weatherData[i]);
+					//						var fcstTime = weatherData[i].fcstTime;
+					//						var hour = fcstTime.substring(0, 2);
+					//						var formattedTime = hour + '시';
+					//						console.log(parseInt(weatherData[i].TMP));
+					//						data.addRow([formattedTime, parseInt(weatherData[i].tmp)]);
+					//					}
 
 					// 차트 옵션 설정
 					var options = {
-						title: 'Weather Temperature',
-						curveType: 'function',
+						title: Tour_name +'날씨 데이터',
+						curveType: 'none',
+						series: {
+							0: {targetAxisIndex: 0}, // 온도 데이터는 첫 번째 축에 표시
+							1: {targetAxisIndex: 1}  // 습도 데이터는 두 번째 축에 표시
+						},
+						vAxes: {
+							0: {title: '온도 (°C)', minValue: -15, maxValue: 35}, // 온도 축 설정
+							1: {title: '강수확률 (%)', minValue: 0, maxValue: 100}       // 습도 축 설정
+						},
 						legend: {position: 'top'}
 					};
 

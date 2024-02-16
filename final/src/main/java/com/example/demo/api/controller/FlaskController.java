@@ -97,10 +97,11 @@ public class FlaskController {
 		Map<String, Object> weatherTMPDTOList = new HashMap<>();
 		weatherTMPDTOList = w_service.fetchDataFromExternalAPIweather(map);
 		
-		System.out.println(weatherTMPDTOList.get("weatherTMPDTOList"));
+		//System.out.println(weatherTMPDTOList.get("weatherTMPDTOList"));
 		
 		model.addAttribute(tourDetailDTO.get("tourDetailDTO"));
 		model.addAttribute(weatherTMPDTOList.get("weatherTMPDTOList"));
+		model.addAttribute(weatherTMPDTOList.get("weatherPOPDTOList"));
 		
 		return "apiapp/tour_detail";
 	}

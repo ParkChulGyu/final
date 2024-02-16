@@ -40,5 +40,7 @@ class FinalApplicationTests {
 		
 		System.out.println(gpsTransfer.getLat());
 	}
+	
+	
 
 }

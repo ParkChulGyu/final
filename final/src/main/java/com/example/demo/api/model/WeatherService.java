@@ -48,6 +48,7 @@ public class WeatherService {
 	public Map<String, Object> fetchDataFromExternalAPIweather(Map<String, Object> map) throws Exception {
 		List<WeatherDTO> weatherDTOList = new ArrayList<WeatherDTO>();
 		List<WeatherTMPDTO> weatherTMPDTOList = new ArrayList<WeatherTMPDTO>();
+		List<WeatherPOPDTO> weatherPOPDTOList = new ArrayList<WeatherPOPDTO>();
 
 		// Apiproperties에서 필요값 세팅하기
 		String apiUrl = apiProperties.getKapp_api_url();
@@ -57,7 +58,8 @@ public class WeatherService {
 		Date now = new Date();
 		Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
-        calendar.add(Calendar.HOUR_OF_DAY, -1);
+        //calendar.add(Calendar.HOUR_OF_DAY, -1);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
         
         Date oneHourAgo = calendar.getTime();
 		
@@ -67,18 +69,18 @@ public class WeatherService {
 		SimpleDateFormat hour = new SimpleDateFormat("HH00");
 
         // 시간을 문자열로 변환하여 저장
-        String daystamp = day.format(now);
+        String daystamp = day.format(oneHourAgo);
         String hourstamp = (hour.format(oneHourAgo));
 
         // 결과 출력
-        //System.out.println("오늘 날짜 : " + daystamp);
-        //System.out.println("현재 시간: " + hourstamp);
+        //System.out.println("-1 날짜 : " + daystamp);
+        //System.out.println("-1 시간: " + hourstamp);
         
         //변환된 x y 위경도 출력
         gpsTransfer = (GpsTransfer) map.get("gpsTransfer");
 		
-		double nx = gpsTransfer.getxLat();
-		double ny = gpsTransfer.getyLon();
+		int nx = (int)gpsTransfer.getxLat();
+		int ny = (int)gpsTransfer.getyLon();
 		// URL 설정
 		
 		//System.out.println("nx ny ::; = " + nx +","+ny);
@@ -89,15 +91,15 @@ public class WeatherService {
 				+ "&pageNo=1"
 				+ "&numOfRows=1000"
 				+ "&dataType=JSON"
-				+ "&base_date=20240215"
-				+ "&base_time=0800"
-				+ "&nx=72"
-				+ "&ny=135";
+				+ "&base_date="+ daystamp
+				+ "&base_time=0500" 
+				+ "&nx="+ nx
+				+ "&ny="+ ny ;
 				
 				
 				
 		URI finalUri = URI.create(uri);
-//		System.out.println("finalUri : " + finalUri);
+		System.out.println("finalUri : " + finalUri);
 
 		// HttpClient 생성
 		HttpClient httpClient = HttpClient.newHttpClient();
@@ -144,10 +146,13 @@ public class WeatherService {
 //		weatherDTOList = mapElementsToDtoWeatherList(jsonItem);
 //		map.put("weatherDTOList", weatherDTOList);
 		weatherTMPDTOList = mapElementsToDtoWeatherTMPList(jsonItem);
+		weatherPOPDTOList = mapElementsToDtoWeatherPOPList(jsonItem);
 //		System.out.println("tourDetailDTO == "+tourDetailDTO);
+		System.out.println("weatherPOPDTOList == "+weatherPOPDTOList);
 		map.put("weatherTMPDTOList", weatherTMPDTOList);
+		map.put("weatherPOPDTOList", weatherPOPDTOList);
 		
-		//System.out.println("map :::" +map);
+		System.out.println("map :::" +map);
 
 		// 응답 헤더 출력
 		// HttpHeaders headers = response.headers();
@@ -220,5 +225,30 @@ public class WeatherService {
 		return weatherTMPDTOList;
 	}
 	
+	private List<WeatherPOPDTO> mapElementsToDtoWeatherPOPList(JSONArray elementsList) {
+		List<WeatherPOPDTO> weatherPOPDTOList = new ArrayList<WeatherPOPDTO>();
+
+		//System.out.println("elementsList ::::"+elementsList);
+
+		for (Object element : elementsList) {
+			JSONObject jo = (JSONObject) element;
+			WeatherPOPDTO weatherPOPDTO = new WeatherPOPDTO();
+				//System.out.println("jo:::::"+jo);
+//				break;
+				
+				if (jo.get("category").equals("POP")) {
+					weatherPOPDTO.setPOP((String)jo.get("fcstValue"));
+					weatherPOPDTO.setFcstTime((String)jo.get("fcstTime")); 
+					weatherPOPDTOList.add(weatherPOPDTO);
+					//System.out.println("weatherDTOList:::" + weatherTMPDTOList);
+					} 
+				
+
+//				break;
+		}
+		//System.out.println("weatherDTOList:::" + weatherTMPDTOList);
+
+		return weatherPOPDTOList;
+	}
 
 }
