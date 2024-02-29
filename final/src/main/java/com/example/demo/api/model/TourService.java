@@ -51,15 +51,16 @@ public class TourService {
 //		String searchKeyword = "searchKeyword";
 		String mobileOS = "ETC";
 		String mobileApp = "AppTest";
-		String contentId = (String) map.get("contentId");
+		String contentId = (String) map.get("contentid");
 
-//		System.out.println("map : "+map);
+		//System.out.println("map : "+map);
+		//System.out.println("contentId =="+contentId);
 
-		if (contentId == null)
-			contentId = "2792802";
+		if(contentId == null)contentId = "2792802";
 
+		
 		String uri = apiUrl + "/detailCommon1" + "?serviceKey=" + serviceKey + "&MobileOS=" + mobileOS + "&MobileApp="
-				+ mobileApp + "&_type=json" + "&contentId=2792802"
+				+ mobileApp + "&_type=json" + "&contentId="+contentId
 				+ "&defaultYN=Y&firstImageYN=Y&areacodeYN=N&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&numOfRows=1&pageNo=1";
 
 		URI finalUri = URI.create(uri);
@@ -108,7 +109,7 @@ public class TourService {
 
 //		System.out.println("jsonItem :::"+jsonItem);
 		tourDetailDTO = mapElementsToDtoListDetail(jsonItem);
-//		System.out.println("tourDetailDTO == "+tourDetailDTO);
+		// System.out.println("tourDetailDTO == "+tourDetailDTO);
 		map.put("tourDetailDTO", tourDetailDTO);
 
 		// 응답 헤더 출력
@@ -139,17 +140,13 @@ public class TourService {
 				;
 				String pageNo = (String) map.get("pageNo");
 				String keyword = (String) map.get("keyword");
-
+				
 //						System.out.println("map : "+map);
 
-				if (contentTypeId == null)
-					contentTypeId = "12";
-				if (numOfRows == null)
-					numOfRows = "6";
-				if (pageNo == null)
-					pageNo = "1";
-				if (keyword == null)
-					keyword = "강원";
+				if (contentTypeId == null)contentTypeId = "12";
+				if (numOfRows == null)numOfRows = "6";
+				if (pageNo == null)pageNo = "1";
+				if (keyword == null)keyword = "강원";
 
 				int totalCount = 0;
 
@@ -159,7 +156,7 @@ public class TourService {
 
 			String uri = apiUrl + "/searchKeyword1" + "?numOfRows=" + numOfRows + "&pageNo=" + pageNo
 					+ "&contentTypeId=" + contentTypeId + "&MobileOS=" + mobileOS + "&MobileApp=" + mobileApp
-					+ "&listYN=" + listYN + "&arrange=" + arrange + "&keyword="
+					+ "&listYN=" + listYN + "&arrange=" + arrange + "&keyword="  
 					+ URLEncoder.encode(keyword, StandardCharsets.UTF_8.toString()) + "&serviceKey=" + serviceKey;
 
 			URI finalUri = URI.create(uri);
@@ -222,7 +219,6 @@ public class TourService {
 		// URL 설정
 //		String baseUrl = "https://apis.data.go.kr/B551011/KorService1/searchKeyword1";
 
-		String searchKeyword = "searchKeyword";
 		String mobileOS = "ETC";
 		String mobileApp = "AppTest";
 		String keyword = "강원";
@@ -261,7 +257,7 @@ public class TourService {
 			Document document = Jsoup.parse(response.body());
 			// 응답 출력
 			// System.out.println("Response Code: " + response.statusCode());
-			System.out.println("Response Body: " + response.body());
+			//System.out.println("Response Body: " + response.body());
 
 			Elements itemElements = document.select("item");
 
@@ -295,7 +291,7 @@ public class TourService {
 		String arrange = "A";
 //		String serviceKey = "lqQazXlaDVBCC6RSW8rmSCPJnO4%2B6MDm4V4e15lOP5z8TonUtOFvQJd5sW9qL1j4%2FPezxtDigZOOtR4lZbgcvg%3D%3D";
 		String keyword = "강원";
-		int numOfRows = 5;
+		int numOfRows = 6;
 		int pageNo = 1;
 		String totalCount = "";
 
