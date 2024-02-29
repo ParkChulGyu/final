@@ -11,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,8 +38,8 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/plan")
 public class PlanController {
 
-	private final PlanService planService;
-	 private final OpenApiManager openApiManager;
+	private final OpenApiManager openApiManager;
+	private final ApiSearchBlog apisearchblog;
 	
 
 //	@GetMapping("result")
@@ -73,9 +75,55 @@ public class PlanController {
 		
 		return list_box;
 	}
+	@ResponseBody
+	@GetMapping("search_blog")
+	public List<search_blogDTO> search_blog(@RequestParam(value="title") String title) throws Exception {
+		//위치기반 관광정보조회
+		
+		List<search_blogDTO> list_box = apisearchblog.main(title);
+		
+		return list_box;
+	}
+	
+	@ResponseBody
+	@GetMapping("detail")
+	public list_boxDTO detail(@RequestParam(value="contentid") String contentid) throws Exception {
+		//위치기반 관광정보조회
+		list_boxDTO box = openApiManager.detail_call(contentid);
+		
+		
+		return box;
+	}
 
+	@ResponseBody
+	@GetMapping("contenttype_id")
+	public List<list_boxDTO> contenttype_id(@RequestParam(value="areaCode") String areaCode,@RequestParam(value="contenttype_id") String contenttype_id) throws Exception {
+		//위치기반 관광정보조회
+		List<list_boxDTO> list_box = openApiManager.location_contenttype_call(areaCode,contenttype_id);
+		
+		
+		return list_box;
+	}
+	@ResponseBody
+	@GetMapping("cat3")
+	public List<list_boxDTO> cat3(@RequestParam(value="cat3") String cat3,@RequestParam(value="areaCode") String areaCode,@RequestParam(value="contenttype_id") String contenttype_id) throws Exception {
+		//위치기반 관광정보조회
+		List<list_boxDTO> list_box = openApiManager.location_cat3_call(cat3,areaCode,contenttype_id);
+		
+		
+		return list_box;
+	}
 	
 	
+	@ResponseBody
+	@GetMapping("searchKeyword")
+	public List<list_boxDTO> searchKeyword(@RequestParam(value="keyword") String keyword) throws Exception {
+		//위치기반 관광정보조회
+		List<list_boxDTO> list_box = openApiManager.searchKeyword(keyword);
+		
+		
+		return list_box;
+	}
 	
 	
 	
@@ -93,7 +141,7 @@ public class PlanController {
 	
 	@ResponseBody
 	@GetMapping("plan_location_ajax")
-	public Map<String, Object> plan_location_ajax(@RequestParam(value="start") String start,
+	public Map<String, Object> plan_location_ajax(@RequestParam(value="start_day") String start_day,@RequestParam(value="end_day") String end_day,@RequestParam(value="start") String start,
 													@RequestParam(value="end") String end,@RequestParam(value="locations_day")  String locations_day,@RequestParam(value="locations_where")  String locations_where) throws Exception {
 		
 		
@@ -129,6 +177,8 @@ public class PlanController {
 		response.put("end", end);
 		response.put("list", list);
 		response.put("list_int", list_int);
+		response.put("start_day", start_day);
+		response.put("end_day", end_day);
 		
 		return response;
 	}
@@ -139,14 +189,14 @@ public class PlanController {
 	
 	
 	@GetMapping("plan_location")
-	public String plan_location(Model model,@RequestParam(value="start") String start,
+	public String plan_location(Model model,@RequestParam(value="start_day") String start_day,@RequestParam(value="start") String start,
 			@RequestParam(value="end") String end,@RequestParam(value="locations_where")  ArrayList<String> locations_where,
 			@RequestParam(value="locations_day")  ArrayList<String> locations_day,
 			@RequestParam(value="lattis")  ArrayList<String> lattis,
 			@RequestParam(value="lngis")  ArrayList<String> lngis) {
 		
 		List<set_dayDTO> set_daylist = new ArrayList<>();
-		System.out.println(locations_day);
+		System.out.println(locations_where);
 			
 		for (int i = 0; i < locations_where.size(); i++) {
 				
@@ -164,6 +214,7 @@ public class PlanController {
 		model.addAttribute("set_daylist",set_daylist);
 		model.addAttribute("end",end);
 		model.addAttribute("start",start);
+		model.addAttribute("start_day",start_day);
 		
 			
 		return "plan/plan_location";

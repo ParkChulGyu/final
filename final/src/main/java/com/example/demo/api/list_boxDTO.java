@@ -34,11 +34,13 @@ public class list_boxDTO {
 	private String mapy;
 	private String mlevel;
 	private String tel;
+	private String homepage;
+	private String total_count;
 	
 	
 	
 	
-	private String h1;
+	private String overview;
 	
 	@Builder
 	public  list_boxDTO(String areacode, String tel,String mlevel,String title, String addr1,String addr2, String cat1,String cat2, String cat3, String contentid ,String firstimage, String firstimage2, String mapx, String mapy,String contenttypeid) {
