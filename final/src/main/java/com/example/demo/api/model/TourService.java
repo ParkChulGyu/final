@@ -141,7 +141,6 @@ public class TourService {
 				String pageNo = (String) map.get("pageNo");
 				String keyword = (String) map.get("keyword");
 				
-
 //						System.out.println("map : "+map);
 
 				if (contentTypeId == null)contentTypeId = "12";
@@ -220,7 +219,6 @@ public class TourService {
 		// URL 설정
 //		String baseUrl = "https://apis.data.go.kr/B551011/KorService1/searchKeyword1";
 
-		String searchKeyword = "searchKeyword";
 		String mobileOS = "ETC";
 		String mobileApp = "AppTest";
 		String keyword = "강원";
