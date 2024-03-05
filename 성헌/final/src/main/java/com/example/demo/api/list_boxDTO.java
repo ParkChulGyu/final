@@ -35,6 +35,7 @@ public class list_boxDTO {
 	private String mlevel;
 	private String tel;
 	private String homepage;
+	private String total_count;
 	
 	
 	

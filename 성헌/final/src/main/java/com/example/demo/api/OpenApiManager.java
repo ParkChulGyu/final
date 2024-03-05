@@ -46,9 +46,8 @@ public class OpenApiManager {
         JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonString);
         // 가장 큰 JSON 객체 response 가져오기
         JSONObject jsonResponse = (JSONObject) jsonObject.get("response");
-
-        // 그 다음 body 부분 파싱
         JSONObject jsonBody = (JSONObject) jsonResponse.get("body");
+        // 그 다음 body 부분 파싱
 
         // 그 다음 위치 정보를 배열로 담은 items 파싱
         JSONObject jsonItems = (JSONObject) jsonBody.get("items");
@@ -58,7 +57,9 @@ public class OpenApiManager {
         	
         
         	List<list_boxDTO> list_box = new ArrayList<>();        
-       
+        	
+
+        	
         	for (Object o : jsonItemList) {
         		list_boxDTO dto = new list_boxDTO();
             JSONObject item = (JSONObject) o;
@@ -69,6 +70,8 @@ public class OpenApiManager {
 			dto.setMapx((String) item.get("mapx"));
 			dto.setMapy((String) item.get("mapy"));
 			dto.setContentid((String) item.get("contentid"));
+			dto.setContenttypeid((String) item.get("contenttypeid"));
+			
             
 			list_box.add(dto);
         }
@@ -125,6 +128,7 @@ public class OpenApiManager {
     		dto.setHomepage((String) item.get("homepage"));
     		dto.setContentid((String) item.get("contentid"));
     		dto.setOverview((String) item.get("overview"));
+    		dto.setContenttypeid((String) item.get("contenttypeid"));
     		
     	}
     	
@@ -172,6 +176,8 @@ public class OpenApiManager {
     		dto.setFirstimage((String) item.get("firstimage"));
     		dto.setMapx((String) item.get("mapx"));
     		dto.setMapy((String) item.get("mapy"));
+    		dto.setContentid((String) item.get("contentid"));
+    		dto.setContenttypeid((String) item.get("contenttypeid"));
     		
     		list_box.add(dto);
     	}
@@ -185,16 +191,13 @@ public class OpenApiManager {
     }
     public List<list_boxDTO> location_cat3_call(String cat3, String areaCode,String contenttype_id) throws Exception {
     	String api_Uri_location = "/areaBasedList1";
-    	String default_location = "&numOfRows=10&pageNo=2&MobileOS=ETC&MobileApp=AppTest&_type=json";
-    	
+    	String default_location = "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json";
+   
     	URL url = new URL(BASE_URL+api_Uri_location+serviceKey+serviceKey2+default_location+"&listYN=Y&arrange=O&contentTypeId="+contenttype_id+"&areaCode="+areaCode+""+"&cat3="+cat3+"");
-    	
     	URI uri = url.toURI();
-    	
     	RestTemplate restTemplate = new RestTemplate();
     	
     	String jsonString = restTemplate.getForObject(uri, String.class);
-    	
     	
     	JSONParser jsonParser = new JSONParser();
     	JSONObject jsonObject = (JSONObject) jsonParser.parse(jsonString);
@@ -222,6 +225,8 @@ public class OpenApiManager {
     		dto.setFirstimage((String) item.get("firstimage"));
     		dto.setMapx((String) item.get("mapx"));
     		dto.setMapy((String) item.get("mapy"));
+    		dto.setContentid((String) item.get("contentid"));
+    		dto.setContenttypeid((String) item.get("contenttypeid"));
     		
     		list_box.add(dto);
     	}
@@ -273,6 +278,8 @@ public class OpenApiManager {
     		dto.setFirstimage((String) item.get("firstimage"));
     		dto.setMapx((String) item.get("mapx"));
     		dto.setMapy((String) item.get("mapy"));
+    		dto.setContentid((String) item.get("contentid"));
+    		dto.setContenttypeid((String) item.get("contenttypeid"));
     		
     		list_box.add(dto);
     	}
