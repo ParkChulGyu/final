@@ -45,7 +45,6 @@ public class QuestionController {
 	
 	@GetMapping(value = "/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id,AnswerForm answerForm) {
-       
 		Question question = this.questionService.getQuestion(id);
         model.addAttribute("question", question);
 		return "question_detail";
@@ -61,24 +60,12 @@ public class QuestionController {
 		if (bindingResult.hasErrors()) {
             return "question_form";
         }
-		
-		
 		SiteUser siteUser = this.userService.getUser(principal.getName());
-		
 		Integer id = this.questionService.create(questionForm.getSubject(), questionForm.getContent(),siteUser); // TODO 질문을 저장한다.
-       
 		List<FileRequest> files = fileUtils.uploadFiles(params.getFiles());
-		
 		Question question = this.questionService.getQuestion(id);
-		
 		fileService.saveFiles(question, files);
-		
-		
-		
 		return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
-    
-		
-	
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -106,9 +93,6 @@ public class QuestionController {
         }
         this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
         
-        
-        System.out.println(params.getRemoveFileIds());
-        System.out.println(params.getFiles());
         // 2. 파일 업로드 (to disk)
         List<FileRequest> uploadFiles = fileUtils.uploadFiles(params.getFiles());
 
@@ -121,7 +105,6 @@ public class QuestionController {
         	deleteFiles.add(fileService.findAllFileById(Id));
         
         }
-        System.out.println("중간 정검 이거 되니?" + deleteFiles);
         // 5. 파일 삭제 (from disk)
         fileUtils.deleteFiles(deleteFiles);
 

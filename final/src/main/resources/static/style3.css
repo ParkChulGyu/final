@@ -185,6 +185,20 @@ a {
 .totalCountContainer{
 	
     margin-left: 300px;
+}
 
-	
+#paginationContainer {
+  display: flex;
+  flex-direction: column; /* 세로로 배치 */
+  align-items: center; /* 세로 가운데 정렬 */
+}
+
+.case-1{
+	width : 110px;
+  height: auto; /* 높이는 내용에 따라 자동 조절됨 */
+  box-sizing: border-box; /* 내부 여백 및 테두리를 포함한 요소의 전체 너비와 높이를 정의합니다. */
+}
+
+.btn-outline-secondary {
+	display: inline-block; /* 요소를 인라인 블록 요소로 변경하여 옆으로 배치 */
 }

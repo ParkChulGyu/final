@@ -14,20 +14,17 @@
                     <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/user/signup}">회원가입</a>
+                    <a class="nav-link"  sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/question/list}">게시판 목록</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/api/flask}">flask</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/api/data_chart}">flask2</a>
+                    <a class="nav-link" th:href="@{/api/flask}">통계 데이터</a>
                 </li>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/api/kapp}">api</a>
+                    <a class="nav-link" th:href="@{/api/kapp}">관광 정보 검색</a>
                 </li>
             </ul>
         </div>

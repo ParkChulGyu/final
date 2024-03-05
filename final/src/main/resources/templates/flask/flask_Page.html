@@ -5,37 +5,46 @@
 
 	<div style='width:100%;'>
 
-		<table>
+		<table class="table-light">
 			<tr>
-				<td style="width:30%">
+				<td style="width:15%">
 					관광 데이터 분석
 				</td>
 				<td>
-					해당 자료로 이동합니다.
+					출처 :
+					<a href="https://datalab.visitkorea.or.kr/datalab/portal/main/getMainForm.do">한국 관광 데이터 랩</a>
 				</td>
-			</tr>
 			<tr>
-				<td style="width:30%">
+				<td style="width:15%">
 					관광 검색
 				</td>
-				<td style="width:30%">
-					<a href="#table_body01">관광 데이터 분석내용 </a>
+				<td style="width:60%">
+					<a href="#chart_div2">가장 높은 증가율은 13.6% 광주 광역시 이며, 가장 높은 감소율은 -24.2% 제주 특별 자치도입니다. </a>
 				</td>
 			</tr>
 			<tr>
-				<td style="width:30%">
+				<td style="width:15%">
 					관광 지출액
 				</td>
 				<td>
-					<a href="#table_body02">관광 데이터 분석내용 </a>
+					<a href="#chart_div">가장 높은 관광객 지출액 증가 지역은 13.0%의 대전 광역시 이며, 가장 높은 지출액 감소 지역은 -13.8% 제주 특별 자치도 입니다.
+					</a>
 				</td>
 			</tr>
 			<tr>
-				<td style="width:30%">
+				<td style="width:15%">
 					관광객 방문자수
 				</td>
 				<td>
-					<a href="#table_body03">관광 데이터 분석내용 </a>
+					<a href="#chart_div3">가장 많은 관광객 증가 지역은 12.6% 인천 광역시 이며, 가장 높은 관광객 감소 지역은 -9.5% 제주 특별 자치도입니다. </a>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:15%">
+					관광지검색순위
+				</td>
+				<td>
+					<a href="#chart_div41">가장 많은 관광지 검색 분류로 75.7%로 쇼핑 이었으며, 장거리 여행에 필요한 숙박 정보는 2.4% 입니다. </a>
 				</td>
 			</tr>
 		</table>
@@ -168,35 +177,36 @@
 
 	<div id="chart_div3" style="width: 900px; height: 500px;"></div>
 	<div style="width: 100%; height: 150px;"></div>
-	
-	
+
+
 
 	<div class="container-fluid" style="min-height: calc(10vh - 136px); margin-top:50px;">
 		<div>
-			<i class="fa fa-plus-square" data-toggle="collapse" href="#collapseExample41" aria-expanded="false"
+			<i class="fa fa-plus-square" data-toggle="collapse" href="#collapseExample40" aria-expanded="false"
 				aria-controls="collapseExample"></i>
-			<span style="margin-left:10px;">시도별 관광객 방문자 수 Click</span>
+			<span style="margin-left:10px;">관광지검색순위 표 Click</span>
 		</div>
-		<div class="collapse" id="collapseExample41">
+		<div class="collapse" id="collapseExample40">
 			<div class="well">
 				<div>
 					<div>
-						<h1 style='text-align: center;'>시도별 관광객 방문자 수</h1>
+						<h1 style='text-align: center;'>관광지검색순위 표</h1>
 
 					</div>
 					<div style='width:100%;'>
-						<h8 style='float: right; '>(단위 : 명)</h8>
+						<h8 style='float: right; '>(단위 : 건수)</h8>
 					</div>
 				</div>
 				<table class="table">
 					<thead class="table-dark">
 						<tr class="text-center">
-							<th>시도 명</th>
-							<th style="width:30%">관광지출액</th>
-							<th style="width:30%">전년도 관광지출액</th>
+							<th style="text-align: center;">순위</th>
+							<th style="text-align: center;">시도 명</th>
+							<th style="text-align: center;">관광지 명</th>
+							<th style="width:15%">검색 건수</th>
 						</tr>
 					</thead>
-					<tbody id="table_body041">
+					<tbody id="table_body40">
 					</tbody>
 				</table>
 			</div>
@@ -209,6 +219,7 @@
 
 
 	<div id="chart_div41" style="width: 900px; height: 500px;"></div>
+	<div id="chart_div42" style="width: 900px; height: 500px;"></div>
 	<div style="width: 100%; height: 150px;"></div>
 
 
@@ -231,7 +242,7 @@
 
 		var flaskApiUrl = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
 
-		console.log(flaskApiUrl);
+		//console.log(flaskApiUrl);
 
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', flaskApiUrl, true);
@@ -242,7 +253,7 @@
 				if (xhr.status === 200) {
 					try {
 						var jsonData = JSON.parse(xhr.responseText);
-						console.log(jsonData);
+						//console.log(jsonData);
 
 						// Thymeleaf로 표시할 요소 선택
 						var jsonDataContainer = document.getElementById('jsonDataContainer');
@@ -257,10 +268,10 @@
 
 						for (var i = 0; i < jsonData.length; i++) {
 							var item = jsonData[i];
-							console.log("시도명: " + item.시도명);
-							console.log("관광지출액: " + item.관광지출액);
-							console.log("관광지출액_증감율: " + item.관광지출액_증감율);
-							console.log("전년도 관광지출액: " + item["전년도 관광지출액"]); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
+							//console.log("시도명: " + item.시도명);
+							//console.log("관광지출액: " + item.관광지출액);
+							//console.log("관광지출액_증감율: " + item.관광지출액_증감율);
+							//console.log("전년도 관광지출액: " + item["전년도 관광지출액"]); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
 
 							var number = item.관광지출액;
 							var number2 = item["전년도 관광지출액"];
@@ -329,7 +340,7 @@
 
 		var flaskApiUrl2 = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
 
-		console.log(flaskApiUrl2);
+		//console.log(flaskApiUrl2);
 
 		var xhr2 = new XMLHttpRequest();
 		xhr2.open('GET', flaskApiUrl2 + "/data", true);
@@ -340,7 +351,7 @@
 				if (xhr2.status === 200) {
 					try {
 						var jsonData = JSON.parse(xhr2.responseText);
-						console.log(jsonData);
+						//console.log(jsonData);
 
 						// Thymeleaf로 표시할 요소 선택
 						var tableBody2 = document.getElementById("table_body01"); // 테이블의 tbody 요소를 가져옴
@@ -348,10 +359,10 @@
 						var template = '';
 						for (var i = 0; i < jsonData.length; i++) {
 							var item = jsonData[i];
-							console.log("시도명: " + item.시도명);
-							console.log("검색건수: " + item['검색건수']);
-							console.log("전년도 검색건수 : " + item['전년도 검색건수']);
-							console.log("검색_증감율: " + item["검색_증감율"]); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
+							//console.log("시도명: " + item.시도명);
+							//console.log("검색건수: " + item['검색건수']);
+							//console.log("전년도 검색건수 : " + item['전년도 검색건수']);
+							//console.log("검색_증감율: " + item["검색_증감율"]); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
 
 							var number = item['검색건수'];
 							var number2 = item['전년도 검색건수'];
@@ -361,8 +372,6 @@
 							tableBody2.innerHTML += htmltd2;
 
 						}
-
-
 
 						google.charts.load('current', {'packages': ['corechart']});
 						google.charts.setOnLoadCallback(drawChart2);
@@ -374,15 +383,12 @@
 							data.addColumn('string', '시도명');
 							data.addColumn('number', '검색_증감율');
 
-
 							for (var i = 0; i < jsonData.length; i++) {
 								var item = jsonData[i];
 								var row = [];
 								row.push(item['시도명']);
 								row.push(item['검색_증감율']);
 								data.addRow(row);
-
-
 							}
 
 							var options = {
@@ -401,9 +407,7 @@
 								role: 'annotation'
 							}]);
 							chart.draw(view, options);
-
 						}
-
 
 						// Thymeleaf로 표시할 내용을 HTML로 설정
 						//jsonDataContainer.innerHTML = template;
@@ -420,10 +424,9 @@
 
 
 
-
 		var flaskApiUrl3 = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
 
-		console.log(flaskApiUrl3);
+		//console.log(flaskApiUrl3);
 
 		var xhr3 = new XMLHttpRequest();
 		xhr3.open('GET', flaskApiUrl3 + "/data2", true);
@@ -434,18 +437,17 @@
 				if (xhr3.status === 200) {
 					try {
 						var jsonData = JSON.parse(xhr3.responseText);
-						console.log(jsonData);
-
+						//console.log(jsonData);
 						// Thymeleaf로 표시할 요소 선택
 						var tableBody3 = document.getElementById("table_body03"); // 테이블의 tbody 요소를 가져옴
 						// Thymeleaf로 표시할 내용 설정 (테이블 형식)
 						var template = '';
 						for (var i = 0; i < jsonData.length; i++) {
 							var item = jsonData[i];
-							console.log("시도명: " + item.시도명);
-							console.log("방문자수: " + item['방문자수']);
-							console.log("전년도 방문자수 : " + item['전년도 방문자수']);
-							console.log("방문자수_증감율: " + item["방문자수_증감율"]); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
+							//console.log("시도명: " + item.시도명);
+							//console.log("방문자수: " + item['방문자수']);
+							//console.log("전년도 방문자수 : " + item['전년도 방문자수']);
+							//console.log("방문자수_증감율: " + item["방문자수_증감율"]); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
 
 							var number = item['방문자수'];
 							var number2 = item['전년도 방문자수'];
@@ -514,9 +516,50 @@
 
 
 
+		var flaskApiUrl40 = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
+
+		//console.log(flaskApiUrl40);
+
+		var xhr40 = new XMLHttpRequest();
+		xhr40.open('GET', flaskApiUrl40 + "/data40", true);
+
+
+		xhr40.onreadystatechange = function () {
+			if (xhr40.readyState === 4) {
+				if (xhr40.status === 200) {
+					try {
+						var jsonData = JSON.parse(xhr40.responseText);
+						//console.log(jsonData);
+
+						// Thymeleaf로 표시할 요소 선택
+						var tableBody40 = document.getElementById("table_body40"); // 테이블의 tbody 요소를 가져옴
+						// Thymeleaf로 표시할 내용 설정 (테이블 형식)
+						var template = '';
+						for (var i = 0; i < jsonData.length; i++) {
+							var item = jsonData[i];
+							//console.log("순위: " + item.순위);
+							//console.log("시도명: " + item.시도명); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
+							//console.log("관광지명: " + item.관광지명); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
+							//console.log("검색건수: " + item.검색건수); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
+
+							var htmltd40 = "<tr><td style='text-align: center;'>" + item.순위 + "</td> <td style='text-align: right;'>" + item.시도명 + "</td> <td style='text-align: right;'>" + item.관광지명 + "</td> <td style='text-align: right;'>" + item.검색건수 + "</td></tr>";
+							tableBody40.innerHTML += htmltd40;
+
+						}
+					} catch (e) {
+						console.error('Error parsing JSON:', e);
+					}
+				} else {
+					console.error('Request failed with status:', xhr40.status);
+				}
+			}
+		};
+		xhr40.send();
+
+
 		var flaskApiUrl41 = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
 
-		console.log(flaskApiUrl41);
+		//console.log(flaskApiUrl41);
 
 		var xhr41 = new XMLHttpRequest();
 		xhr41.open('GET', flaskApiUrl41 + "/data41", true);
@@ -527,32 +570,28 @@
 				if (xhr41.status === 200) {
 					try {
 						var jsonData = JSON.parse(xhr41.responseText);
-						console.log(jsonData);
+						//console.log(jsonData);
 
 						// Thymeleaf로 표시할 요소 선택
-						var tableBody41 = document.getElementById("table_body41"); // 테이블의 tbody 요소를 가져옴
+						var tableBody41 = document.getElementById("table_body03"); // 테이블의 tbody 요소를 가져옴
 						// Thymeleaf로 표시할 내용 설정 (테이블 형식)
 						var template = '';
-						for (var i = 0; i < jsonData.length; i++) {
-							var item = jsonData[i];
-							console.log("중분류: " + item.중분류);
-							console.log("비율: " + item.비율); // 이 부분은 데이터에 따라 이름이 다를 수 있습니다.
-
-							var htmltd41 = "<tr><td style='text-align: center;'>" + item.중분류 + "</td> <td style='text-align: right;'>" + item.비율 + "</td> <td style='text-align: right;'>" +  "</td> </tr>";
-							tableBody41.innerHTML += htmltd41;
-
-						}
+						//for (var i = 0; i < jsonData.length; i++) {
+						//	var item = jsonData[i];
+						//console.log("비율: " + item.비율);
+						//console.log("중분류: " + item['중분류']);
+						//}
 
 
 
 						google.charts.load('current', {'packages': ['corechart']});
-						google.charts.setOnLoadCallback(drawChart41);
+						google.charts.setOnLoadCallback(drawChart3);
 
 
-						function drawChart41() {
+						function drawChart3() {
 
 							var data = new google.visualization.DataTable();
-							data.addColumn('string', '중분류');
+							data.addColumn('string', '분류');
 							data.addColumn('number', '비율');
 
 
@@ -562,12 +601,10 @@
 								row.push(item['중분류']);
 								row.push(item['비율']);
 								data.addRow(row);
-
-
 							}
 
 							var options = {
-								title: '분류별 검색 비율 ',
+								title: '관광지검색순위 비율 ',
 								curveType: 'function',
 								legend: {position: 'bottom'},
 							};
@@ -593,12 +630,83 @@
 						console.error('Error parsing JSON:', e);
 					}
 				} else {
-					console.error('Request failed with status:', xhr41.status);
+					console.error('Request failed with status:', xhr.status);
 				}
 			}
 		};
 		xhr41.send();
 
+
+		var flaskApiUrl42 = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
+
+		//console.log(flaskApiUrl42);
+
+		var xhr42 = new XMLHttpRequest();
+		xhr42.open('GET', flaskApiUrl42 + "/data42", true);
+
+
+		xhr42.onreadystatechange = function () {
+			if (xhr42.readyState === 4) {
+				if (xhr42.status === 200) {
+					try {
+						var jsonData = JSON.parse(xhr42.responseText);
+						//console.log(jsonData);
+
+						// Thymeleaf로 표시할 요소 선택
+						//for (var i = 0; i < jsonData.length; i++) {
+						//	var item = jsonData[i];
+						//	console.log("비율: " + item.비율);
+						//	console.log("소분류: " + item['소분류']);
+						//}
+
+						google.charts.load('current', {'packages': ['corechart']});
+						google.charts.setOnLoadCallback(drawChart3);
+
+						function drawChart3() {
+
+							var data = new google.visualization.DataTable();
+							data.addColumn('string', '분류');
+							data.addColumn('number', '비율');
+
+
+							for (var i = 0; i < jsonData.length; i++) {
+								var item = jsonData[i];
+								var row = [];
+								row.push(item['소분류']);
+								row.push(item['비율']);
+								data.addRow(row);
+							}
+
+							var options = {
+								title: '관광지검색순위 세부 비율 ',
+								curveType: 'function',
+								legend: {position: 'bottom'},
+							};
+							var chart = new google.visualization.PieChart(document.getElementById('chart_div42'));
+							chart.draw(data, options);
+
+							var view = new google.visualization.DataView(data);
+							view.setColumns([0, 1, {
+								calc: 'stringify',
+								sourceColumn: 1,
+								type: 'string',
+								role: 'annotation'
+							}]);
+							chart.draw(view, options);
+						}
+
+						// Thymeleaf로 표시할 내용을 HTML로 설정
+						//jsonDataContainer.innerHTML = template;
+
+					} catch (e) {
+						console.error('Error parsing JSON:', e);
+					}
+				} else {
+					console.error('Request failed with status:', xhr.status);
+				}
+			}
+		};
+		xhr42.send();
 
 
 
