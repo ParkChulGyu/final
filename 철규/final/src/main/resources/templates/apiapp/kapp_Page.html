@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="~{layout}">
+
+<div layout:fragment="content" class="container my-3">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+	<aside class="side-bar">
+		<section class="side-bar__icon-box">
+			<section class="side-bar__icon-1">
+				<div></div>
+				<div></div>
+				<div></div>
+			</section>
+		</section>
+		<ul>
+			<li>
+				<a href="javascript:void(0);"><i class="fa-solid fa-cat"></i> 관광타입</a>
+
+				<ul>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="12" pageno="1">관광지 : 12</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="14" pageno="1">문화시설 : 14</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="15" pageno="1">축제행사 : 15</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="25" pageno="1">여행코스 : 25</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="28" pageno="1">레포츠 : 28</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="32" pageno="1">숙박 : 32</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="38" pageno="1">쇼핑 : 38</a></li>
+					<li><a href="javascript:void(0);" class="ajax-link" contentTypeId="39" pageno="1">음식점 : 39</a></li>
+				</ul>
+			</li>
+			<li>
+				<a href="javascript:void(0);">지역</a>
+				<ul>
+					<li><a href="javascript:void(0);" areaCode=1 pageno="1">서울</a></li>
+					<li><a href="javascript:void(0);" areaCode=2 pageno="1">인천</a></li>
+					<li><a href="javascript:void(0);" areaCode=3 pageno="1">대전</a></li>
+					<li><a href="javascript:void(0);" areaCode=4 pageno="1">대구</a></li>
+					<li><a href="javascript:void(0);" areaCode=5 pageno="1">광주</a></li>
+					<li><a href="javascript:void(0);" areaCode=6 pageno="1">부산</a></li>
+					<li><a href="javascript:void(0);" areaCode=7 pageno="1">울산</a></li>
+					<li><a href="javascript:void(0);" areaCode=8 pageno="1">세종시</a></li>
+					<li><a href="javascript:void(0);" areaCode=31 pageno="1">경기도</a></li>
+					<li><a href="javascript:void(0);" areaCode=32 pageno="1">강원도</a></li>
+					<li><a href="javascript:void(0);" areaCode=33 pageno="1">충정북도</a></li>
+					<li><a href="javascript:void(0);" areaCode=34 pageno="1">충청남도</a></li>
+					<li><a href="javascript:void(0);" areaCode=35 pageno="1">경상북도</a></li>
+					<li><a href="javascript:void(0);" areaCode=36 pageno="1">경상남도</a></li>
+					<li><a href="javascript:void(0);" areaCode=37 pageno="1">전북</a></li>
+					<li><a href="javascript:void(0);" areaCode=38 pageno="1">전라남도 </a></li>
+					<li><a href="javascript:void(0);" areaCode=39 pageno="1">제주도</a></li>
+
+				</ul>
+			</li>
+			<li>
+	</aside>
+	<!--
+	여기부터 아래까지 임시 데이터
+	-->
+	<div class="search-Container">
+
+		<form action="/api" method="post" class="search-box">
+			<div class="select-box">
+				<span for="search" class="ser-arrow"></span>
+				<select name="findType" class="find-type" id="search">
+					<option value="all">전체</option>
+					<option value="title">제목</option>
+					<option value="content">내용</option>
+				</select>
+			</div>
+			<div class="noti_search">
+				<input type="text" placeholder="검색어를 입력해주세요." name="findWord" class="find-word">
+				<button type="submit" class="search-btn">
+					<img class="search-btn-img"
+						src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+				</button>
+
+			</div>
+		</form>
+
+	</div>
+
+
+	<!--
+	여기부터 여기까지 임시 데이터
+	https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ymk246&logNo=220900570957
+	-->
+	<div class="totalCountContainer">
+		<h9 id="totalCountContainer">0</h9>
+		<br>
+		<h8 id="contentTypeId">0</h8>
+		<br>
+		<h8 id="nowPage">0</h8>
+	</div>
+
+
+	<div class="list_wrap">
+		<ul id="touristList">
+			<div id="loading"><img id="loading-image"
+					src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg0Gu4jlb7OgS88AbOv0Ako1lbG6lkM0KY6jPVvFBuTyQNAOEa8budfy8-RrGQrzqYf-bo7dXIEbpJMpO8zf1aDijce6LlRgxfvj5QVGtXA6TgiElPZtPwaJ7OlyO6Zwg0K_V21n_ZErg08Y0ddzoyMc-eNiueJhbJArdSoeEsPjz5RJA1izwJgySKnaQ/s600/%EB%A1%9C%EB%94%A9.gif"
+					alt="Loading..." /></div>
+		</ul>
+
+		<div id="paginationContainer">
+			<ul class="pagination justify-content-center">
+			</ul>
+		</div>
+	</div>
+
+
+
+
+	<script>
+		// 페이지 최초 로딩시 적용될 json 호출
+		document.addEventListener("DOMContentLoaded", function () {
+			// 페이지 로드 시 실행할 작업
+			// Ajax 요청 보내기
+			PageTransition();
+
+			//console.log('여기왔으면 확인');
+
+		});
+
+
+		$(document).ready(function () {
+			$(".ajax-link").click(function (e) {
+
+				var contentTypeId = $(this).attr('contentTypeId');
+				var pageno = $(this).attr('pageno');
+
+				console.log("contentTypeId = " + contentTypeId);
+				console.log("pageno = " + pageno);
+
+				e.preventDefault();
+				$.ajax({
+					type: "GET",
+					url: "/api/updateList", // 컨트롤러의 엔드포인트 주소
+					data: {
+
+						contentTypeId: contentTypeId,
+						pageno: pageno
+					},
+					success: function (data) {
+						// AJAX 성공 시 처리
+
+						var jsonData = JSON.parse(data);
+
+						console.log(jsonData); // 여긴 왔어
+						console.log(jsonData.touristDTO.length); // 여긴 왔어
+						console.log(jsonData.numOfRows); // 여긴 왔어
+						console.log(jsonData.pageNo); // 여긴 왔어
+						console.log(jsonData.totalCount); // 여긴 왔어
+						console.log(jsonData.pagingDTO); // 여긴 왔어
+						console.log("contentid ==" + jsonData.touristDTO[0].contentid); // 여긴 왔어
+						//$("#resultContainer").html(data);
+
+
+
+						// JSON 데이터를 받아와서 동적으로 HTML 생성
+						var html = "";
+
+						for (var i = 0; i < jsonData.touristDTO.length; i++) {
+							var tourist = jsonData.touristDTO[i];
+							var imageUrl = tourist.firstimage ? tourist.firstimage : 'https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-travel-map-hand-drawn-illustration-png-image_2618830.jpg';
+							html += '<li class="item item' + (i + 1) + '">';
+							html += '<div class="image"><img src="' + imageUrl + '" class="images" /></div>';
+							html += '<div class="cont">';
+							html += '<strong>' + tourist.title + '</strong>';
+							html += '<p>' + tourist.addr1 + '</p>';
+							html += '<a href="' + '/api/tourdetail?contentid=' + tourist.contentid + '">바로가기</a>';
+							html += '</div></li>';
+						}
+
+						// 생성된 HTML을 #touristList에 삽입
+						$("#touristList").html(html);
+						createPagination(jsonData.pagingDTO, jsonData.touristDTO[0].contenttypeid);
+
+
+					},
+					error: function () {
+						// AJAX 실패 시 처리
+						alert("Failed to load data");
+					}
+				});
+			});
+		});
+
+		function PageTransition(e) {
+
+			var contentTypeId = $(e).attr('attr-contentTypeId');
+			var pageNo = $(e).attr('attr-pageno');
+
+			console.log("contentTypeId2 = " + contentTypeId);
+			console.log("pageno2 = " + pageNo);
+
+			//e.preventDefault();
+
+			$.ajax({
+				type: "GET",
+				url: "/api/updateList", // 컨트롤러의 엔드포인트 주소
+				data: {
+					contentTypeId: contentTypeId
+					, pageNo: pageNo
+
+				},
+				success: function (data) {
+					// AJAX 성공 시 처리
+
+					var jsonData = JSON.parse(data);
+
+					//console.log(jsonData); // 여긴 왔어
+					//console.log(jsonData.touristDTO.length); // 여긴 왔어
+					//console.log(jsonData.numOfRows); // 여긴 왔어
+					//console.log(jsonData.pageNo); // 여긴 왔어
+					//console.log(jsonData.totalCount); // 여긴 왔어
+					//console.log(jsonData.pagingDTO); // 여긴 왔어
+					//$("#resultContainer").html(data);
+
+					// JSON 데이터를 받아와서 동적으로 HTML 생성
+					var html = "";
+
+					for (var i = 0; i < jsonData.touristDTO.length; i++) {
+						var tourist = jsonData.touristDTO[i];
+						var imageUrl = tourist.firstimage ? tourist.firstimage : 'https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-travel-map-hand-drawn-illustration-png-image_2618830.jpg';
+						html += '<li class="item item' + (i + 1) + '">';
+						html += '<div class="image"><img src="' + imageUrl + '" class="images" /></div>';
+						html += '<div class="cont">';
+						html += '<strong>' + tourist.title + '</strong>';
+						html += '<p>' + tourist.addr1 + '</p>';
+						html += '<a href="' + '/api/tourdetail?contentid=' + tourist.contentid + '">바로가기</a>';
+						html += '</div></li>';
+					}
+
+					createPagination(jsonData.pagingDTO, jsonData.touristDTO[0].contenttypeid);
+
+					// 생성된 HTML을 #touristList에 삽입
+					$("#touristList").html(html);
+
+
+
+				},
+				error: function () {
+					// AJAX 실패 시 처리
+					alert("Failed to load data");
+				}
+			});
+		}
+
+		function createPagination(pagingDTO, contentTypeId) {
+			//			console.log("pagingDTO.blockNum 왔니?" + pagingDTO.blockNum);
+			//			console.log("pagingDTO.pageNo 왔니?" + pagingDTO.pageNo);
+			//			console.log("pagingDTO.startPage 왔니?" + pagingDTO.startPage);
+			//			console.log("pagingDTO.start_rownum 왔니?" + pagingDTO.start_rownum);
+			//			console.log("pagingDTO.prev 왔니?" + pagingDTO.prev);
+			//			console.log("pagingDTO.next 왔니?" + pagingDTO.next);
+			//			console.log(typeof pagingDTO.prev);
+			//			console.log(typeof pagingDTO.next);
+			console.log(" createPagination contentTypeId 값  : " + contentTypeId);
+			var paginationHtml = ""
+
+
+
+			paginationHtml += '<ul class="pagination justify-content-center">';
+
+			if (pagingDTO.prev) {
+				paginationHtml += '<li class="page-item"> <a class="page-link" href="javascript:void(0);"  onclick="PageTransition(this);" attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + (pagingDTO.pageNo - 1) + '" > <span>이전</span> </a> </li>';
+			} else {
+				paginationHtml += '<li class="page-item disabled" > <a class="page-link" href="javascript:void(0);" > <span>이전</span> </a> </li>';
+			}
+
+			for (var i = 0; i < pagingDTO.blockNum; i++) {
+				//consol.log("i값 : "+ i);
+				//console.log(pnum);
+				var pnum = (pagingDTO.startPage + i);
+				if (pagingDTO.pageNo === (pagingDTO.startPage + i)) {
+					paginationHtml += '<li class="page-item disabled"><a class="page-link" href="javascript:void(0);" contentTypeId=' + contentTypeId + ' pageNo=' + pagingDTO.pageNo + '>' + pagingDTO.pageNo + '</a></li>';
+				} else {
+					paginationHtml += '<li class="page-item "><a href="javascript:void(0);"  onclick="PageTransition(this);" class="page-link" attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + pnum + '">' + (pnum) + '</a></li>';
+				}
+			}
+
+			if (pagingDTO.next) {
+				paginationHtml += '<li class="page-item"> <a class="page-link" href="javascript:void(0); "  onclick="PageTransition(this);" attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + (pnum + 1) + '" ><span>다음</span></a></li>';
+			} else {
+				paginationHtml += '<li class="page-item disabled"> <a class="page-link" href="javascript:void(0); "  attr-contentTypeId= "' + contentTypeId + '" attr-pageno="' + (pnum + 1) + '" ><span>다음</span></a></li>';
+			}
+
+			paginationHtml += '</ul>';
+
+			// console.log("paginationHtml 잘 왔니?" + paginationHtml);
+			// 페이지네이션을 원하는 위치에 추가
+			var totalc = "전체 데이터 : " + pagingDTO.totalCount + "개";
+			console.log("totalc = " + totalc);
+			$('#paginationContainer').html(paginationHtml);
+			$('#totalCountContainer').html(totalc);
+			$('#nowPage').html("현재 페이지 : "+ pagingDTO.pageNo);
+
+
+			switch (contentTypeId) {
+				case "12":
+					var typeId = "관광지";
+					break;
+				case "14":
+					var typeId = "문화시설";
+					break;
+				case "15":
+					var typeId = "축제행사";
+					break;
+				case "25":
+					var typeId = "여행코스";
+					break;
+				case "28":
+					var typeId = "레포츠";
+					break;
+				case "32":
+					var typeId = "숙박";
+					break;
+				case "38":
+					var typeId = "쇼핑";
+					break;
+				case "39":
+					var typeId = "음식점";
+					break;
+				default:
+					var typeId = "잘못된 타입";
+			}
+
+			$('#contentTypeId').html("관광 타입 : "+typeId);
+		}
+	</script>
+
+</div>
+
+
+
+</html>

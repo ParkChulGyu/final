@@ -1,0 +1,198 @@
+<!--<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}"> -->
+
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+	<!-- tour_detail -->
+
+
+	<br><br>
+	<div style="text-align: center;">
+		<h1>
+			<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.title}"></div>
+		</h1>
+	</div>
+	<br><br>
+
+	<div>
+		<div style="text-align: center;">
+			<img th:src="${tourDetailDTO.firstimage != '' ? tourDetailDTO.firstimage : 'https://png.pngtree.com/png-clipart/20201225/ourlarge/pngtree-travel-map-hand-drawn-illustration-png-image_2618830.jpg'}"
+				alt="Tour Image" class="tour-image"
+				style="width: 615px; height: 410px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); border-radius: 15px;">
+
+		</div>
+
+
+
+		<br><br>
+		<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.overview}"></div>
+		<br>
+		<table>
+			<tr>
+				<th>홈페이지</th>
+				<td>
+					<div class="card-text" style="white-space: pre-line; margin-left: 10px;"
+						th:utext="${tourDetailDTO.homepage}">홈페이지
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.telname}"></div>
+				</th>
+				<td>
+					<div class="card-text" style="white-space: pre-line;" th:text="${tourDetailDTO.tel}"></div>
+				</td>
+			</tr>
+			<tr>
+
+				<th>주소</th>
+				<td>
+					<div class="card-text"
+						style="white-space: pre-line; margin-right: 5px; margin-left: 10px; display: inline-block;"
+						th:text="${tourDetailDTO.addr1}"></div>
+					<div class="card-text" style="white-space: pre-line; display: inline-block;"
+						th:text="${tourDetailDTO.addr2}"></div>
+					</tb>
+			</tr>
+
+		</table>
+		<br>
+
+
+		<div class="parent-div">
+			<div class="child-div" style="width: 50%;  float:left;">
+				<div style="text-align: center;">
+					<div id="map" class="map-container" style="width:500px; height:400px;  "></div>
+				</div>
+
+			</div>
+			<div class="child-div" style="width: 50%;  float:left;">
+				<div id="" style="width: 100px; height: 100px; white-space: nowrap; left: 0;">안녕하세요</div>
+				<div id="chart_div" style="width: 500px; height: 300px; white-space: nowrap; left: 0;"></div>
+			</div>
+		</div>
+
+		<div style="width:100%;height:500px; "></div>
+
+
+		<!--지도 그리기 스크립트 -->
+		<script type="text/javascript"
+			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9f1f2c1b1007bd9757da7145b63c26e0"></script>
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+		<script type='text/javascript' th:inline="javascript">
+
+			var mapxx =  /*[[${tourDetailDTO.mapx}]]*/ null;
+			var mapyy = (/*[[${tourDetailDTO.mapy}]]*/ null);
+
+			console.log(mapxx, mapyy);
+
+			var container = document.getElementById('map');
+			var options = {
+				center: new kakao.maps.LatLng(mapyy, mapxx),
+				level: 3
+			};
+
+			var map = new kakao.maps.Map(container, options);
+
+			//map.setCenter(new kakao.maps.LatLng(37.537183, 127.005454));
+
+			map.setLevel(6, {anchor: new kakao.maps.LatLng(mapyy, mapxx)});
+
+			map.setLevel(4, {animate: true});
+
+			var markerPosition = new kakao.maps.LatLng(mapyy, mapxx);
+			//console.log(markerPosition);
+
+			// 마커를 생성합니다
+			var marker = new kakao.maps.Marker({
+				position: markerPosition
+			});
+
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+
+			//지도 그리기 스크립트 끝
+
+			//차트 그리기 스크립트 
+
+
+			// 페이지가 로드될 때 실행되는 함수
+			function drawChart() {
+				// 모델에서 전달된 데이터를 JavaScript 변수에 할당
+				var weatherData = /*[[(${weatherTMPDTOList})]]*/[];
+				var weatherData2 = /*[[(${weatherPOPDTOList})]]*/[];
+				
+				var Tour_name  = /*[[(${tourDetailDTO.title})]]*/null;
+
+				console.log(weatherData);
+				console.log(weatherData2);
+
+				var combinedData = [];
+
+				for (var i = 0; i < weatherData.length; i++) {
+					var time = weatherData[i].fcstTime; // 기존 데이터의 시간을 가져옴
+					var tmp = weatherData[i].tmp;
+					var hour = time.substring(0, 2);
+					var formattedTime = hour + '시';
+					var humidity = weatherData2[i].pop; // 습도 데이터를 가져옴
+					combinedData.push([formattedTime, parseInt(tmp), parseInt(humidity)]); // 시간, 온도, 습도를 함께 저장
+				}
+
+				console.log('combinedData ==' + combinedData);
+
+
+
+				// 구글 차트 라이브러리 로드
+				google.charts.load('current', {'packages': ['corechart']});
+
+				// 차트를 그리는 함수
+				google.charts.setOnLoadCallback(function () {
+					// 데이터를 구글 차트 형식으로 변환
+					var data = new google.visualization.DataTable();
+					data.addColumn('string', '시간');
+					data.addColumn('number', '기온');
+					data.addColumn('number', '강수확률');
+					data.addRows(combinedData); // 정리된 데이터를 차트에 추가
+
+					//					for (var i = 0; i < weatherData.length; i++) {
+					//						//console.log(weatherData[i]);
+					//						var fcstTime = weatherData[i].fcstTime;
+					//						var hour = fcstTime.substring(0, 2);
+					//						var formattedTime = hour + '시';
+					//						console.log(parseInt(weatherData[i].TMP));
+					//						data.addRow([formattedTime, parseInt(weatherData[i].tmp)]);
+					//					}
+
+					// 차트 옵션 설정
+					var options = {
+						title: Tour_name +'날씨 데이터',
+						curveType: 'none',
+						series: {
+							0: {targetAxisIndex: 0}, // 온도 데이터는 첫 번째 축에 표시
+							1: {targetAxisIndex: 1}  // 습도 데이터는 두 번째 축에 표시
+						},
+						vAxes: {
+							0: {title: '온도 (°C)', minValue: -15, maxValue: 35}, // 온도 축 설정
+							1: {title: '강수확률 (%)', minValue: 0, maxValue: 100}       // 습도 축 설정
+						},
+						legend: {position: 'top'}
+					};
+
+					// 차트 그리기
+					var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+					chart.draw(data, options);
+				});
+			}
+		</script>
+		<script>drawChart();</script>
+
+		<!--차트 그리기 스크립트 끝-->
+
+
+
+	</div>
+</div>
+
+</html>
