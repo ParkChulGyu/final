@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="table_body"/>
+		<item key="selection" value="paginationContainer"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="kaka"/>
+			<item value="list_wrap"/>
+			<item value="paginationContainer"/>
+			<item value="touristList"/>
+			<item value="안녕하세요"/>
+			<item value="ka"/>
+			<item value="ㅏㅁ"/>
+			<item value="chart_div"/>
+			<item value="chart_div40"/>
+			<item value="관광 지"/>
+			<item value="table_body01"/>
 			<item value="table_body"/>
-			<item value="hell"/>
-			<item value="시도"/>
-			<item value="collapse"/>
-			<item value="myCollapsible"/>
-			<item value="open"/>
-			<item value="totalCountContainer"/>
-			<item value="38"/>
-			<item value="button"/>
-			<item value="tourDetailDTO =="/>
-			<item value="trans"/>
-			<item value="https://t1.daumcdn.net/mapjsapi/images/transparent.gif"/>
-			<item value="S"/>
-			<item value="s"/>
-			<item value="09"/>
+			<item value="증감"/>
+			<item value="관광지검색순위 비율"/>
+			<item value="chart_div41"/>
 		</list>
 		<list key="replacehistory">
 		</list>
