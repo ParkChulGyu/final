@@ -39,11 +39,7 @@ public class OpenApiController {
 //	    }
 //	
 	    
-	    public List<list_boxDTO> xy_call(String city_lat, String city_lng) throws Exception {
-	    	
-	    	
-	    	return  openApiManager.xy_call(city_lat,city_lng);
-	    }
+	   
 	
 	
 	

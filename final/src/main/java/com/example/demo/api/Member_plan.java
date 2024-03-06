@@ -22,14 +22,15 @@ public class Member_plan {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+	
+	
 	
 	
 	@ManyToOne
-	private SiteUser SiteUser;
+	private SiteUser siteUser;
 	
 	
-	 @OneToMany(mappedBy = "member_plan", cascade = CascadeType.REMOVE) 
+	 @OneToMany(mappedBy = "member_Plan", cascade = CascadeType.REMOVE) 
 	    private List<Plan_each_day> plan_each_day;
 	
 	

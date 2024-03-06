@@ -37,7 +37,7 @@ public class Plan_each_day {
 	
 	
 	@ManyToOne
-	private Member_plan member_plan;
+	private Member_plan member_Plan;
 	
 	@OneToMany(mappedBy = "plan_each_day", cascade = CascadeType.REMOVE) 
     private List<Each_day_detail> each_day_detail;

@@ -43,35 +43,13 @@ public class PlanController {
 	
 
 
-//	@GetMapping("result")
-//	public String result(Model model) throws Exception {
-//
-//		List<placeDTO> tests = openApiController.fetchAll();
-//		String Contentid;
-//		String overview;
-//		System.out.println("몇개 오는 지 확인 해보자   : " + tests.size());
-//
-//		for (placeDTO test : tests) {
-//			Contentid = test.getContentid();
-//			overview = openApiController.fetchOne(Contentid);
-//			test.setOverview(overview);
-//
-//			System.out.println("한 번 체 크 해 보 자 : " + test.getCat3());
-//
-//			// planService.create(test);
-//		}
-//
-////	    	model.addAttribute("responseData", tests);
-//
-//		return "qna/test";
-//	}
 
 	@ResponseBody
 	@GetMapping("call_list_box")
-	public List<list_boxDTO> call_list_box(@RequestParam(value = "city_lat") String city_lat,
+	public List<list_boxDTO> call_list_box(@RequestParam(value = "city_lat") String city_lat,@RequestParam(value = "check_call_Num") String check_call_Num,
 			@RequestParam(value = "city_lng") String city_lng) throws Exception {
 		// 위치기반 관광정보조회
-		List<list_boxDTO> list_box = openApiManager.xy_call(city_lat, city_lng);
+		List<list_boxDTO> list_box = openApiManager.xy_call(city_lat, city_lng,check_call_Num);
 
 		return list_box;
 	}
@@ -97,25 +75,24 @@ public class PlanController {
 
 	@ResponseBody
 	@GetMapping("contenttype_id")
-	public List<list_boxDTO> contenttype_id(@RequestParam(value = "areaCode") String areaCode,
+	public List<list_boxDTO> contenttype_id(@RequestParam(value = "areaCode") String areaCode, @RequestParam(value = "check_call_Num") String check_call_Num,
 			@RequestParam(value = "contenttype_id") String contenttype_id) throws Exception {
 		// 위치기반 관광정보조회
-		List<list_boxDTO> list_box = openApiManager.location_contenttype_call(areaCode, contenttype_id);
+		List<list_boxDTO> list_box = openApiManager.location_contenttype_call(areaCode, contenttype_id,check_call_Num);
 
 		return list_box;
 	}
 
 	@ResponseBody
 	@GetMapping("cat3")
-	public List<list_boxDTO> cat3(@RequestParam(value = "cat3") String cat3,
+	public List<list_boxDTO> cat3(@RequestParam(value = "cat3") String cat3,@RequestParam(value = "check_call_Num") String check_call_Num,
 			@RequestParam(value = "areaCode") String areaCode,
 			@RequestParam(value = "contenttype_id") String contenttype_id) throws Exception {
 		// 위치기반 관광정보조회
-		List<list_boxDTO> list_box = openApiManager.location_cat3_call(cat3, areaCode, contenttype_id);
+		List<list_boxDTO> list_box = openApiManager.location_cat3_call(cat3, areaCode, contenttype_id,check_call_Num);
 
 		return list_box;
 	}
-
 	@GetMapping("save_first")
 	@ResponseBody
 	public long save_first( @RequestParam(value = "id") String id, @RequestParam(value = "day") String day,
@@ -124,9 +101,8 @@ public class PlanController {
 			@RequestParam(value = "day_location") String day_location, @RequestParam(value = "day_Num") String day_Num)
 			throws Exception {
 		
-		System.out.println(id);
 			Member_plan member_plan = planservice.getmember_plan(Long.parseLong(id));
-			System.out.println(member_plan);
+			
 			Long each = this.planservice.save_first(member_plan,day,day_location_x,day_location_y,day_location,day_Num);
 		
 		
@@ -215,7 +191,6 @@ public class PlanController {
 			@RequestParam(value = "lngis") ArrayList<String> lngis) {
 
 		List<set_dayDTO> set_daylist = new ArrayList<>();
-		System.out.println(locations_where);
 
 		for (int i = 0; i < locations_where.size(); i++) {
 

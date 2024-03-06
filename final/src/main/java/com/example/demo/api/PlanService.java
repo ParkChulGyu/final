@@ -1,5 +1,7 @@
 package com.example.demo.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -52,7 +54,7 @@ public class PlanService {
 		each.setDay_location_x(day_location_x);
 		each.setDay_location_y(day_location_y);
 		each.setDay_Num(day_Num);
-		each.setMember_plan(member_plan);
+		each.setMember_Plan(member_plan);
 		
 		plan_each_day_Repository.save(each);
 		
@@ -91,6 +93,37 @@ public class PlanService {
 		
 		return detail.getIdx();
 	}
+
+	public List<Member_plan> getAllplan(SiteUser siteuser) {
+
+		List<Member_plan> member_plan = new ArrayList<>();
+		
+		member_plan = member_plan_Repository.findBySiteUser(siteuser);
+	
+		
+		
+		return member_plan;
+	}
+
+	public List<Plan_each_day> getAlleachday(Member_plan member_plan) {
+		//Plan_each_day day = new Plan_each_day();
+		List<Plan_each_day> day = new ArrayList<>();
+		day = plan_each_day_Repository.findByMemberPlanId(member_plan.getId());
+		
+		return day;
+	}
+
+	public List<Plan_each_day> getAlleachday_for_detail(Long planId) {
+		// TODO Auto-generated method stub
+		
+		List<Plan_each_day> day = new ArrayList<>();
+		day = plan_each_day_Repository.findByMemberPlanId(planId);
+		
+		
+		return day;
+	}
+	
+	
 	
 	
 	

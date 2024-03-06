@@ -1,0 +1,72 @@
+<html layout:decorate="~{layout}">
+
+
+
+
+<div layout:fragment="content" class="container my-3"
+	style="display: flex; flex-direction: column;margin:0px;padding: 0px;">
+	<style>
+		.plan_page {
+			width: 1092px;
+			min-height: 500px;
+			position: relative;
+			margin: 0 auto;
+		}
+
+
+		.plan_cover {
+			width: 100%;
+			height: 350px;
+			position: relative;
+		}
+
+		.cover_img {
+			background: url('https://img.earthtory.com/img/city_images/310/seoul_1425372852.jpg') no-repeat;
+			background-size: cover;
+			background-position: center center;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 100%;
+			height: 350px;
+			z-index: 1;
+		}
+	</style>
+	<div class="plan_page">
+		<div class="plan_cover">
+
+			<div class="cover_img">
+
+			</div>
+		</div>
+		<div style="float: left;width: 744px;min-height: 500px;padding-right: 25px;"></div>
+
+
+
+	</div>
+
+
+
+
+
+	<!--<div th:each="each_day : ${day}">
+
+			<div class="top_name" th:text="${each_day.day_Num}"></div>
+
+		</div>-->
+
+
+
+
+
+
+
+
+
+</div>
+
+<script layout:fragment="script" type='text/javascript'>
+
+</script>
+
+</html>

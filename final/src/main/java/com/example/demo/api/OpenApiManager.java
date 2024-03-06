@@ -29,9 +29,9 @@ public class OpenApiManager {
     
     
     
-    public List<list_boxDTO> xy_call(String city_lat, String city_lng) throws Exception {
+    public List<list_boxDTO> xy_call(String city_lat, String city_lng,String check_call_Num) throws Exception {
     	String api_Uri_xy = "/locationBasedList1";
-    	String default_xy = "&numOfRows=10&pageNo=2&MobileOS=ETC&MobileApp=AppTest&_type=json";
+    	String default_xy = "&numOfRows=10&pageNo="+check_call_Num+"&MobileOS=ETC&MobileApp=AppTest&_type=json";
     	
     	URL url = new URL(BASE_URL+api_Uri_xy+serviceKey+serviceKey2+default_xy+"&listYN=Y&arrange=O&mapX="+city_lng+"&mapY="+city_lat+"&radius=10000&contentTypeId=");
     
@@ -137,9 +137,9 @@ public class OpenApiManager {
     }
     
     
-    public List<list_boxDTO> location_contenttype_call(String areaCode, String contenttype_id) throws Exception {
+    public List<list_boxDTO> location_contenttype_call(String areaCode, String contenttype_id,String check_call_Num) throws Exception {
     	String api_Uri_location = "/areaBasedList1";
-    	String default_location = "&numOfRows=10&pageNo=2&MobileOS=ETC&MobileApp=AppTest&_type=json";
+    	String default_location = "&numOfRows=10&pageNo="+check_call_Num+"&MobileOS=ETC&MobileApp=AppTest&_type=json";
     	
     	URL url = new URL(BASE_URL+api_Uri_location+serviceKey+serviceKey2+default_location+"&listYN=Y&arrange=O&contentTypeId="+contenttype_id+"&areaCode="+areaCode+"");
     	System.out.println(url); 
@@ -189,9 +189,9 @@ public class OpenApiManager {
     	
     	return list_box;
     }
-    public List<list_boxDTO> location_cat3_call(String cat3, String areaCode,String contenttype_id) throws Exception {
+    public List<list_boxDTO> location_cat3_call(String cat3, String areaCode,String contenttype_id,String check_call_Num) throws Exception {
     	String api_Uri_location = "/areaBasedList1";
-    	String default_location = "&numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=AppTest&_type=json";
+    	String default_location = "&numOfRows=10&pageNo="+check_call_Num+"&MobileOS=ETC&MobileApp=AppTest&_type=json";
    
     	URL url = new URL(BASE_URL+api_Uri_location+serviceKey+serviceKey2+default_location+"&listYN=Y&arrange=O&contentTypeId="+contenttype_id+"&areaCode="+areaCode+""+"&cat3="+cat3+"");
     	URI uri = url.toURI();
