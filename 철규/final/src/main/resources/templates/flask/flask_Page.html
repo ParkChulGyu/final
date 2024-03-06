@@ -238,15 +238,10 @@
 	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<script type="text/javascript" th:inline="javascript">
 
-
-
 		var flaskApiUrl = /*[[${@environment.getProperty('flask.api.url')}]]*/"";
-
-		//console.log(flaskApiUrl);
 
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', flaskApiUrl, true);
-
 
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState === 4) {

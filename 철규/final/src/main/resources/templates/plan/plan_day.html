@@ -998,9 +998,9 @@
 
 				var weekdayNumber = picker.startDate.isoWeekday();
 				// input 필드를 자동으로 업데이트
-				$(this).val(picker.startDate.format('YYYY.MM.DD') + '(' + start_day + ')'+ ' ~ ' + picker.endDate.format('YYYY.MM.DD') + '(' + end_day + ')');
-				$(this).attr("start_day" ,weekdayNumber);
-			
+				$(this).val(picker.startDate.format('YYYY.MM.DD') + '(' + start_day + ')' + ' ~ ' + picker.endDate.format('YYYY.MM.DD') + '(' + end_day + ')');
+				$(this).attr("start_day", weekdayNumber);
+
 			});
 
 		});
@@ -1011,12 +1011,12 @@
 
 
 
-					var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-					mapOption = {
-						center: new kakao.maps.LatLng(37.715133, 126.734086), // 지도의 중심좌표
-					level: 13 // 지도의 확대 레벨
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+			mapOption = {
+				center: new kakao.maps.LatLng(37.715133, 126.734086), // 지도의 중심좌표
+				level: 13 // 지도의 확대 레벨
 			};
-					var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 
 
@@ -1024,66 +1024,57 @@
 
 
 
-	function nextpatge() {
-						
-	
-					if (!check_day_limit()) {
-						alert("여행일자를 다시 한번 확인 해 주세요");
-					return;
+		function nextpatge() {
+
+
+			if (!check_day_limit()) {
+				alert("여행일자를 다시 한번 확인 해 주세요");
+				return;
 			}
-					var locations = [];
-					var locations_day = [];
-					var locations_where = [];
-					var lattis = [];
-					var lngis = [];
-					var start_day = $(".styleDates_input").attr("start_day");
+			var locations = [];
+			var locations_day = [];
+			var locations_where = [];
+			var lattis = [];
+			var lngis = [];
+			var start_day = $(".styleDates_input").attr("start_day");
 
 
-					var divs = document.querySelectorAll('.check_block');
+			var divs = document.querySelectorAll('.check_block');
 
-					// 각 div 요소의 값을 가져와 합을 계산합니다.
-					divs.forEach(function (div) {
+			// 각 div 요소의 값을 가져와 합을 계산합니다.
+			divs.forEach(function (div) {
 				// div 요소의 값을 가져와 정수로 변환하여 합에 더합니다.
 				var value = parseInt(div.innerText.trim());
-					var location_check = $(div).attr("array_location");
-					var latti = $(div).attr("lat");
-					var lngi = $(div).attr("lng");
-					locations.push([value, location_check]);
-					locations_day.push(value);
-					locations_where.push(location_check);
-					lattis.push(latti);
-					lngis.push(lngi);
+				var location_check = $(div).attr("array_location");
+				var latti = $(div).attr("lat");
+				var lngi = $(div).attr("lng");
+				locations.push([value, location_check]);
+				locations_day.push(value);
+				locations_where.push(location_check);
+				lattis.push(latti);
+				lngis.push(lngi);
 
 			});
 
 
-/*
-					$.ajax({
-						url: "/plan/plan_location_ajax",
-					type: "Get",
-					data: {
-					start: start,
-					end: end,
-					start_day:start_day,
-					locations_day: JSON.stringify(locations_day),
-					locations_where: JSON.stringify(locations_where)
+
+			$.ajax({
+				url: "/plan/plan_location_ajax",
+				type: "Get",
+				data: {
+					
 				},
 
-					success: function (response) {
-						// 서버에서 HTML 주소를 받아왔을 때
-						// 받은 주소로 이동합니다.
-						//var response_data = JSON.parse(response);
-						console.log("하위");
-					console.log(response.list[0])
+				success: function (id) {
+					
+					window.location.href = "/plan/plan_location?lattis=" + lattis + "&lngis=" + lngis + "&locations_day=" + locations_day + "&locations_where=" + locations_where + "&id_is="+id+"&start=" + start + "&end=" + end + "&start_day=" + start_day + "";
 
 				},
-					error: function (xhr, status, error) {
-						// AJAX 요청에 실패했을 때 처리할 내용을 작성합니다.
-					}
-			});*/
+				error: function (xhr, status, error) {
+					// AJAX 요청에 실패했을 때 처리할 내용을 작성합니다.
+				}
+			});
 
-					console.log("locations_day " + locations_day[0]);
-					window.location.href = "/plan/plan_location?lattis=" + lattis + "&lngis=" + lngis + "&locations_day=" + locations_day + "&locations_where=" + locations_where + "&start=" + start + "&end=" + end + "&start_day="+start_day+"";
 
 
 			//window.location.href = "/plan/plan_location?locations="+locations+"&start="+start+"&end="+end+"";

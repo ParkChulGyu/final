@@ -469,6 +469,9 @@
 						onclick="add_plan_day()">Day 추가</div>
 				</li>
 			</ul>
+
+
+			<div onclick="save()" class="save_btn" style="background-color: white;">저장/닫기</div>
 		</div>
 
 		<div class="schedule_full_box">
@@ -559,6 +562,127 @@
 
 	<script type='text/javascript' th:inline="javascript">
 
+
+
+		function save() {
+
+			console.log(By_day);
+			var check_is_check = 0;
+			var i;
+			var num = 0;
+			for (i = 0; i < By_day.length; i++) {
+				console.log("넣어야 할 친구" + By_day[i].value)
+				var day = By_day[i].value[0];
+				var day_location_x = By_day[i].value[1];
+				var day_location_y = By_day[i].value[2];
+				var day_location = By_day[i].value[3];
+				var day_Num = By_day[i].value[4];
+				$.ajax({
+					url: '/plan/save_first', // 요청을 보낼 URL
+					method: "Get", // HTTP 메서드 (GET, POST 등)
+					traditional: true,
+					contentType: "application/json",
+					data: {
+						day: day,
+						day_location_x, day_location_x,
+						day_location_y: day_location_y,
+						day_location: day_location,
+						day_Num: day_Num,
+						id: id_is
+					}, // 요청에 포함할 데이터
+					success: function (each) {
+						// 성공적으로 요청을 처리한 경우 실행할 코드
+
+
+						for (var j = 0; j < By_day[num][0].length; j++) {
+								var number1 = 	By_day[num][0][j].value[0];
+								var number2 =	By_day[num][0][j].value[1];
+								var title = 	By_day[num][0][j].value[2];
+								var cat1_K = 	By_day[num][0][j].value[3];
+								var cat2_K = 	By_day[num][0][j].value[4];
+								var cat1 = 	By_day[num][0][j].value[5];
+								var cat2 = 	By_day[num][0][j].value[6];
+								var location_y = 	By_day[num][0][j].value[7];
+								var location_x = 	By_day[num][0][j].value[8];
+								var content_id = 	By_day[num][0][j].value[9];
+								var img = 	By_day[num][0][j].value[10];
+								if(By_day[num][0][j].value[11]){var budget = 	By_day[num][0][j].value[11]}else{var budget = 0};
+								if(By_day[num][0][j].value[12]){var memo = 	By_day[num][0][j].value[12]}else{var memo = "empty"};
+										
+										
+										
+										$.ajax({
+					url: '/plan/save_second', // 요청을 보낼 URL
+					method: "Get", // HTTP 메서드 (GET, POST 등)
+					traditional: true,
+					contentType: "application/json",
+					data: {
+						each:each,
+						number1: number1,
+						number2, number2,
+						title: title,
+						cat1_K: cat1_K,
+						cat2_K: cat2_K,
+						cat1: cat1,
+						cat2: cat2,
+						location_y: location_y,
+						location_x: location_x,
+						content_id: content_id,
+						img: img,
+						budget: budget,
+						memo: memo
+					}, // 요청에 포함할 데이터
+					success: function (each) {
+						
+						},
+					error: function (xhr, status, error) {
+						// 요청이 실패한 경우 실행할 코드
+						console.error('Error:', error);
+					}
+				});
+										
+										
+															
+
+						}
+
+						num++;
+
+					},
+					error: function (xhr, status, error) {
+						// 요청이 실패한 경우 실행할 코드
+						console.error('Error:', error);
+					}
+				});
+					window.location.href = "/question/list";
+					//window.location.href = "/api/kapp";
+
+
+			}
+
+
+
+			/*	$.ajax({
+					url: '/plan/save', // 요청을 보낼 URL
+					method: "POST", // HTTP 메서드 (GET, POST 등)
+					traditional: true,
+					contentType: "application/json",
+					data: JSON.stringify(By_day), // 요청에 포함할 데이터
+					success: function (response) {
+						// 성공적으로 요청을 처리한 경우 실행할 코드
+						console.log('Response:', response);
+					},
+					error: function (xhr, status, error) {
+						// 요청이 실패한 경우 실행할 코드
+						console.error('Error:', error);
+					}
+				});   */
+
+
+		}
+
+
+
 		var map;
 
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -571,7 +695,7 @@
 
 		window.onload = () => {
 			left_day_set();
-			 $('#cat_menu li:eq(1)').trigger('click');
+			$('#cat_menu li:eq(1)').trigger('click');
 			// 함수 호출
 			//drawRoute(routeData);
 
@@ -596,6 +720,8 @@
 		var start_sub;
 		var end_sub;
 		var start = new Date(/*[[${start}]]*/ null);
+		var id_is = /*[[${id_is}]]*/ null;
+		console.log(id_is)
 		var end = new Date(/*[[${end}]]*/ null);
 		var start_day_Nu = parseInt(/*[[${start_day}]]*/ null);
 		var check_day = 1;
@@ -872,9 +998,9 @@
 			$('#title_box').append(schedule_make);
 			//div class="day_prev_btn" onlick="day_prev_btn(this)" style=" margin-left:13px;display:inline-block; width: 22px;height: 24px;border: solid #fff 1px;background: url(https://www.earthtory.com/res/img/workspace/_prev_icon.png) no-repeat 6px 6px;margin-top: 13px;cursor: pointer;"></div>
 			//div class="day_next_btn" onlick="day_next_btn(this)" style="display:inline-block; width: 22px;height: 24px;border: solid #fff 1px;background: url(https://www.earthtory.com/res/img/workspace/_next_icon.png) no-repeat 6px 6px;margin-top: 13px;cursor: pointer;"></div>
-			
-			
-			
+
+
+
 			//[parseInt(data_check)-1]
 			//console.log(By_day[parseInt(data) - 1][0])
 
@@ -921,7 +1047,7 @@
 						<div class="sub"  style="    font-size: 12px;color: #808080;padding-top: 8px;">`+ cat2_Ko + `,` + cat3_Ko + `</div>
 					</div>
 					<div class="item_contr_box" style="display:block">
-						<div class="item_set_plan" title="메모&예산"  title_real = "`+ title + `" contentid ="` + contentid + `" onclick="detail_view(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_set_icon_a.png"></div>
+						<div class="item_set_plan" title="메모&예산"  check_day = "`+ data + `" data_check="` + (parseInt(i) + 1) + `" title_real = "` + title + `" contentid ="` + contentid + `" onclick="detail_view(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_set_icon_a.png"></div>
 						<div class="btn_del" check_day = "`+ data + `" mapx="` + mapx + `" mapy = "` + mapy + `" data_check=` + By_day[parseInt(data) - 1][0].length + ` check_for_up="` + check_for_up + `" onclick="del_add_box(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_del_icon_a.png"></div>
 					</div>
 				</div>`);
@@ -942,10 +1068,10 @@
 
 
 		}
-		
-		
-		
-		
+
+
+
+
 
 		var pre_title;
 		var check_for_up = 0;
@@ -986,7 +1112,7 @@
 						<div class="sub"  style="    font-size: 12px;color: #808080;padding-top: 8px;">`+ cat2_Ko + `,` + cat3_Ko + `</div>
 					</div>
 					<div class="item_contr_box" style="display:block">
-						<div class="item_set_plan" title="메모&예산"  title_real = "`+ title + `" contentid ="` + contentid + `" onclick="detail_view(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_set_icon_a.png"></div>
+						<div class="item_set_plan" title="메모&예산" check_day = "`+ check_day + `" data_check="` + (By_day[parseInt(check_day) - 1][0].length) + `"  title_real = "` + title + `" contentid ="` + contentid + `" onclick="detail_view(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_set_icon_a.png"></div>
 						<div class="btn_del"  check_day = "`+ check_day + `" mapx="` + mapx + `" mapy = "` + mapy + `" data_check=` + By_day[parseInt(check_day) - 1][0].length + ` check_for_up="` + check_for_up + `" onclick="del_add_box(this)"><img src="https://www.earthtory.com/res/img/workspace/new/item_del_icon_a.png"></div>
 					</div>
 				</div>`
@@ -1757,8 +1883,13 @@
 
 
 		function detail_view(e) {
+
 			var contentid = $(e).attr("contentid");
 			var title = $(e).attr("title_real");
+
+			var check_day = $(e).attr("check_day");
+			var data_check = $(e).attr("data_check");
+
 			$('#detail_view_full_box').empty();
 			$("#detail_view_full_box").css('display', 'flex');
 
@@ -1792,7 +1923,7 @@
 					//detail_close_btn right - 40px로 바꾸기
 					var detail_view = $(
 						`<div class="spot_title" style="text-align: center; width: 100%; border-bottom: 1px solid black; line-height: 50px;font-size: 18px;font-weight: bold;">` + title + `</div>
-						<div id="detail_close_btn" onclick="detail_close()"   style="left:401px; width: 40px;height: 40px; position: absolute;top: 10px;right: 0px;background: url(https://www.earthtory.com/res/img/map/info_close_btn.png);cursor: pointer;"></div>
+						<div id="detail_close_btn"  onclick="detail_close(this)" check_day="`+ check_day + `" data_check="` + data_check + `"  style="left:401px; width: 40px;height: 40px; position: absolute;top: 10px;right: 0px;background: url(https://www.earthtory.com/res/img/map/info_close_btn.png);cursor: pointer;"></div>
 						<div class="spot_img" style="width: 400px;height: 182px;position: relative;"><img src="`+ image + `"    style="width: 400px;height: 182px"></div>
 						<div class="detail_content">
 							<div class="info_first" style="overflow-y: auto;max-height: 826px;display: flex;flex-direction: column;">
@@ -1801,10 +1932,10 @@
 										<div style="font-size:15px;color:#363636;font-weight:bold;text-align:left;padding-bottom:10px;padding-left:8px;">예산</div>
 										<div style="padding-left:10px;padding-bottom:15px;">
 											<div class="budget_currency" style=" float: left; width: 70px;height: 31px;border: solid #c8c8ca 1px;line-height: 31px;margin: 0 auto;margin-top: 0px;padding-left: 15px;font-size: 13px;color: #808080;text-align: left;cursor: pointer;">KRW</div>
-											<div class="set_money" style="float: left;height: 32.757;width: 205.438;"><input type="text" class="budget_input value="0" onkeyup="" style="height: 100%;"></div>
+											<div class="set_money" style="float: left;height: 32.757;width: 205.438;"><input type="text" class="budget_input_`+ check_day + `_` + data_check + `" value="0" onkeyup="" style="height: 100%;"></div>
 										</div>
 										<div style="font-size:15px;color:#363636;font-weight:bold;text-align:left;padding-bottom:10px;padding-left:8px;">메모</div>
-										<textarea id="memo_input" data_set_day="" data_set_order="" style="width: 290px;height: 60px;border: solid #c8c8ca 1px;padding: 10px;font-family: 'nanum';font-size: 12px;line-height: 20px;margin-left: 12px;"></textarea>
+										<textarea id="memo_input_`+ check_day + `_` + data_check + `" data_set_day="" data_set_order="" style="width: 290px;height: 60px;border: solid #c8c8ca 1px;padding: 10px;font-family: 'nanum';font-size: 12px;line-height: 20px;margin-left: 12px;"></textarea>
 									
 									</div>
 								</div>
@@ -1909,7 +2040,16 @@
 		}
 
 
-		function detail_close() {
+		function detail_close(e) {
+			var check_day = $(e).attr("check_day");
+			var data_check = $(e).attr("data_check");
+			var budgetValue = $(".budget_input_" + check_day + "_" + data_check + "").val();
+			var memoValue = $("#memo_input_" + check_day + "_" + data_check + "").val();
+			By_day[parseInt(check_day) - 1][0][parseInt(data_check) - 1].value[11] = budgetValue
+			By_day[parseInt(check_day) - 1][0][parseInt(data_check) - 1].value[12] = memoValue
+
+			console.log(By_day[parseInt(check_day) - 1][0][parseInt(data_check) - 1]);
+
 			$('#detail_view_full_box').css("display", "none");
 		}
 

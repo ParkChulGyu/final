@@ -68,7 +68,6 @@
 
 			</div>
 			<div class="child-div" style="width: 50%;  float:left;">
-				<div id="" style="width: 100px; height: 100px; white-space: nowrap; left: 0;">안녕하세요</div>
 				<div id="chart_div" style="width: 500px; height: 300px; white-space: nowrap; left: 0;"></div>
 			</div>
 		</div>
@@ -84,7 +83,7 @@
 		<script type='text/javascript' th:inline="javascript">
 
 			var mapxx =  /*[[${tourDetailDTO.mapx}]]*/ null;
-			var mapyy = (/*[[${tourDetailDTO.mapy}]]*/ null);
+			var mapyy = /*[[${tourDetailDTO.mapy}]]*/ null;
 
 			console.log(mapxx, mapyy);
 
