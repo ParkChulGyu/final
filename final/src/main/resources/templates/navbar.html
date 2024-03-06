@@ -2,6 +2,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="/">SBB</a>
         <a class="navbar-brand" href="/plan/plan_day">일정 만들기</a>
+        <a class="navbar-brand" sec:authorize="isAuthenticated()" th:href="@{/user/my_plan_list}">여행일정 목록</a>
         
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
